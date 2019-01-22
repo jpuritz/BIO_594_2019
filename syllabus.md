@@ -32,7 +32,7 @@ Readings will be selected from web based tutorials, package vignettes, software 
 Students must bring their own laptop (Mac, Windows, or Linux) with the capability of SSHing into a linux server and a working installation of RStudio.  Please contact the instructor if you do not have a laptop available to use and/or requiring one is not a financial possibility
 
 ## Schedule
-Updated 4/3/2018 and still subject to change
+Updated 1/22/2019 and still subject to change
 
 | Date | Topic | Reading Assignment|
 |-----|------|----|
