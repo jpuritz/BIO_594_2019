@@ -9,7 +9,7 @@ Feel free to come by during this time without an appointment, otherwise schedule
 
 ## Meeting Time and Location for Spring 2018
 #### Wednesdays 1:00 pm to 3:50 pm
-#### Woodward 312
+#### Woodward 115
 
 ## Course Description
 The advent of next-generation sequencing (NGS) has rapidly transcended population genetics to population genomics. Sequencer outputs have expanded from kilobases to gigabases while becoming over 30,000 times less expensive. This allows population levels studies to use thousands of genetic markers across the entire genome, and to survey both neutral and adaptive loci. In this class, we will cover a variety of techniques including: restriction-site associated sequencing (RADseq), RNA sequencing and transcriptomics, exome capture, low-coverage whole genome sequencing, pooled sequencing, and methods designed to examine patterns of methylation across genomes.
