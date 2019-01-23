@@ -37,7 +37,7 @@ Updated 1/22/2019 and still subject to change
 | Date | Topic | Reading Assignment|
 |-----|------|----|
 |1/23/19| Course Intro and Computer Setup and Testing| None|
-|1/30/19| Unix Command Line| https://www.codecademy.com/learn/learn-the-command-line; https://devhints.io/bash
+|1/30/19| Unix Command Line| [Web Links](/Readings/Week_02_01302019/Readings.md)|
 |2/6/19 | NGS Data Structures- Visualization and Manipulation|[Web Links](/Readings/Week%02%0(2:7:2018)/Readings.md)|
 |2/13/19| Github, Rmarkdown, and open science| [Web Links](https://swcarpentry.github.io/git-novice/)
 |2/20/19| Population Genomic Methods|[Allendorf *et al.* 2010](https://github.com/jpuritz/BIO_594_2018/blob/master/Readings/Week%202%20(1:31:2018)/Allendorf%2C%20Hohenlohe%2C%20Luikart_2010_Genomics%20and%20the%20future%20of%20conservation%20genetics.pdf); [Jones & Good 2015](https://github.com/jpuritz/BIO_594_2018/blob/master/Readings/Week%202%20(1:31:2018)/Jones%2C%20Good_2015_Targeted%20capture%20in%20evolutionary%20and%20ecological%20genomics(2).pdf); [Matz 2017](https://github.com/jpuritz/BIO_594_2018/blob/master/Readings/Week%202%20(1:31:2018)/Matz_2017_Fantastic%20Beasts%20and%20How%20To%20Sequence%20Them%20Ecological%20Genomics%20for%20Obscure%20Model%20Organisms.pdf)|
