@@ -1,12 +1,9 @@
 # Day 1- Getting Setup
 
 ## Goals
-* Go over the syllabus
 * Setup an RSA key for sshing into the class server
 * Clone the class git repository to both your server account
 * Test out terminal functionality in RStudio
-
-
 
 ### Logging into the class server
 
@@ -61,20 +58,22 @@ Enter yes, and you should see the following:
       _  /| | __/ /  _  /   _  /          *
       /_/ |_| /___/  /_/    /_/           *
                                           *
-The population genomics workstation of the* 
+The population genomics workstation of the*
 Puritz Lab of Marine Evolutionary Ecology *
 *******************************************
 
-You're entering a shadowy flight into the dangerous 
-world of loci that might not exist.  
 
-You're a young loner on a crusade to champion the 
-cause of the innocent, the helpless, the powerless 
+You're begining a shadowy flight into the dangerous
+world of loci that might not exist.
+
+You're a young loner on a crusade to champion the
+cause of the innocent, the helpless, the powerless
 in a world of bioinformatics that operates above the law.
 
-Please be responisble using this shared resource and 
-contact Jon Puritz (jpuritz@uri.edu) with any issues.
+Please be responisble using this shared resource.  Do not use
+more than 20 processors or threads, total, per user.
 
+Contact Jon Puritz (jpuritz@uri.edu) with any issues.
 
 ged@kitt.uri.edu's password: 
 ```
@@ -114,12 +113,12 @@ Next make a directory called `repos`
 
 Change into that directory: `cd repos`
 
-Now, you can clone (copy) the whole repository: `git clone https://github.com/jpuritz/BIO_594_2018.git`
+Now, you can clone (copy) the whole repository: `git clone https://github.com/jpuritz/BIO_594_2019.git`
 
 You should have a directory called `BIO_594_2018` that will have all the current class materials.
 We'll get into this more next week, but you can always update this repo with these two commands:
 ```
-cd ~/repos/BIO_594_2018
+cd ~/repos/BIO_594_2019
 git pull
 ```
 
@@ -159,7 +158,8 @@ All work in this class will be documented on the github repository which uses ma
 
 ## Rstudio
 Class demo
-
+* Open up a web browswer window and go to `kitt.uri.edu:8787`
+* Log in with you username and password
 
 ## Further Reading (Highly Recommended)
 * [Github Guide](https://guides.github.com/activities/hello-world/)
