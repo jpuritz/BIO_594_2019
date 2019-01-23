@@ -7,7 +7,6 @@
 * Test out terminal functionality in RStudio
 
 
-
 ### Logging into the class server
 
 Due to security reasons this will be a live demo in class.
@@ -114,12 +113,12 @@ Next make a directory called `repos`
 
 Change into that directory: `cd repos`
 
-Now, you can clone (copy) the whole repository: `git clone https://github.com/jpuritz/BIO_594_2018.git`
+Now, you can clone (copy) the whole repository: `git clone https://github.com/jpuritz/BIO_594_2019.git`
 
 You should have a directory called `BIO_594_2018` that will have all the current class materials.
 We'll get into this more next week, but you can always update this repo with these two commands:
 ```
-cd ~/repos/BIO_594_2018
+cd ~/repos/BIO_594_2019
 git pull
 ```
 
