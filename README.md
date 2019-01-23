@@ -4,5 +4,5 @@ Here you will find all relevant course materials including:
 
 * [Lectures](/Lectures)
 * [Readings](/Readings)
-* [Syllabus](/syllabus.md)
+* [Syllabus](/Syllabus.md)
 * [Exercises](/Exercises)
