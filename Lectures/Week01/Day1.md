@@ -1,11 +1,9 @@
 # Day 1- Getting Setup
 
 ## Goals
-* Go over the syllabus
 * Setup an RSA key for sshing into the class server
 * Clone the class git repository to both your server account
 * Test out terminal functionality in RStudio
-
 
 ### Logging into the class server
 
@@ -60,20 +58,22 @@ Enter yes, and you should see the following:
       _  /| | __/ /  _  /   _  /          *
       /_/ |_| /___/  /_/    /_/           *
                                           *
-The population genomics workstation of the* 
+The population genomics workstation of the*
 Puritz Lab of Marine Evolutionary Ecology *
 *******************************************
 
-You're entering a shadowy flight into the dangerous 
-world of loci that might not exist.  
 
-You're a young loner on a crusade to champion the 
-cause of the innocent, the helpless, the powerless 
+You're begining a shadowy flight into the dangerous
+world of loci that might not exist.
+
+You're a young loner on a crusade to champion the
+cause of the innocent, the helpless, the powerless
 in a world of bioinformatics that operates above the law.
 
-Please be responisble using this shared resource and 
-contact Jon Puritz (jpuritz@uri.edu) with any issues.
+Please be responisble using this shared resource.  Do not use
+more than 20 processors or threads, total, per user.
 
+Contact Jon Puritz (jpuritz@uri.edu) with any issues.
 
 ged@kitt.uri.edu's password: 
 ```
