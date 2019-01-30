@@ -18,5 +18,5 @@
 * Put your answers in a text file with your name on it in the ~/repos/BIO_594_2019/Exercises/Week02/ directory
 * If you know how, commit the changes to the github repository
 
-### Exercise 3 (On your own time)
-Please follow the this LINK to a wonderful basic command line tutorial and please complete it
+### Tutorial 2 (On your own time)
+Please follow the this [LINK](https://www.codecademy.com/learn/learn-the-command-line) to a wonderful basic command line tutorial and please complete it
