@@ -1,0 +1,13 @@
+ Hi Jon here are my Excercise 2 Answers :)
+
+1. ls /home/BIO594/Exercises/sneaky
+
+2. cut -f3 out.idepth | head -5
+
+3. grep 'PopA_18' out.idepth | cut -f2
+
+4. awk '$3 > 20.1' out.idepth | wc -1
+
+5. awk '$3 > 20.1' out.idepth | awk '$3 < 20.25' | wc -l
+
+6. awk '{sum=sum+$3} END {print sum/NR}' out.idepth 
