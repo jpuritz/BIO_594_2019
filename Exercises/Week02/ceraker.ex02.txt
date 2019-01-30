@@ -1,0 +1,37 @@
+1. 
+$ cat home/BIO594/Exercises/sneaky/file
+Oh me! Oh life! of the questions of these recurring,
+Of the endless trains of the faithless, of cities fill’d with the foolish,
+Of myself forever reproaching myself, (for who more foolish than I, and who more faithless?)
+Of eyes that vainly crave the light, of the objects mean, of the struggle ever renew’d,
+Of the poor results of all, of the plodding and sordid crowds I see around me,
+Of the empty and useless years of the rest, with the rest me intertwined,
+The question, O me! so sad, recurring—What good amid these, O me, O life?
+
+                                       Answer.
+That you are here—that life exists and identity,
+That the powerful play goes on, and you may contribute a verse.
+
+2. 
+$ head -5 /home/BIO594/Exercises/Week_2/out.idepth | cut -f3
+MEAN_DEPTH
+19.7475
+19.8769
+20.2284
+19.4391
+
+3. 
+$ head -19 /home/BIO594/Exercises/Week_2/out.idepth | tail -1 | cut -f2
+8428
+
+4. 
+$ awk '$3 > 20.1' /home/BIO594/Exercises/Week_2/out.idepth | wc -l
+11
+
+5. 
+$ awk '$3 > 20.1' /home/BIO594/Exercises/Week_2/out.idepth | awk '$3 < 20.25' | wc -l
+6
+
+6. 
+$ awk '{sum=sum+$3} END {print sum/NR}' /home/BIO594/Exercises/Week_2/out.idepth
+19.3738
