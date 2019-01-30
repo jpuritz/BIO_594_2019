@@ -109,6 +109,7 @@ then
 `git config --global user.name "Your Name"`
 
 Next make a directory called `repos`
+
 `mkdir ~/repos`
 
 Change into that directory: `cd repos`
