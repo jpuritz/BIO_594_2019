@@ -1,0 +1,14 @@
+#Amy Zyck's answers for exercise 2
+
+1. cd /home/BIO594/Exercises/sneaky/
+
+2. head -5 /home/BIO594/Exercises/Week_2/out.idepth | cut -f3
+
+3. grep 'PopA_18' out.idepth | cut -f2
+
+4. tail -40 out.idepth | awk '$3 > 20.1' | wc -l
+
+5. tail -40 out.idepth | awk '$3 > 20.1' | '$3 < 20.25' | wc -l
+
+6. tail -40 out.idepth | awk '{total += $3} END {print total/NR}'
+
