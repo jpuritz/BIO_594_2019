@@ -1,0 +1,11 @@
+1. cat /home/BIO594/Exercises/sneaky/file
+
+2. head -5 out.idepth | cut -f3
+
+3. head -20 out.idepth | tail -n 1 | cut -f2 
+
+4. awk '$3 > 20.01' out.idepth
+
+5. awk '$3 > 20.01' out.idepth | awk '$3 < 20.25' 
+
+6. awk '{sum=sum+$3} END {print sum/NR}' out.idepth 

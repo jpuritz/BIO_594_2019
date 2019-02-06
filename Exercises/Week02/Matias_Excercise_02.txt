@@ -1,0 +1,10 @@
+
+1. $ cat  /home/BIO594/Exercises/sneaky/file
+2. $ head -5  /home/BIO594/Exercises/Week_2/out.idepth | cut -f3
+3. $ awk 'NR==19'  /home/BIO594/Exercises/Week_2/out.idepth | cut -f2
+4. $ awk '$3>20.1'  /home/BIO594/Exercises/Week_2/out.idepth | wc -l
+5. $ awk '$3>20.1'  /home/BIO594/Exercises/Week_2/out.idepth |awk '$3<20.25' | wc -l
+6. $ awk '{sum=sum+$3} END {print sum/NR}' /home/BIO594/Exercises/Week_2/out.idepth
+
+
+

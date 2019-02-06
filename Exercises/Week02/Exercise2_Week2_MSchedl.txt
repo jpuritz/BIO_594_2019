@@ -1,0 +1,20 @@
+ Hi Jon here are my Excercise 2 Answers :)
+
+1. ls /home/BIO594/Exercises/sneaky
+
+cd /home/BIO594/Exercises/Week_2
+
+2.Print the first 5 lines of the third column of out.idepth in /home/BIO594/Exercises/Week_2
+ cut -f3 out.idepth | head -5
+
+3.Print only the 19th line of the second column of out.idepth 
+grep 'PopA_18' out.idepth | cut -f2
+
+4. Print how many individuals have a MEAN_DEPTH greater than 20.1
+tail -40 out.idepth | awk '$3 > 20.1 | wc -1
+
+5. Print how many individuals have a MEAN_DEPTH greater than 20.1 but less than 20.25
+tail -40 out.depth | awk '$3 > 20.1 | awk '$3 < 20.25' | wc -l
+
+6.Print the average MEAN_DEPTH
+tail -40 out.idepth |  awk '{sum=sum+$3} END {print sum/NR}'
