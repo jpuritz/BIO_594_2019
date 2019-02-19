@@ -1,0 +1,66 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red53\green53\blue53;\red0\green0\blue0;\red255\green255\blue255;
+}
+{\*\expandedcolortbl;;\cssrgb\c27059\c27059\c27059;\csgray\c0;\csgray\c100000;
+}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab560
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\fs24 \cf2 [emcdermith@KITT ~]$ cd /home/BIO594/Exercises/sneaky \
+[emcdermith@KITT sneaky]$ cat file\
+Oh me! Oh life! of the questions of these recurring,\
+Of the endless trains of the faithless, of cities fill\'92d with the foolish,\
+Of myself forever reproaching myself, (for who more foolish than I, and who more faithless?)\
+Of eyes that vainly crave the light, of the objects mean, of the struggle ever renew\'92d,\
+Of the poor results of all, of the plodding and sordid crowds I see around me,\
+Of the empty and useless years of the rest, with the rest me intertwined,\
+The question, O me! so sad, recurring\'97What good amid these, O me, O life?\
+\
+                                       Answer.\
+That you are here\'97that life exists and identity,\
+That the powerful play goes on, and you may contribute a verse.\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+\cf2 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf2 [emcdermith@KITT sneaky]$ cd /home/BIO594/Exercises/Week_2\
+[emcdermith@KITT Week_2]$ head -5 out.idepth | cut -f3\
+MEAN_DEPTH\
+19.7475\
+19.8769\
+20.2284\
+19.4391\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+\cf2 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf2 [emcdermith@KITT Week_2]$ awk '/PopA_19/' out.idepth | cut -f2\
+8365\
+\pard\pardeftab560\slleading20\pardirnatural\partightenfactor0
+\cf2 \
+\pard\pardeftab560\slleading20\partightenfactor0
+\cf2 [emcdermith@KITT Week_2]$ awk '$3 > 20.1' out.idepth\
+INDV	N_SITES	MEAN_DEPTH\
+PopA_03	8453	20.2284\
+PopA_05	8448	20.4425\
+PopA_08	8454	20.1047\
+PopA_09	8341	20.2223\
+PopA_13	8408	20.6407\
+PopA_20	8342	20.1082\
+PopB_07	8392	20.2092\
+PopB_08	8382	20.2733\
+PopB_09	8262	20.2642\
+PopB_14	8370	20.2419\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs28 \cf3 \cb4 \CocoaLigature0 [emcdermith@KITT Week_2]$ awk '$3 > 20.1 && $3 < 20.25' out.idepth\
+PopA_03	8453	20.2284\
+PopA_08	8454	20.1047\
+PopA_09	8341	20.2223\
+PopA_20	8342	20.1082\
+PopB_07	8392	20.2092\
+PopB_14	8370	20.2419\
+\
+[emcdermith@KITT Week_2]$ awk '\{sum=sum+$3\} END \{print sum/NR\}' out.idepth\
+19.3738}
