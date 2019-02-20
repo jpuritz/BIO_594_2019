@@ -304,6 +304,8 @@ multiqc .
     ## [INFO   ]         multiqc : Data        : multiqc_data
     ## [INFO   ]         multiqc : MultiQC complete
 
+# Select Output from multiqc
+
 ## Adapter Content
 ![alt text](https://github.com/jpuritz/BIO_594_2019/blob/master/Exercises/Week04/JonPuritz/exome_capture/AdapterContent.png "Logo Title Text 1")
 
