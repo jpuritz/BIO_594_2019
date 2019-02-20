@@ -303,3 +303,9 @@ multiqc .
     ## [INFO   ]         multiqc : Report      : multiqc_report.html
     ## [INFO   ]         multiqc : Data        : multiqc_data
     ## [INFO   ]         multiqc : MultiQC complete
+
+## Adapter Content
+![alt text](https://github.com/jpuritz/BIO_594_2019/blob/master/Exercises/Week04/JonPuritz/exome_capture/AdapterContent.png "Logo Title Text 1")
+
+## Per bp Content
+![alt text](https://github.com/jpuritz/BIO_594_2019/blob/master/Exercises/Week04/JonPuritz/exome_capture/BaseContent.png)
