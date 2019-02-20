@@ -2,7 +2,7 @@
 
 ### How many loci are there?
 
-I've placed some files in the `/home/BIO_594/DATA/Week5/` directory.  They are ddRADseq files that have already been demultiplexed.  
+I've placed some files in the `/home/BIO594/DATA/Week5/` directory.  They are ddRADseq files that have already been demultiplexed.  
 
 Using your new RADSeq assembly skills:
 
