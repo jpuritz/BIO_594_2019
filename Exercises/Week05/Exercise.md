@@ -6,9 +6,9 @@ I've placed some files in the `/home/BIO594/DATA/Week5/` directory.  They are dd
 
 Using your new RADSeq assembly skills:
 
-* Post a github document to this directory showing your efforts to answer the question: 
+* Post a markdown document to this directory showing your efforts to answer the question: 
 	* How many loci are there in the data set?
 
-* Post a reference.fasta file with your assembled reference
+* Post a `reference.fasta` file with your assembled reference
 
-* You can use the material from class or anything else you might find at dDocent.com
+* You can use the material from class or anything else you might find at [dDocent.com]
