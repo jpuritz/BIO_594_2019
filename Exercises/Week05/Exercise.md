@@ -11,4 +11,4 @@ Using your new RADSeq assembly skills:
 
 * Post a `reference.fasta` file with your assembled reference
 
-* You can use the material from class or anything else you might find at [dDocent.com]
+* You can use the material from class or anything else you might find at [dDocent.com](dDocent.com)
