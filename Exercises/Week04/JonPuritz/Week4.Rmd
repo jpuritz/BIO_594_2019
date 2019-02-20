@@ -1,0 +1,35 @@
+---
+title: "Week4"
+author: "JonPuritz"
+date: "2/20/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{bash}
+
+cd ~/repos/BIO_594_2019/Exercises/Week04/JonPuritz
+```
+
+```{bash}
+source activate filter
+```
+
+```{bash}
+cp -r /home/BIO594/DATA/Week4/realdata/* .
+```
+
+```{bash}
+source activate filter
+cd exome_capture
+fastqc *
+fastp --in1 CASE_J03.F.fq.gz --in2 CASE_J03.R.fq.gz --out1 CASE_J03.R1.fq.gz --out2 CASE_J03.R2.fq.gz --cut_by_quality5 20 --cut_by_quality3 20 --cut_window_size 5 --cut_mean_quality 15 -q 15 -u 50 -j CASE_J03.json -h CASE_J03.html --detect_adapter_for_pe
+fastp --in1 Capture1.F.fq --in2 Capture1.R.fq --out1 Capture1.R1.fq.gz --out2 Capture1.R2.fq.gz --cut_by_quality5 20 --cut_by_quality3 20 --cut_window_size 5 --cut_mean_quality 15 -q 15 -u 50 -j Capture1.json -h Capture1.html --detect_adapter_for_pe
+fastqc *.R1.fq.gz
+fastqc *.R2.fq.gz
+multiqc .
+```
+

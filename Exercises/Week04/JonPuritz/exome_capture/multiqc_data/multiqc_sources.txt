@@ -1,0 +1,9 @@
+Module	Section	Sample Name	Source
+FastQC	all_sections	Capture1.F	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/Capture1.F_fastqc.zip
+FastQC	all_sections	Capture1.R	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/Capture1.R_fastqc.zip
+FastQC	all_sections	CASE_J03.F	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/CASE_J03.F_fastqc.zip
+FastQC	all_sections	CASE_J03.R	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/CASE_J03.R_fastqc.zip
+FastQC	all_sections	Capture1.R1	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/Capture1.R1_fastqc.zip
+FastQC	all_sections	CASE_J03.R1	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/CASE_J03.R1_fastqc.zip
+FastQC	all_sections	Capture1.R2	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/Capture1.R2_fastqc.zip
+FastQC	all_sections	CASE_J03.R2	/home/maestro/repos/BIO_594_2019/Exercises/Week04/JonPuritz/exome_capture/CASE_J03.R2_fastqc.zip
