@@ -2,7 +2,7 @@
 
 ### Task 1: How many loci are there?
 ### Task 2: Post a `reference.fasta` file with your assembled reference
-See attached.
+>>As attached
 
 Using demultiplexed ddRADseq files in the `/home/BIO594/DATA/Week5/` directory:
 
