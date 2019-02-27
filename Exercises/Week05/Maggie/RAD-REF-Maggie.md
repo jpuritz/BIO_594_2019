@@ -5,7 +5,7 @@ Author: Maggie Schedl
 ---
 ### Feb. 2019
 
-### Much of this is adapted from [HERE]() and [HERE]() which are both by Jon Puritz.
+### Much of this is adapted from [HERE](http://ddocent.com/assembly/) and [HERE](http://ddocent.com/UserGuide/) which are both by Jon Puritz.
 
 
 Make a directory for this exercise, then copy the data into that directory. Next we have to make a conda environment to work in.
@@ -124,8 +124,8 @@ $wc -l uniq.k.4.c.4.seqs
 
 How about three? That was where a dramatic shift was in the graph.
 ```
-mawk -v x=3 '$1 >= x' uniqCperindv > uniq.k.4.c.3.seqs
-wc -l uniq.k.4.c.3.seqs
+$mawk -v x=3 '$1 >= x' uniqCperindv > uniq.k.4.c.3.seqs
+$wc -l uniq.k.4.c.3.seqs
 ```
 8906 unique sequences!
 
@@ -243,11 +243,11 @@ yes
 ```
 80
 ```
-***dDocent detects 503 gigabytes of maximum memory available on this system.
+**dDocent detects 503 gigabytes of maximum memory available on this system.
 Please enter the maximum memory to use for this analysis in gigabytes
 For example, to limit dDocent to ten gigabytes, enter 10
 This option does not work with all distributions of Linux.  If runs are hanging at variant calling, enter 0
-Then press [ENTER]***
+Then press [ENTER]**
 ```
 0
 ```
@@ -296,7 +296,7 @@ yes
 ```
 **Do you want to use FreeBayes to call SNPs?**
 ```
-FreeBayes
+yes
 ```
 **Please choose data cutoff.**
 ```
