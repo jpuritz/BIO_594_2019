@@ -1,8 +1,7 @@
----
-layout: post
-title: Week 5 Exercise: Discover the Number of Loci in our Dataset and Assemble a Reference
-Author: Maggie Schedl
----
+
+# Week 5 Exercise: Discover the Number of Loci in our Dataset and Assemble a Reference
+### Maggie Schedl
+
 ### Feb. 2019
 
 ### Much of this is adapted from [HERE](http://ddocent.com/assembly/) and [HERE](http://ddocent.com/UserGuide/) which are both by Jon Puritz.
