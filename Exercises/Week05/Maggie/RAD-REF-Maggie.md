@@ -310,7 +310,8 @@ yes
 
 dDocent assembled 1235 contigs! Which makes sense because I used the same cut off values as above
 ![tenth image](/Exercises/Week05/Maggie/images/image10.png)
-Also gave an error about mapping, but that is ok because I didn't actually need to map things.
+
+It also gave an error about mapping, but that is ok because I didn't actually need to map things.
 
 With both of these references, the number of loci is
 ### 1235
