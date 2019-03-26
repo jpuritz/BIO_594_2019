@@ -45,8 +45,8 @@ Updated 1/22/2019 and still subject to change
 |3/6/19|7|Detecting Loci Under Selection|[Primary Literature](https://github.com/jpuritz/BIO_594_2019/tree/master/Readings/Week_07_03062019/)|
 |3/13/19| | SPRING BREAK!!! No class|No Readings|
 |3/20/19|8| Detecting Loci Under Selection|[Primary Literature](https://github.com/jpuritz/BIO_594_2019/tree/master/Readings/Week_07_03062019/)|
-|||Analyzing Population Structure|[Primary Literature]https://github.com/jpuritz/BIO_594_2019/tree/master/Readings/Week_08_03202019/)|
-|3/27/19|9| Analyzing Population Structure|[Primary Literature]Literature]https://github.com/jpuritz/BIO_594_2019/tree/master/Readings/Week_08_03202019/)|
+|||Analyzing Population Structure|[Primary Literature](https://github.com/jpuritz/BIO_594_2019/tree/master/Readings/Week_08_03202019/)|
+|3/27/19|9| Analyzing Population Structure|[Primary Literature](https://github.com/jpuritz/BIO_594_2019/tree/master/Readings/Week_08_03202019/)|
 |||Population Genomic Methods|[Allendorf *et al.* 2010](https://github.com/jpuritz/BIO_594_2019/raw/master/Readings/Week_09_03272019/PopulationGenomicMethods/Allendorf%2C%20Hohenlohe%2C%20Luikart_2010_Genomics%20and%20the%20future%20of%20conservation%20genetics.pdf); [Jones & Good 2015](https://github.com/jpuritz/BIO_594_2019/raw/master/Readings/Week_09_03272019/PopulationGenomicMethods/Jones%2C%20Good_2015_Targeted%20capture%20in%20evolutionary%20and%20ecological%20genomics(2).pdf); [Matz 2017](https://github.com/jpuritz/BIO_594_2019/raw/master/Readings/Week_09_03272019/PopulationGenomicMethods/Matz_2017_Fantastic%20Beasts%20and%20How%20To%20Sequence%20Them%20Ecological%20Genomics%20for%20Obscure%20Model%20Organisms.pdf)|	
 |4/03/19|10| RNAseq |[Primary Literature](https://github.com/jpuritz/BIO_594_2018/tree/master/Readings/Week%209%20(4:4:2018))|
 |4/10/19|11| Exome and other Capture Methods| Project Plans Due![Primary Literature](https://github.com/jpuritz/BIO_594_2018/tree/master/Readings/Week%2010%20(4:11:2018))|
