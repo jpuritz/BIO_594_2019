@@ -40,7 +40,7 @@ The scope of analysis can be anything that was covered in class or any other pop
   * 3 different analyses are required with publication quality figures and/or tables
     * Analysis type will vary by study goal
 * **Documentation**
-  * **ALL** code, configuration files, and additional data must be included to full reproduce your analyses on any computing system.
+  * **ALL** code, configuration files, and additional data must be included to fully reproduce your analyses on any computing system.
   * In this repository folder, create a single directory with your name and include:
     * Final markdown file
       * This file should include the code for the entire project from raw data to final analysis
