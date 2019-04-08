@@ -149,7 +149,11 @@ To produce the exact number of clusters:
 
 This first step of rainbow that identified the number of clusters, which we can think of as the number of loci. The output of the last command will produce the answer we are looking for in this assignment.
 
-
+**The command line run for the exercise.**  
+$ mkdir week5data  
+$ conda create -n week5data ddocent  
+$ conda activate week5data  
+$ 
 
 
 
