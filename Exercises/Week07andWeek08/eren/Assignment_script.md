@@ -284,4 +284,4 @@ vcftools --vcf DP3g95p5maf05.prim.vcf --remove-indels --recode --recode-INFO-all
 Final version of the filtered VCF file is:
 
 SNP.DP3g95p5maf05.recode.vcf
-
+```
