@@ -35,13 +35,14 @@ DNA was extracted from each sample using the Qiagen DNeasy kit (Qiagen, Valencia
 |17|CCU13901|Curacao|SeaAquarium|12.0842|-68.8966|2-Feb-16|SRR7236030|
 |18|CCU13905|Curacao|SeaAquarium|12.0842|-68.8966|2-Feb-16|SRR7236037|
 |19|CCU13917|Curacao|Directors Bay|12.066|-68.85997|4-Feb-16|SRR7236036|
-|20|CCU13925|Curacao|East Point|12.04069|-68.78301|5-Feb-16|SRR7235996|  
+|20|CCU13925|Curacao|East Point|12.04069|-68.78301|5-Feb-16|SRR7235996|
+
 Table 1. Samples, Origin, and Accession Number in NCBI. Adapted from Table 1, Kitchen et al., 2019.
 
 #### Analysis Plan
 1. Download genomic data from NCBI using SRA-toolkit
 2. Demultiplex, quality filter and align reads to reference *A. cervicornis* genome using dDocent
-3. Call and filter SNPs using dDoncent
+3. Call and filter SNPs using dDocent
 4. Scan VCF will be scanned for neutral loci and loci under selection using BayeScan v.2.1 and pcadapt
 5. Examine genomic structure using PCA analysis and pairwise Fst on neutral loci
 6. Evaluate summary statistics in neutral loci including observed heterozygosity, expected heterozygosity, overall FST, and FIS uring the basic.stats function in the R package hierfstat
