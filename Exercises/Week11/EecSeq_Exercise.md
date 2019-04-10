@@ -167,7 +167,7 @@ cat header *.exon.cov.stats > TotalRNACov.txt
 
 To actually plot our graph, we will use R, so let's switch to RStudio
  
-This will open the R program.  Now enter the following code into the terminal.  
+This will open the R program.  Now enter the following code into the console.  
 The command prompt should now be a ">"
  
 First, we need to load the proper libraries:
