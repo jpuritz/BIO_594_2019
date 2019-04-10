@@ -26,7 +26,7 @@ ln -s /home/BIO594/Exercises/Week_11/EecSeq/* .
 
 We have three replicate capture pools, EC_2, EC_4, EC_7, as well as the reference sequence for chromosome 1 and a few other files
 
-`ls *.fq`
+`ls *.fq.gz`
 
 `ls ref_C_virginica.fasta`
 
