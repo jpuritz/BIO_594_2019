@@ -1,0 +1,258 @@
+---
+title: "Week 7-8 Simulated"
+author: "Maggie"
+date: "4/6/2019"
+output: github_document
+---
+
+Get in the Filter Directory where all the filtered SNP files are
+```{r}
+getwd()
+```
+Load all Libraries needed:
+```{r}
+library(pcadapt)
+library(ggplot2)
+library(adegenet)
+library(vcfR)
+library(hierfstat)
+```
+
+Plot the Outlier SNPs that BayeScan. BayeScan baiscially plots Fst value for each locus but it's a FDR correceted q value (not p value). Here the False Discovery Rate (FDR) is set to 0.1.
+```{r}
+source("plot_R.r")
+plot_bayescan("SNP.TRSdp6p05DFFH_fst.txt", FDR = 0.1)
+```
+Three outliers detected with BayeScan: 178, 614 and 615. Two are very far away from the cutoff, and it looks like 178 just made it! Accidentally, I ran this at first without doing the FDR correction and 178 was not an outlier that time. 
+
+#PCAdapt
+
+Load in the vcf file that's now bi-allelic and create a PCA. K is the number of princile components that will be made. Usually not all of the PCs are informative
+```{r}
+
+simulated_vcf <- read.pcadapt("SNP.TRSdp6p05DFFHWE2A.recode.vcf", type = "vcf" )
+simulated_PCA <- pcadapt(input = simulated_vcf, K = 10) 
+```
+
+This plots the % variation explained by all the PCs. Above I set 10. This way You can re-make the PCA with only the most informative PCs. 
+```{r}
+plot(simulated_PCA, option = "screeplot")
+```
+The best thing to do is look for the inflection point. Here is is at 2 and slightly at 3. After that, the PCs are not very informative.
+
+Let's make the PCA again with k set to 2. Note that with the PCAdapt documentation, if you had a higher k, you can change what PCs are plotted with i and j options. We also need to match the order of the populations in the vcf file. This information is in the popmap file and is easy to find. This is simulated data so there aren't real populations, I named them as the directions. 
+```{r}
+simulated_PCA <- pcadapt(input = simulated_vcf, K = 2) 
+poplist.names <- c(rep("North", 20), rep("West", 20), rep("South", 20), rep("East", 20))
+plot(simulated_PCA, option = "scores", pop = poplist.names)
+```
+Here PC1 separates out the "East" population from all the others. Then PC2 separates out "North", "West", and "South". Cleverly here, I named the populations to fit their PCs like a map. 
+
+But everybody likes a manhattan plot.
+```{r}
+plot(simulated_PCA, option = "manhattan")
+```
+I do not know how to include a significance threshold line, but googling manhattan plot and looking through the images (bad I know) often shows a line at 6 or 7 on the -log10 y axis. None of these points are up there...
+
+And there is a third plot option: a Q-Q plot. And a distribution plot. These help visualize the p-values
+```{r}
+
+plot(simulated_PCA, option = "qqplot", threshold = 0.1)
+
+plot(simulated_PCA, option = "stat.distribution")
+
+```
+This looks more promising. I am more able to interpret the Q-Q plot. I see that at about 2 on the expected -log10 axis the observed actually goes above that. I think these values are what are represented in the tail on the Statistics Distribution plot.
+
+Now to find the outliers with PCAdapt
+```{r}
+#set the library needed 
+library(qvalue)
+#outlier detection
+qval <- qvalue(simulated_PCA$pvalues)$qvalues
+#set cutoff values for outliers
+alpha <- 0.1
+
+outliers <-which(qval < alpha)
+#how many Fst outliers?
+length(outliers)
+#what are the outliers?
+outliers
+#outputs locus number
+
+```
+PCAdapt found two outliers: 145 and 146. Note that these are different than the outliers detected with BayeScan. 
+
+
+#Doing PCA and DAPC on the neutral only SNPs
+
+PCA
+Read neutral vcf file and convert it into the format for adegenet
+```{r}
+neutral_simulated_vcf <- read.vcfR("SNP.TRSdp6p05DFFHWE2A.neutral.BS-PCA.recode.vcf")
+
+neutral_simulated_genid <- vcfR2genind(neutral_simulated_vcf)
+
+```
+Read in the strata file, which is the LibraryInfo file that has both the library prep info and the population info. 
+```{r}
+strata_simulated <- read.table("LibraryInfo", header = TRUE)
+#convert that into a data frame
+strata_simulated_df <- data.frame(strata_simulated)
+#add to the genid file using function strata
+
+strata(neutral_simulated_genid) <- strata_simulated_df
+#set populations for the data using the info in the strata file using setPop function 
+setPop(neutral_simulated_genid) <- ~Population
+```
+
+
+Now we can calcualte Fst nicely for population structure statistics 
+```{r}
+
+# oviously this is not the only way to calculate Fst  
+fstat(neutral_simulated_genid)
+
+# we want to look at the first number in the matrix, total population Fst
+# all three components of wrights F statistics. Fis is the bottom corner, Fit is individual over total 
+
+```
+
+Population Fst is 0.07924931
+
+```{r}
+# but we want pariwise Fst with subpopulations 
+#matirx
+matFst_Sim <- pairwise.fst(neutral_simulated_genid)
+matFst_Sim
+```
+Highest Fst is between population 1 and 4. I should recode the Library Info file to be the population names
+
+Now to calculate a freqency matrix for all of the genotypes. Then you use the matrix to make the PCA. The first plot is a barplot of each eigenvalue. The y axis shows the proportion of the variation that is explained. 
+```{r}
+matrix_sim <- tab(neutral_simulated_genid, freq = TRUE, NA.method = "mean")
+pca_sim <- dudi.pca(matrix_sim, scale=FALSE, scannf=FALSE, nf=3)
+barplot(pca_sim$eig[1:50], main = "PCA eigienvalues", col = heat.colors(50))
+```
+PCs 1 and two are the most informative here, everything else is close to the same. 
+
+Now the first two PCs can be used to plot each individual. Remember that I re-coded populations to be directions so it looks nice and biological. 
+```{r}
+#plot each individual on the PC axies
+
+s.class(pca_sim$li, pop(neutral_simulated_genid))
+title("PCA of simulated dataset Axies 1-2")
+add.scatter.eig(pca_sim$eig[1:10],3,1,2)
+col <- funky(15)
+s.class(pca_sim$li, pop(neutral_simulated_genid),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+
+```
+
+Discriminents Analysis of Princle Components
+
+First, find clusters in the genind files. This requires some input form the console so it was run first there. There is no chance of over-parameterization here, so there can be as many PCs as you want. But, you want to have the lowest BIC. Then you can make a table with the genetic groupings and the clusters that were just found.
+```{r}
+sim_grouping <- find.clusters(neutral_simulated_genid, max.n.clust = 40) #80 PCs retained but 2 clusters
+table.value(table(pop(neutral_simulated_genid), sim_grouping$grp), col.lab=paste("inf", 1:2), row.lab=paste("ori", 1:4))
+```
+Looks like 2 is the correct number of clusters. 
+
+```{r}
+# use infered groupings to run DAPC
+# want to capture between 60-80% of variation but don't want all them. there are only 2 
+dapc_sim <- dapc(neutral_simulated_genid, sim_grouping$grp)
+
+scatter(dapc_sim, col=col, bg="white", solid=1)
+```
+
+How much does each individual locus contribute to each PC? Ones that are above a threshold are labeled on the graph. 
+```{r}
+
+contrib_sim <- loadingplot(dapc_sim$var.contr, axis = 1, thres=0.005, lab.jitter=1)
+contrib_sim
+```
+
+We also have library prep information so we should test for effects of that. 
+```{r}
+setPop(neutral_simulated_genid) <- ~Library
+
+dapc2_sim <- dapc(neutral_simulated_genid, pop(neutral_simulated_genid))
+contrib_lib_sim <- loadingplot(dapc2_sim$var.contr, axis = 1, thres=0.04, lab.jitter=1)
+contrib_lib_sim
+```
+Nothing is above the threshold but one does stand out quite a lot. 
+
+
+
+
+BayEnv
+```{r}
+table_bay <- read.table("bayenv.final",header=TRUE)
+plot(table_bay$BF1)
+
+table_bay[which(table_bay$BF1 > 100),]
+```
+Two outliers! It WORKEDDDDD
+
+Trying to make the Silliman pairwise Fst plot:
+
+```{r}
+pop_order_sim <- c("Lib1", "Lib2")
+```
+
+```{r}
+strata_simulated <- read.table("LibraryInfo", header = TRUE)
+#convert that into a data frame
+strata_simulated_df <- data.frame(strata_simulated)
+#add to the genid file using function strata
+
+strata(neutral_simulated_genid) <- strata_simulated_df
+#set populations for the data using the info in the strata file using setPop function 
+setPop(neutral_simulated_genid) <- ~Population
+```
+Make the distribution
+```{r}
+SIM.fst.mat.sim <- genet.dist(neutral_simulated_genid, method = "WC84")
+```
+
+
+This isn't working for this data because it won't seem to go back to being set by population. I'm just going to proceed like it's by library. 
+```{r}
+
+SIM.fst.mat.matrix <- as.matrix(fst.mat.sim)
+colnames(SIM.fst.mat.matrix) <- pop_order_sim
+rownames(SIM.fst.mat.matrix) <- pop_order_sim
+## save to a file, so you don't have to wait forever again
+write.table(SIM.fst.mat.matrix, file="Simulated-Neutral-Pop.pwfst",row.names = T,col.names = T)
+```
+
+```{r}
+meltedS <- melt(SIM.fst.mat.matrix, na.rm =TRUE)
+```
+
+```{r}
+round(SIM.fst.mat.matrix,4)
+```
+This is by library! Why woulnd't it change to pop! Yes I ran that code above!
+
+```{r}
+summary(meltedS$value)
+```
+
+```{r}
+neutral_real_heat <- ggplot(data = meltedS, aes(Var2, Var1, fill = value))+ geom_tile(color = "white")+ 
+  scale_fill_gradient(low = "white", high = "red", name="FST")  +
+  ggtitle(expression(atop("Pairwise FST, WC (1984), Neutral", atop(italic("N = 117, L = 13,073"), ""))))+
+  labs( x = "Sampling Site", y = "Sampling Site") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1),axis.text.y = element_text(size = 13)) + 
+  theme(axis.title = element_text(size = 16),legend.text = element_text(size =15), legend.title = element_text(size =16)) +
+  theme(plot.title = element_text(size = 17)) +
+coord_fixed()
+neutral_real_heat
+```
+Well this isn't as exciting as I'd hoped. Not sure why it won't go to population. 
+
+Not going to even attempt the TreeMix conversion here, wasn't sure where to go with the realdata. 
+
+
+

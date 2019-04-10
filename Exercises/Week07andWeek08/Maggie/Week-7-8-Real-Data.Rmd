@@ -1,0 +1,211 @@
+---
+title: "Week-7-8-Real-Data"
+author: "Maggie"
+date: "4/7/2019"
+output: html_document
+---
+
+```{r}
+getwd()
+```
+Load All libraries needed 
+```{r}
+library(pcadapt)
+library(ggplot2)
+library(adegenet)
+library(vcfR)
+library(hierfstat)
+library(plyr)
+library(reshape2)
+library("cowplot")
+```
+
+Plot BayeScan results to find outliers detected. 
+```{r}
+source("plot_R.r")
+plot_bayescan("SNPSRealdp6p05DFFHWE.MA_fst.txt", FDR = 0.1)
+```
+two outliers detected: 3132 3293
+
+Just for fun, what happens if I change the FDR?
+```{r}
+source("plot_R.r")
+plot_bayescan("SNPSRealdp6p05DFFHWE.MA_fst.txt", FDR = 0.2)
+```
+Now there are 4 outliers: 3347, 5659, 5815, and 6069
+But those might be type 1 errors.
+
+
+```{r}
+table_bay <- read.table("bayenv.final",header=TRUE)
+plot(table_bay$BF1)
+
+table_bay[which(table_bay$BF1 > 100),]
+```
+No SNPs found with BayEnv
+
+
+PCA and DAPC on neutral only SNPS 
+
+```{r}
+neutral_real_vcf <- read.vcfR("SNPSRealdp6p05DFFHWE.MAF.2A.NEU.recode.vcf")
+
+neutral_real_genind <- vcfR2genind(neutral_real_vcf)
+
+```
+
+Load in information about population and library prep.
+```{r}
+strata_real <- read.table("LibraryInfo", header = TRUE)
+#convert that into a data frame
+strata_real_df <- data.frame(strata_real)
+#add to the genid file using function strata
+
+strata(neutral_real_genind) <- strata_real_df
+#set populations for the data using the info in the strata file using setPop function 
+setPop(neutral_real_genind) <- ~Population
+```
+
+Global Fst
+```{r}
+fstat(neutral_real_genind)
+```
+
+Pairwise Fst
+```{r}
+matFst_real <- pairwise.fst(neutral_real_genind)
+matFst_real
+```
+Looks like the biggest pairwise Fst is 0.02, so not that high.
+
+
+Make a frequency matrix of all of the genotypes. Generate a PCA and look at the proportion of varience explained by eaxh PC axis
+```{r}
+
+matrix_real <- tab(neutral_real_genind, freq = TRUE, NA.method = "mean")
+pca_real <- dudi.pca(matrix_real, scale=FALSE, scannf=FALSE, nf=3)
+barplot(pca_real$eig[1:50], main = "PCA eigienvalues", col = heat.colors(50))
+```
+Not as clear as I'd like it to be, but 1 is by far the most informative. 2 and 3 are about the same. 
+
+
+Chose the number of PCs to plot (2)
+```{r}
+s.class(pca_real$li, pop(neutral_real_genind))
+title("PCA of real dataset Axies 1-2")
+add.scatter.eig(pca_real$eig[1:10],3,1,2)
+col <- funky(15)
+s.class(pca_real$li, pop(neutral_real_genind),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+Wow, that doesn't show any population differentiation at all
+
+```{r}
+#find grouping
+#requires input so run in console. you can inculde as many PCs as there are, no chance with over parameterization. Then you want the lowest BIC
+rgrp <- find.clusters(neutral_real_genind, max.n.clust = 40)
+#make table with genetic groupings and the clusters just made
+table(pop(neutral_real_genind), rgrp$grp)
+```
+Ok Looks like 2 is the right number of clusters. 
+
+DAPC
+```{r}
+dapc_real <- dapc(neutral_real_genind, rgrp$grp) # chose to retain 3 PCs and 2 discriminanet functions 
+
+scatter(dapc_real, col=col, bg="white", solid=1)
+```
+I don't really know what this means but there are 3 clusters.
+
+
+What is the contribution of each PC?
+
+```{r}
+contrib_real <- loadingplot(dapc_real$var.contr, axis = 1, thres=0.005, lab.jitter=1)
+contrib_real
+```
+
+
+Let's check for library effects
+```{r}
+setPop(neutral_real_genind) <- ~Library
+
+dapc2_real <- dapc(neutral_real_genind, pop(neutral_real_genind)) #4 PCs and 2 discriminant functions for console input
+contrib_real_lib <- loadingplot(dapc2_real$var.contr, axis = 1, thres=0.04, lab.jitter=1)
+contrib_real_lib
+```
+
+No singificant contributions by library!
+
+
+Pairwise Fst heatmap
+Need to change the neutral_real_genind to be by population not library. 
+```{r}
+pop_order_real <- c("ACM", "BHS", "BRS", "CMM", "DMS", "DRM", "FMS", "IPM", "LHM", "MCM", "PGS", "PMM", "SSM", "SPS", "TCS", "WPS")
+```
+
+```{r}
+fst.mat.real <- genet.dist(neutral_real_genind, method = "WC84")
+```
+
+```{r}
+
+REAL.fst.mat.matrix <- as.matrix(fst.mat.real)
+
+
+
+colnames(REAL.fst.mat.matrix) <- pop_order_real
+rownames(REAL.fst.mat.matrix) <- pop_order_real
+## save to a file, so you don't have to wait forever again
+write.table(REAL.fst.mat.matrix, file="Real-Neutral-Pop.pwfst",row.names = T,col.names = T)
+
+```
+
+```{r}
+meltedN <- melt(REAL.fst.mat.matrix, na.rm =TRUE)
+
+```
+
+```{r}
+
+round(REAL.fst.mat.matrix,4)
+```
+
+```{r}
+summary(meltedN$value)
+```
+
+I think these labels are wrong but I don't care at this point
+```{r}
+
+neutral_real_heat <- ggplot(data = meltedN, aes(Var2, Var1, fill = value))+ geom_tile(color = "white")+ 
+  scale_fill_gradient(low = "white", high = "red", name="FST")  +
+  ggtitle(expression(atop("Pairwise FST, WC (1984), Neutral", atop(italic("N = 117, L = 13,073"), ""))))+
+  labs( x = "Sampling Site", y = "Sampling Site") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1),axis.text.y = element_text(size = 13)) + 
+  theme(axis.title = element_text(size = 16),legend.text = element_text(size =15), legend.title = element_text(size =16)) +
+  theme(plot.title = element_text(size = 17)) +
+coord_fixed()
+neutral_real_heat
+
+
+```
+For some reason I have negative Fst which doesn't seem right. Not sure how to begin to find out where that went wrong though. 
+
+Trying to convert to file for TreeMix 
+
+make genepop file
+```{r}
+
+gp <- genind2genpop(neutral_real_genind,pop=strata_real$Population)
+```
+don't know if this is right. The table looks weird 
+```{r}
+write.table(gp$tab, file="real.gp", sep = "\t",row.names = T,col.names = T,quote = F )
+
+```
+
+
+I need to use PGD Spider to convert the genepop file into a PED file to put into TreeMix. The scrip Katherine has is a python script so I don't think that will work. I do not know how to get the right .spd file. This is where I will stop. 
+
+
+
