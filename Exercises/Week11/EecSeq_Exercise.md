@@ -257,7 +257,7 @@ We're done here, so let's quit R.
 Now, you can exit KITT and then copy your figure to your local computer
  
 `exit`
-`scp my_username@kitt.uri.edu:Week10/EecSeq/EecSeq_Figure.png ~/Downloads`
+`scp my_username@kitt.uri.edu:Week11/EecSeq/EecSeq_Figure.png ~/Downloads`
  
 Don't forget to put in your username in for the my_username.
 
