@@ -35,7 +35,7 @@ DNA was extracted from each sample using the Qiagen DNeasy kit (Qiagen, Valencia
 |17|CCU13901|Curacao|SeaAquarium|12.0842|-68.8966|2-Feb-16|SRR7236030|
 |18|CCU13905|Curacao|SeaAquarium|12.0842|-68.8966|2-Feb-16|SRR7236037|
 |19|CCU13917|Curacao|Directors Bay|12.066|-68.85997|4-Feb-16|SRR7236036|
-|20|CCU13925|Curacao|East Point|12.04069|-68.78301|5-Feb-16|SRR7235996|
+|20|CCU13925|Curacao|East Point|12.04069|-68.78301|5-Feb-16|SRR7235996|  
 Table 1. Samples, Origin, and Accession Number in NCBI. Adapted from Table 1, Kitchen et al., 2019.
 
 #### Analysis Plan
