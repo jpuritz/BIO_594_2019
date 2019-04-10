@@ -1,0 +1,491 @@
+---
+title: "Week9"
+output: html_document
+Author: Emma Strand
+Last edited: 20190409
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#### SIMULATED DATA 
+# None of the files names were changed to avoid confusion while following the example code.
+# Bayescan visualization to detect outlier loci
+```{r}
+source("plot_R.r")
+plot_bayescan("SNP.TRSdp5p05FH_fst.txt")
+```
+
+# Load pcadapt library
+```{r}
+library(pcadapt)
+```
+
+# load our VCF file into R
+```{r}
+filename <- read.pcadapt("SNP.TRSdp5p05FHWE2A.recode.vcf", type = "vcf" )
+```
+
+### PCA 
+## Analysis using Adegenet 
+```{r}
+library(adegenet)
+library(vcfR)
+my_vcf <- read.vcfR("SNP.TRSdp5p05FHWEmaf05.recode.vcf")
+my_genind <- vcfR2genind(my_vcf)
+```
+
+```{r}
+strata <- read.table("LibraryInfo", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+setPop(my_genind) <- ~Population
+```
+
+# Test Popluation Structure
+```{r}
+library(hierfstat)
+fstat(my_genind)
+```
+
+```{r}
+matFst <- pairwise.fst(my_genind)
+```
+
+```{r}
+matFst
+```
+
+# PCA
+```{r}
+X <- tab(my_genind, freq=TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale=FALSE, scannf=FALSE, nf=3)
+```
+
+```{r}
+barplot(pca1$eig[1:50], main = "PCA eigenvalues", col = heat.colors(50))
+```
+
+```{r}
+s.class(pca1$li, pop(my_genind))
+title("PCA of simulated dataset\naxes 1-2")
+add.scatter.eig(pca1$eig[1:18],3,1,2)
+col <- funky(15)
+s.class(pca1$li, pop(my_genind),xax=1, yax=2, col=col, axesell = FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+
+# DAPC - discriminate analysis of principal components
+
+```{r}
+grp <- find.clusters(my_genind, max.n.clust = 40)
+table(pop(my_genind), grp$grp)
+```
+
+```{r}
+table.value(table(pop(my_genind), grp$grp), col.lab=paste("inf", 1:2), row.lab=paste("ori", 1:4))
+```
+
+```{r}
+dapc1 <- dapc(my_genind, grp$grp)
+scatter(dapc1,col=col,bg="white", solid=1)
+```
+
+
+## PCA 
+#Create first PCA
+```{r}
+x <- pcadapt(input = filename, K = 20)
+```
+
+#Plot the likelihoods
+```{r}
+plot(x, option = "screeplot")
+```
+
+#Plot Plot the likelihoods for only first 10 K
+```{r}
+plot(x, option = "screeplot", K = 10)
+```
+
+#Create population designations
+```{r}
+poplist.names <- c(rep("POPA", 20),rep("POPB", 20),rep("POPC", 20), rep("POPD",20))
+```
+
+#Plot the actual PCA (first two PCAs)
+```{r}
+plot(x, option = "scores", pop = poplist.names)
+```
+
+#Plot PCA with PCA 2 and PCA 3
+```{r}
+plot(x, option = "scores", i = 2, j = 3, pop = poplist.names)
+```
+
+#Plot PCA with PCA 3 and PCA 4
+```{r}
+plot(x, option = "scores", i = 3, j = 4, pop = poplist.names)
+```
+
+#Redo PCA with only 3 K
+```{r}
+x <- pcadapt(filename, K = 3)
+
+summary(x)
+```
+
+#Start looking for outliers
+#Make Manhattan Plot
+```{r}
+plot(x , option = "manhattan")
+```
+
+#Make qqplot
+```{r}
+plot(x, option = "qqplot", threshold = 0.1)
+```
+
+# Look at P-value distribution
+```{r}
+plot(x, option = "stat.distribution")
+```
+
+# Set FDR
+```{r}
+library(qvalue)
+qval <- qvalue(x$pvalues)$qvalues
+alpha <- 0.1
+```
+
+# Save outliers
+```{r}
+outliers <- which(qval < alpha)
+```
+
+
+# Testing for library effects
+```{r}
+poplist.names <- c(rep("LIB1", 40),rep("LIB2", 40))
+x <- pcadapt(input = filename, K = 20)
+
+plot(x, option = "scores", pop = poplist.names)
+plot(x, option = "scores", i = 2, j = 3, pop = poplist.names)
+
+x <- pcadapt(filename, K = 2)
+
+summary(x)
+
+plot(x , option = "manhattan")
+plot(x, option = "qqplot", threshold = 0.1)
+
+plot(x, option = "stat.distribution")
+
+library(qvalue)
+qval <- qvalue(x$pvalues)$qvalues
+alpha <- 0.1
+outliers <- which(qval < alpha)
+```
+
+## Silliman analysis 
+# Pair-wise Fst and genetic diversity
+# Neutral
+```{r}
+library("adegenet") # for storing genotype data
+library(hierfstat) # for calculating pairwise Fst
+library(ggplot2) # for plotting
+library(reshape2) # for plotting
+library(plyr) 
+library("cowplot") # for plotting manuscript figures
+```
+
+```{r}
+load("../Inputs/OL-c85t10-x45m75-maf025-neutI2-filt.hf")
+load("../Inputs/OL-c85t10-x45m75-maf025-neutI2-filt.genind")
+stratted.filt
+```
+#### stuck on knowing what files to input here^ 
+
+```{r}
+pop_order <- c("PopA", "PopB", "PopC", "PopD")
+```
+
+# Pairwise Fst
+# This takes a long time (~30+ minutes) for this many loci and populations. Be patient.
+```{r}
+fst.mat <- genet.dist(hf.filt, method = "WC84")
+
+
+gindF.fst.mat.triN <- as.matrix(fst.mat)
+colnames(gindF.fst.mat.triN) <- pop_order
+rownames(gindF.fst.mat.triN) <- pop_order
+## save to a file, so you don't have to wait forever again
+write.table(gindF.fst.mat.triN, file="OL-t10x45m75-maf025-NeutI2-Pop.pwfst",row.names = T,col.names = T)
+
+meltedN <- melt(gindF.fst.mat.triN, na.rm =TRUE)
+round(gindF.fst.mat.triN,4)
+
+#Average pairwise Fst
+summary(meltedN$value)
+
+# using ggplot2 - output is a heatmap of a range of Fst values
+neutral <- ggplot(data = meltedN, aes(Var2, Var1, fill = value))+ geom_tile(color = "white")+ 
+  scale_fill_gradient(low = "white", high = "red", name="FST")  +
+  ggtitle(expression(atop("Pairwise FST, WC (1984), Neutral", atop(italic("N = 117, L = 13,073"), ""))))+
+  labs( x = "Sampling Site", y = "Sampling Site") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1),axis.text.y = element_text(size = 13)) + 
+  theme(axis.title = element_text(size = 16),legend.text = element_text(size =15), legend.title = element_text(size =16)) +
+  theme(plot.title = element_text(size = 17)) +
+coord_fixed()
+neutral
+```
+
+## this file is in the Github repository
+# Mantel Test with adegenet, monte carlo test 
+```{r}
+x <- as.matrix(read.csv("Ostrea Phylogeography Samples - Water Distance.csv",header = T,row.names = 1))
+Dgeo <- as.dist(x)
+fst_N <- gindF.fst.mat.triN/(1-gindF.fst.mat.triN)
+DgenN <- as.dist(fst_N)
+ibd <- mantel.randtest(DgenN,Dgeo)
+ibd
+plot(ibd) # histogram output
+```
+
+```{r}
+library(MASS)
+dens <- kde2d(Dgeo,DgenN, n=300)
+myPal <- colorRampPalette(c("white","blue","gold", "orange", "red"))
+plot(Dgeo, DgenN, pch=20,cex=.5,xlab = "Water Distance (km)", ylab = "FST/1-FST")
+image(dens, col=transp(myPal(300),.7), add=TRUE)
+abline(lm(DgenN~Dgeo))
+```
+
+## Genetic Diversity
+# output is a graph of expected heterozygosity vs latitude from neutral SNPs
+# Genind object previously loaded
+```{r}
+stratted.filt
+
+#All populations
+comb <- summary(stratted.filt)
+names(comb)
+
+plot(comb$Hobs, xlab="Loci number", ylab="Observed Heterozygosity", 
+     main="Observed heterozygosity per locus")
+
+plot(comb$Hobs,comb$Hexp, xlab="Hobs", ylab="Hexp", 
+     main="Expected heterozygosity as a function of observed heterozygosity per locus")
+
+bartlett.test(list(comb$Hexp, comb$Hobs)) # a test : H0: Hexp = Hobs
+
+# calculate basic popgen statistics for the overall dataset
+basicstat <- basic.stats(hf.filt, diploid = TRUE, digits = 3)
+
+as.data.frame(basicstat$overall)
+
+# get bootstrap confidence values for Fis
+boot <- boot.ppfis(hf.filt,nboot = 1000)
+boot5 <- boot.ppfis(hf.filt,nboot = 1000,quant = 0.5)
+
+# add latitude for each population
+latitude = c(50.298667,49.01585,49.011383,48.435667,47.9978,47.7375,47.6131,47.3925,46.532386,45.3911556,44.579539,43.3559861,40.8557972,38.117549,37.95507,37.70867,36.8398194,34.101914,32.602500)
+
+# combine all pop statistics
+colnames(basicstat$Ho) <- pop_order
+Ho <- colMeans(basicstat$Ho,na.rm = T)
+He <- colMeans(basicstat$Hs,na.rm = T)
+Fis<- boot5$fis.ci$ll
+x <- cbind(Ho,He,Fis,boot$fis.ci,latitude)
+x
+
+summary(Fis)
+
+R2 = round(summary(lm(x$He ~ x$latitude))$r.squared, 4)             
+
+ggplot(x, aes(x = latitude, y = He)) + geom_point() + 
+geom_smooth(method=lm) + 
+ggtitle("Expected heterozygosity vs Latitude, Neutral") +
+annotate(geom = "text", label=paste("italic(R^2)==",R2), x=45, y=0.25, parse=T) +
+scale_x_reverse()
+```
+
+#### REAL DATA
+# Running Bayescan 
+# error: Using 80 threads (80 cpu detected on this machine)
+# error: segmentation fault
+
+## linux commands for Bayescan:
+# runs bayescan 
+BayeScan2.1_linux64bits SNP.TRSdp5p05FHWEBS -nbp 30 -thin 20
+# copies R plot file from week07_and_week08 to my week9exercise folder
+cp ~/home/estrand/DATA/Week07_and_Week_08/realdata/plot_R.r ~/home/estrand/week9/week9exercise/realdata 
+# In R stuiod: plotting bayescan output i
+```{r}
+source("plot_R.r")
+plot_bayescan("SNP.TRSdp5p05FH_fst.txt")
+```
+
+## Running Bayenv
+# None of the files names were changed to avoid confusion while following the example code.
+# In linux:
+java -jar /usr/local/bin/PGDSpider2-cli.jar -inputfile SNP.TRSdp5p05FHWE2A.recode.vcf -outputfile SNP.TRSdp5p05FHWEBayEnv.txt -spid SNPBayEnv.spid
+## error: - PGDSpider configuration file not found! Loading default configuration.
+bayenv2 -i SNP.TRSdp5p05FHWEBayEnv.txt -p 4 -k 100000 -r 63479 > matrix.out
+## error: segmentation fault 
+tail -5 matrix.out | head -4 > matrix
+cat environ
+# calculatin bayes factor for each SNP
+calc_bf.sh SNP.TRSdp5p05FHWEBayEnv.txt environ matrix 4 10000 2
+# converting output to readable file for R
+paste <(seq 1 981) <(cut -f2,3 bf_environ.environ ) > bayenv.out
+cat <(echo -e "Locus\tBF1\tBF2") bayenv.out > bayenv.final
+# Run in R 
+```{r}
+table_bay <- read.table("bayenv.final",header=TRUE)
+plot(table_bay$BF1)
+
+table_bay[which(table_bay$BF1 > 100),]
+```
+
+## Running PCA and DAPC
+## Analysis using Adegenet 
+```{r}
+library(adegenet)
+library(vcfR)
+my_vcf <- read.vcfR("SNP.TRSdp5p05FHWE2A.recode.vcf")
+my_genind <- vcfR2genind(my_vcf)
+```
+
+```{r}
+strata <- read.table("LibraryInfo", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+setPop(my_genind) <- ~Population
+```
+
+# Test Popluation Structure
+```{r}
+library(hierfstat)
+fstat(my_genind)
+```
+
+```{r}
+matFst <- pairwise.fst(my_genind)
+```
+
+```{r}
+matFst
+```
+
+# PCA
+```{r}
+X <- tab(my_genind, freq=TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale=FALSE, scannf=FALSE, nf=3)
+```
+
+```{r}
+barplot(pca1$eig[1:50], main = "PCA eigenvalues", col = heat.colors(50))
+```
+
+```{r}
+s.class(pca1$li, pop(my_genind))
+title("PCA of simulated dataset\naxes 1-2")
+add.scatter.eig(pca1$eig[1:18],3,1,2)
+col <- funky(15)
+s.class(pca1$li, pop(my_genind),xax=1, yax=2, col=col, axesell = FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+
+# DAPC - discriminate analysis of principal components
+
+```{r}
+grp <- find.clusters(my_genind, max.n.clust = 40)
+table(pop(my_genind), grp$grp)
+```
+
+```{r}
+table.value(table(pop(my_genind), grp$grp), col.lab=paste("inf", 1:2), row.lab=paste("ori", 1:4))
+```
+
+```{r}
+dapc1 <- dapc(my_genind, grp$grp)
+scatter(dapc1,col=col,bg="white", solid=1)
+```
+
+### Silliman analysis 
+## Creating trees with Treemix 
+# Linux coding
+source("../../../General_Methods/treemix-1.13/src/plotting_funcs_Me.R")
+system("treemix -i ../Inputs/OL-c85t10-x45m75-maf025-neutI2-u.pop.TM.gz -o OL-c85t10m45x75n_unrooted > out")
+# produces heat-like map that displays populations on both x and y axis. 
+```{r}
+plot_resid("OL-c85t10m45x75n_unrooted","TMorder") 
+```
+
+# produces a map with a drift parameter 
+```{r}
+plot <- plot_tree("OL-c85t10m45x75_unrooted","TMorder")
+```
+
+# Pairwise Fst and diversity
+```{r}
+library("adegenet") #For storing genotype data
+library(hierfstat) #For calculating pairwise Fst
+library(ggplot2) #For plotting
+library(reshape2) #For plotting
+library(plyr)
+library("cowplot") #For plotting manuscript figs
+
+load("../Inputs/OL-c85t10-x45m75-maf025-neutI2-filt.hf")
+load("../Inputs/OL-c85t10-x45m75-maf025-neutI2-filt.genind")
+
+stratted.filt
+
+pop_order <- c("PopA, PopB, PopC, PopD")
+
+# This takes a long time (~30+ minutes) for this many loci and populations. Be patient.
+fst.mat <- genet.dist(hf.filt, method = "WC84")
+
+gindF.fst.mat.triN <- as.matrix(fst.mat)
+colnames(gindF.fst.mat.triN) <- pop_order
+rownames(gindF.fst.mat.triN) <- pop_order
+## save to a file, so you don't have to wait forever again
+write.table(gindF.fst.mat.triN, file="OL-t10x45m75-maf025-NeutI2-Pop.pwfst",row.names = T,col.names = T)
+
+meltedN <- melt(gindF.fst.mat.triN, na.rm =TRUE)
+round(gindF.fst.mat.triN,4)
+
+#Average pairwise Fst
+summary(meltedN$value)
+
+# plotting using ggplot2
+neutral <- ggplot(data = meltedN, aes(Var2, Var1, fill = value))+ geom_tile(color = "white")+ 
+  scale_fill_gradient(low = "white", high = "red", name="FST")  +
+  ggtitle(expression(atop("Pairwise FST, WC (1984), Neutral", atop(italic("N = 117, L = 13,073"), ""))))+
+  labs( x = "Sampling Site", y = "Sampling Site") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1),axis.text.y = element_text(size = 13)) + 
+  theme(axis.title = element_text(size = 16),legend.text = element_text(size =15), legend.title = element_text(size =16)) +
+  theme(plot.title = element_text(size = 17)) +
+coord_fixed()
+neutral
+
+# Mantel Test
+## this file is in the Github repository
+x <- as.matrix(read.csv("Ostrea Phylogeography Samples - Water Distance.csv",header = T,row.names = 1))
+Dgeo <- as.dist(x)
+fst_N <- gindF.fst.mat.triN/(1-gindF.fst.mat.triN)
+DgenN <- as.dist(fst_N)
+ibd <- mantel.randtest(DgenN,Dgeo)
+ibd
+
+plot(ibd)
+
+library(MASS)
+dens <- kde2d(Dgeo,DgenN, n=300)
+myPal <- colorRampPalette(c("white","blue","gold", "orange", "red"))
+plot(Dgeo, DgenN, pch=20,cex=.5,xlab = "Water Distance (km)", ylab = "FST/1-FST")
+image(dens, col=transp(myPal(300),.7), add=TRUE)
+abline(lm(DgenN~Dgeo))
+```
+
+
+
