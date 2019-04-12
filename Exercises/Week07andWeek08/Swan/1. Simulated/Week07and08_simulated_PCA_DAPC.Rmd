@@ -1,0 +1,139 @@
+---
+title: "Week07and08_simulated"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r to check work directory}
+getwd()
+setwd("/home/stan/Week9/Week9.Ex/simulated")
+```
+
+```{r load library}
+library(adegenet)
+library(vcfR)
+library(hierfstat)
+library("radiator") # Conversion from vcf to a lot of other formats
+library("dplyr")
+library(ggplot2) #For plotting
+library(reshape2) #For plotting
+library(plyr)
+library("cowplot")
+```
+
+```{r run PCAadapt with neutral data}
+#read in vcf file
+my_vcf <- read.vcfR("SNPTRS.neutralonly.recode.vcf")
+
+my_genind <- vcfR2genind(my_vcf)
+
+#get Library info file
+strata <- read.table("LibraryInfo", header = TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+setPop(my_genind) <- ~Population
+
+#Test poputation structure
+fstat(my_genind)
+
+#to calculate Fst
+matFst <- pairwise.fst(my_genind)
+matFst
+
+#to run PCA
+X <- tab(my_genind, freq = TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale = FALSE, scannf = FALSE, nf = 3)
+
+#to plot diff pca components
+#sum of eigenvalues - represent variants
+barplot(pca1$eig[1:50], main = "PCA eigenvalues", col = heat.colors(50))
+
+#to plot each pca on the axis
+s.class(pca1$li, pop(my_genind))
+title("PCA of simulated dataset\naxes 1 - 2")
+add.scatter.eig(pca1$eig[1:10], 3, 1 ,2)
+col <- funky(15) 
+s.class(pca1$li, pop(my_genind), xax = 1, yax = 2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid = FALSE)
+```
+
+## DAPC
+```{r}
+grp <- find.clusters(my_genind, max.n.clust = 40) #require input
+table(pop(my_genind), grp$grp)
+
+#make diff table
+table.value(table(pop(my_genind), grp$grp), col.lab=paste("inf", 1:2), row.lab=paste("ori", 1:4))
+```
+
+## Use inferred grouping to count DAPC
+```{r}
+dapc1 <- dapc(my_genind, grp$grp)
+#plotting 1 dimensional 
+scatter(dapc1,col = col,bg = "white", solid = 1)
+```
+
+```{r}
+#has to make jugdement call
+#depending what you are tested, it will separate out the single loci as in which loci is contributed to the pattern
+contrib <- loadingplot(dapc1$var.contr, axis=1, thres=.005, lab.jitter=1)
+contrib$var.names
+```
+
+```{r}
+#library with artefacts
+setPop(my_genind) <- ~Library
+
+dapc1 <- dapc(my_genind, pop(my_genind))
+#can change the threshold
+contrib <- loadingplot(dapc1$var.contr, axis=1, thres=.05, lab.jitter=1)
+```
+
+```{r}
+#to pull out the single artefact contig by changing the threshold
+contrib <- loadingplot(dapc1$var.contr, axis=1, thres=.008, lab.jitter=1)
+#so it's the dDocent_Contig_120 that is the artefact?
+contrib$var.names
+```
+
+
+## Analyses from Silliman et al
+```{r OutlierR}
+source("plot_R.r")
+BS <- plot_bayescan("SNP.TRSdp5p05FH_fst.txt",FDR=0.05)
+
+BS<- plot_bayescan("SNP.TRSdp5p05FH_fst.txt",highlight = BS$outliers,FDR=0.05)
+
+BS$nb_outliers
+```
+
+```{r Treemix}
+#making files
+
+#error
+# Error in vcfR2genind(paste0(filtsuf, "-maf025-u.vcf"), filename = paste0(filtsuf,  : 
+#   trying to get slot "fix" from an object of a basic class ("character") with no slots
+  
+stratted.u <- strata(rad.u$genind.no.imputation, formula= REGION/POPULATION/LOCATION, combine = TRUE,just.strats)
+stratted.u@other <- select(mystrats, LATITUDE,LONGITUDE)
+save(stratted.u, file=paste(filtsuf,"-maf025-u.genind",sep=""))
+
+# Convert genind object to genpop object
+gp <- genind2genpop(stratted.u,pop=strata(stratted.u)$POPULATION)
+# Write genpop object as a table
+write.table(gp$tab, file=paste0(filtsuf,"-u.gp"),sep = "\t",row.names = T,col.names = T,quote = F )
+
+# Use python script to convert to TreeMix format, can also be run normally in Terminal
+system('python ../Scripts/genpop2Treemix.py OL-c85t10-x45m75-maf025-neutI2-u.gp OL-c85t10-x45m75-neutI2-u.pop.TM')
+# Gzip the TreeMix input
+system('gzip OL-c85t10-x45m75-neutI2-u.pop.TM',intern = T)
+
+
+
+source("plotting_funcs.R")
+
+system("treemix -i ../Inputs/OL-c85t10-x45m75-maf025-neutI2-u.pop.TM.gz -o OL-c85t10m45x75n_unrooted > out")
+
+```
