@@ -1,6 +1,13 @@
+## Simulated dataset
+
+### 1. Initialize working environment
 ```
 conda activate Week9.Ex
 cd home/stan/Week9/Week9.Ex/simulated/fasqfiles
+```
+
+### 2. Call SNPs
+```
 dDocent
 wc -l Final.recode.vcf
 ```
@@ -8,6 +15,7 @@ wc -l Final.recode.vcf
 3042 Final.recode.vcf
 ```
 
+### 3. Filtering SNPs
 ```
 cd ..
 head TotalRawSNPs.vcf
@@ -140,69 +148,69 @@ dDocent_filters TRSdp5p05.recode.vcf TRSdp5p05
 ```
 This script will automatically filter a FreeBayes generated VCF file using criteria related to site depth,
 quality versus depth, strand representation, allelic balance at heterzygous individuals, and paired read representation.
-The script assumes that loci and individuals with low call rates (or depth) have already been removed.
+The script assumes that loci and individuals with low call rates (or depth) have already been removed. 
 
-Contact Jon Puritz (jpuritz@gmail.com) for questions and see script comments for more details on particular filters
+Contact Jon Puritz (jpuritz@gmail.com) for questions and see script comments for more details on particular filters 
 
 Number of sites filtered based on allele balance at heterozygous loci, locus quality, and mapping quality / Depth
- 394 of 2816
+ 394 of 2816 
 
 Are reads expected to overlap?  In other words, is fragment size less than 2X the read length?  Enter yes or no.
 yes
 Is this from a mixture of SE and PE libraries? Enter yes or no.
 yes
 Number of additional sites filtered based on properly paired status
- 0 of 2422
+ 0 of 2422 
 
 Number of sites filtered based on high depth and lower than 2*DEPTH quality score
- 277 of 2422
+ 277 of 2422 
 
 
-
-                                               Histogram of mean depth per site
-
-      300 +---------------------------------------------------------------------------------------------------------+
-          |   +    +    +    +     +    +    +     +    +    +     +    +    +    +     +    +    +     +    +    + |
-          |                                               'meandepthpersite' using (bin($1,binwidth)):(1.0) ******* |
-          |                                                                                      **                 |
-      250 |-+                                                                                  ****               +-|
-          |                                                                                    * ****               |
-          |                                                                                  *** ** *               |
-          |                                                                                *** * ** *               |
-      200 |-+                                                                              * * * ** *             +-|
-          |                                                                                * * * ** ***             |
-          |                                                                               ** * * ** * *             |
-      150 |-+                                                                             ** * * ** * *           +-|
-          |                                                                             **** * * ** * ***           |
-          |                                                                             * ** * * ** * * *           |
-          |                                                                             * ** * * ** * * *           |
-      100 |-+                                                                           * ** * * ** * * *         +-|
-          |                                                                             * ** * * ** * * *           |
-          |                                                                         *** * ** * * ** * * *           |
-          |                                                                         * *** ** * * ** * * *           |
-       50 |-+                                                                     *** * * ** * * ** * * **        +-|
-          |                                                                       * * * * ** * * ** * * ****        |
-          |                                                                      ** * * * ** * * ** * * ** *****    |
-          |   +    +    +    +     +    +    +     +    +    +     +    +    + **** * * * ** * * ** * * ** * * ** + |
-        0 +---------------------------------------------------------------------------------------------------------+
-              12   15   18   21    24   27   30    33   36   39    42   45   48   51    54   57   60    63   66   69
-                                                          Mean Depth
-
+                                                                                                                        
+                                               Histogram of mean depth per site                                         
+                                                                                                                        
+      300 +---------------------------------------------------------------------------------------------------------+   
+          |   +    +    +    +     +    +    +     +    +    +     +    +    +    +     +    +    +     +    +    + |   
+          |                                               'meandepthpersite' using (bin($1,binwidth)):(1.0) ******* |   
+          |                                                                                      **                 |   
+      250 |-+                                                                                  ****               +-|   
+          |                                                                                    * ****               |   
+          |                                                                                  *** ** *               |   
+          |                                                                                *** * ** *               |   
+      200 |-+                                                                              * * * ** *             +-|   
+          |                                                                                * * * ** ***             |   
+          |                                                                               ** * * ** * *             |   
+      150 |-+                                                                             ** * * ** * *           +-|   
+          |                                                                             **** * * ** * ***           |   
+          |                                                                             * ** * * ** * * *           |   
+          |                                                                             * ** * * ** * * *           |   
+      100 |-+                                                                           * ** * * ** * * *         +-|   
+          |                                                                             * ** * * ** * * *           |   
+          |                                                                         *** * ** * * ** * * *           |   
+          |                                                                         * *** ** * * ** * * *           |   
+       50 |-+                                                                     *** * * ** * * ** * * **        +-|   
+          |                                                                       * * * * ** * * ** * * ****        |   
+          |                                                                      ** * * * ** * * ** * * ** *****    |   
+          |   +    +    +    +     +    +    +     +    +    +     +    +    + **** * * * ** * * ** * * ** * * ** + |   
+        0 +---------------------------------------------------------------------------------------------------------+   
+              12   15   18   21    24   27   30    33   36   39    42   45   48   51    54   57   60    63   66   69    
+                                                          Mean Depth                                                    
+                                                                                                                        
 If distrubtion looks normal, a 1.645 sigma cutoff (~90% of the data) would be 5160.47648
 The 95% cutoff would be 64
 Would you like to use a different maximum mean depth cutoff than 64, yes or no
 no
 Number of sites filtered based on maximum mean depth
- 258 of 2422
+ 258 of 2422 
 
 Number of sites filtered based on within locus depth mismatch
- 0 of 2096
+ 0 of 2096 
 
 Total number of sites filtered
- 720 of 2816
+ 720 of 2816 
 
 Remaining sites
- 2096
+ 2096 
 
 Filtered VCF file is called Output_prefix.FIL.recode.vcf
 
@@ -297,7 +305,7 @@ Processing population: PopD (20 inds)
 Outputting results of HWE test for filtered loci to 'filtered.hwe'
 Kept 1815 of a possible 1815 loci (filtered 0 loci)
 ```
-TO CLARIFY
+
 ```
 vcftools --vcf SNP.TRSdp5p05FHWE.recode.vcf --maf 0.05 --recode --recode-INFO-all --out SNP.TRSdp5p05FHWEmaf05
 ```
@@ -317,44 +325,10 @@ Outputting VCF file...
 After filtering, kept 861 out of a possible 1815 Sites
 Run Time = 1.00 seconds
 ```
-To convert the vcf file into a bayescan output
-```
-java -jar /usr/local/bin/PGDSpider2-cli.jar -inputfile SNP.TRSdp5p05FHWEmaf05.recode.vcf -outputfile SNP.TRSdp5p05FHWEBS -spid BSsnp.spid
-```
-Take a look at the output
-```
-less SNP.TRSdp5p05FHWEBS
-```
-```
-[loci]=861
 
-[populations]=4
+- get VCFtoOutlierOnly.sh
 
-[pop]=1
- 1      40      2       35 5
- 2      40      2       2 38
- 3      40      2       38 2
- 4      40      2       36 4
- 5      40      2       2 38
- 6      40      2       37 3
- 7      40      2       28 12
- 8      38      2       36 2
- 9      38      2       4 34
- 10     38      2       21 17
- 11     38      2       18 20
- 12     40      2       33 7
- 13     40      2       33 7
- 14     40      2       38 2
- 15     40      2       5 35
- 16     40      2       35 5
- 17     40      2       5 35
- 18     38      2       6 32
-```
-Run BayeScan
-```
-BayeScan2.1_linux64bits SNP.TRSdp5p05FHWEBS -nbp 30 -thin 20
-```
-> get VCFtoOutlierOnly.sh
+### 4. Generate VCF file with only neutral SNPs
 ```
 ./VCFtoOutlierOnly.sh SNP.TRSdp5p05FHWEmaf05.recode.vcf SNP.TRSdp5p05FH_fst.txt  0.1 SNPTRS -SNPTRS.outlieronly --positions Outlier.list
 ```
@@ -389,6 +363,7 @@ Outputting VCF file...
 After filtering, kept 858 out of a possible 861 Sites
 Run Time = 0.00 seconds
 ```
+
 ```
 ls -t | head
 
@@ -408,3 +383,9 @@ mawk '!/#/' SNPTRS.neutralonly.recode.vcf | wc -l
 
 858
 ```
+
+### 5. Run PCA and DAPC in R
+> R markdown
+
+### 6. Run analyses from Silliman et al
+> R markdown
