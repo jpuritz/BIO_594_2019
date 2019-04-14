@@ -1,6 +1,8 @@
 ---
 title: "Week07and08_simulated"
 output: html_document
+PCA and DAPC
+Analyses from Silliman et al
 ---
 
 ```{r setup, include=FALSE}
