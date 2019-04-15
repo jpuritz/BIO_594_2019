@@ -17,8 +17,8 @@ Methods:
 
 * Check that everything has downloaded correctly (checksum)
 * QC of data before trimming, trim adapters and low quality reads, re-check for QC (Fastp) _de-multiplexing is being done by Jon_
-* File conversion (HISAT2)
-* Align to genome (SAM Tools)
+* Align to genome (HISAT2)
+* File conversion (samtools)
 * Assemblly for reference annotation (StringTie)
 * Finding differentially expressed genes (DESeq2 and Edge R, I would like to try both)
 * Functional enrichment analysis (topGO)
