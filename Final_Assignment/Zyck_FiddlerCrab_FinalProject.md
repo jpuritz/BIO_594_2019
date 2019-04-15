@@ -46,13 +46,15 @@ Data
    * Bayenv2
    * PCAadapt
    * Outflank
+* Genetic diversity and structure
+   * Spatial Principal Components Analysis (sPCA)
+   * Pairwise Fst
+   * Genetic diversity (observed and expected heterozygosity)
+   * EEMS (https://www.nature.com/articles/ng.3464)
 
 *Using the results from these 4 analyses, the data set will be divided in two categories: putatively neutral SNPs and SNPs putatively under selection.
 
-  * Additional Anaylses
-      * Spatial Principal Components Analysis (sPCA)
-      * Pairwise Fst
-      * Genetic diversity (observed and expected heterozygosity)
+      
 
 #### _References_
 
