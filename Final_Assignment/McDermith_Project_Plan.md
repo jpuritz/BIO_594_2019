@@ -16,3 +16,4 @@ The type of data is a paired end whole genome Illumina sequence and is accessibl
 4. BUSCO will be used to assess the assembly quality. 
 5. Scaffolds will be ordered to a known Salegentibacter genome using a BLAST database and Mauve.
 6. Annotation will be done using Prokka. 
+7. *Possibly* repeat with a second species
