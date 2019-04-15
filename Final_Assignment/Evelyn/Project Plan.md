@@ -2,7 +2,7 @@
 #### NOTE: Analysis is performed from a thesis submitted to URI in 2018 by Tejashree Modak(Gomez-Chiarri lab) on Eastern Oyster Larval transcriptomes in response to probiotics and pathogenic bacteria.
 
 ### Summary
-#### Vibrio spp. are common pathogens which causes diseases in a wide variety of aquatic species including oysters, the pathogen vibrio tubiashii RE22 causes vibriosis in oysters larvae leading to mortality in the oysters thereby affecting the oyster hatcheries.The pathogens are able to cause immunosuppresion of the hosts as a means of pathogenesis. Several studies have characterised changes in gene expression patterns of the oyster larvae in responds to vibrio infection. (Hasegawa et al.,2008).
+Vibrio spp. are common pathogens which causes diseases in a wide variety of aquatic species including oysters, the pathogen vibrio tubiashii RE22 causes vibriosis in oysters larvae leading to mortality in the oysters thereby affecting the oyster hatcheries.The pathogens are able to cause immunosuppresion of the hosts as a means of pathogenesis. Several studies have characterised changes in gene expression patterns of the oyster larvae in responds to vibrio infection. (Hasegawa et al.,2008).
 
 ### AIM
 #### To identify differential expressed immune genes in oyster larvae upon exposure to the pathogen vibrio tubiashii RE22
@@ -10,7 +10,7 @@
 ### Analysis Plan
 
 ### Initial Raw Data Assessment
-#### The Eastern oyster reference genome, three transcriptomes data each following challenge of oyster larvae with RE22 and three Transcriptome data for control samples will be obtained  from ncbi SRA database using the function fastq-dump from SRA Toolkits on the cluster.
+The Eastern oyster reference genome, three transcriptomes data each following challenge of oyster larvae with RE22 and three Transcriptome data for control samples will be obtained  from ncbi SRA database using the function fastq-dump from SRA Toolkits on the cluster.
 
 #### Bioinformatic Processing
  1. Preprocessing of raw reads and quality checking 
