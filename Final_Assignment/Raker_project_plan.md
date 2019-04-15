@@ -12,7 +12,7 @@ Adult and larvae *D. antillarum* were exposedto high (7.9), medium (7.6), and lo
 1. Asses quality of reads using **FastQC**
 2. Trim reads for quality and trim adapters using **fastp**
 3. Use **SortMeRNA** to filter out any remaining rRNA
-4. *de novo* transcriptome assembly using **Trinity**
+4. *de novo* transcriptome assembly using **Trinity** (Assessing multiple assemblies if possible)
 5. Identify candidate coding regions using **TransDecoder**
 6. Cluster sequences and reduce data **CDHit**
 7. Annotate reads using **Trinnotate**
