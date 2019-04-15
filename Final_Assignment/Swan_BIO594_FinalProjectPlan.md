@@ -38,6 +38,8 @@ Manipulation of NK cells seems to hold promise in efforts to improve organ trans
 | Location | Patients recruited from outpatient clinic of the Erasmus MC Rotterdam |
 | Number of subjects | Healthy control 1 (Asian): 8 </br> Healthy control 2 (Caucasian): 12 </br> HIV (Caucasian): 6 </br> Hepatitis C, HCV (Caucasian): 8 </br> Hepatitis B, HBV (Asian): 32 </br> Total: 66 |
 
+#### The HBV (Asian) dataset will be subset for this analysis 
+
 ### Analysis Plan - Transcriptome Pipeline
 | **Step** | **Description** |
 | ------------- | ------------- | 
