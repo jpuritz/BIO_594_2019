@@ -111,24 +111,29 @@ ApeKI
 Analysis plan
 -------------
 
-Raw sequencing reads will be demultiplexed, quality filtered and aligned
+* Raw sequencing reads will be demultiplexed, quality filtered and aligned
 to the O. faveolata reference genome using de dDocent pipeline (Puritz
-et al., 2014). The SNP calling will be carried out with the
-aforementioned pipeline to produce a VCF that will be filtered to keep
+et al., 2014)
+* SNP calling will be carried out with the aforementioned pipeline to produce a VCF that will be filtered to keep
 variants that have been successfully genotyped in 50% of individuals
 only, a minimum quality score of 30, and a minor allele count of 3.
-Recode genotypes that have less than 3 reads, remove individuals with
+* Recode genotypes that have less than 3 reads, remove individuals with
 more than 75% missing data, filter out loci with an allele balance below
 0.25 and above 0.75, a minimum read depth of 10x, deviations from
 Hardy–Weinberg equilibrium in each population, and an overall minor
-allele frequency (MAF) of 5%. This final VCF will be scanned for
+allele frequency (MAF) of 5%. 
+* This final VCF will be scanned for
 putative loci under natural selection using BayeScan v.2.1 and pcadapt
-v.4.0.2. Loci identified by any of these methods will be removed in
+v.4.0.2. 
+  * Loci identified by any of these methods will be removed in
 order to continue with an exclusively neutral set of loci to examine
-genetic structure through analysis of principal components (PCA) and
+genetic structure. 
+* Analysis of principal components (PCA) and
 discriminant analysis of principal components (DAPC) using the adegenet
-package. These two free-model methods do not make any underlying
-biological assumptions to find genetic clusters. Additionally, genetic
+package. 
+  * These two free-model methods do not make any underlying
+biological assumptions to find genetic clusters. 
+  * Additionally, genetic
 structure will be explored through the estimation of the pairwise Fst
 with the package hierfstat and a Mantel test will be applied to look for
 evidence of isolation-by-distance as an indirect measure of potential
