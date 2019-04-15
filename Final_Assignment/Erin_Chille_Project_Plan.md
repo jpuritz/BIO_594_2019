@@ -42,7 +42,7 @@ Table 1. Samples, Origin, and Accession Number in NCBI. Adapted from Table 1, Ki
 #### Analysis Plan
 1. Download genomic data from NCBI using SRA-toolkit
 2. Demultiplex, quality filter and align reads to reference *A. cervicornis* genome using dDocent
-3. Call and filter SNPs using dDocent
+3. Call and filter SNPs using dDocent (**CODE MAY NEED TO BE ALTERED**)
 4. Scan VCF will be scanned for neutral loci and loci under selection using BayeScan v.2.1 and pcadapt
 5. Examine genomic structure using PCA analysis and pairwise Fst on neutral loci
 6. Evaluate summary statistics in neutral loci including observed heterozygosity, expected heterozygosity, overall FST, and FIS uring the basic.stats function in the R package hierfstat
