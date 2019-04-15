@@ -48,7 +48,7 @@ Information regarding evaluating the data integrity of the received demultiplexe
 This step includes quantifying read counts and quality. Poor quality or too low of read counts will be excluded to improve overall data quality.
 
 ### Bioinformatic Processing
-This step includes read trimming, adapter removal, reference assembly, read mapping, and read counts. Adapters need to be removed since they are not part of the organism's DNA sequence. The annotated genome for *P. generosa* has been published (and can be found here: [Geoduck Genome](https://robertslab.github.io/sams-notebook/2019/01/15/Annotation-Geoduck-Genome-with-MAKER-Submitted-to-Mox.html)) and will be used as a reference. 
+This step includes read trimming, adapter removal, reference assembly, read mapping, and read counts. Adapters need to be removed since they are not part of the organism's DNA sequence. The annotated genome for *P. generosa* has been published (and can be found here: [Geoduck Genome](https://robertslab.github.io/sams-notebook/2019/01/15/Annotation-Geoduck-Genome-with-MAKER-Submitted-to-Mox.html)) and will be used as a reference. All analysis will be done with a version of the `dDocent` pipeline.
 
 ### Population-level Analyses
 This step includes 3 different analyses of the differential methylation across individuals placed in two different treatments. Final figures and tables will be produced in this section.  
