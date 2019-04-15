@@ -20,3 +20,5 @@ Here, I will use the whole-genome sequences from 25 different human populations.
 - SNPs will be called & filtered with appropriate criteria.
 - Final VCF files will be used to demonstrate population structure among human populations.
 
+
+
