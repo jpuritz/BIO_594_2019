@@ -76,10 +76,32 @@ contrib <- loadingplot(dapc1$var.contr, axis=1, thres=.05, lab.jitter=1)
 BayeScan2.1_linux64bits SNP.dp3 -nbp 30 -thin 20
 Using 80 threads (80 cpu detected on this machine)
 
+Visualizing BayeScan in R
+source("plot_R.r")
+plot_bayescan("SNP.DP3g98maf01_85INDoutFILBayenv.txt")
+plot_bayescan("SNP.DP3g98maf01_85INDoutFILBayenv.txt", FDR=0.1)
+
 ## BayEnv
-
+bayenv2 -i SNP.DP3g98maf01_85INDoutFILBayenv.txt -p 4 -k 100000 -r 63479 > matrix.out
+calc_bf.sh SNP.DP3g98maf01_85INDoutFILBayenv.txt matrix 16 10000 2
+(To run program in background)
+^Z
+bg
+disown -a
 ## PCA
+library(pcadapt)
+filename <- read.pcadapt("SNP.DP3g98maf01_85INDoutFIL.NO2a.HWE.FIL.recode.vcf", type = "vcf" )
 
+#Create first PCA
+x <- pcadapt(input = filename, K = 20)
+
+#Plot the likelihoods
+plot(x, option = "screeplot")
+#Plot Plot the likelihoods for only first 10 K
+plot(x, option = "screeplot", K = 10)
+
+#Create population designations
+poplist.names <- c(rep("POPA", 20),rep("POPB", 20),rep("POPC", 20), rep("POPD",20))
 ## DAPC
 
 ## 2 Silliman
