@@ -1,0 +1,82 @@
+---
+title: "Week11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(grid)
+library(plyr)
+library(dplyr)
+library(scales)
+library(zoo)
+```
+
+```{r}
+cbPalette <- c("#D55E00", "#009E73", "#56B4E9" ,"#0072B2" ,"#E69F00" ,"#F0E442" ,"#999999" ,"#CC79A7","#7570B3")
+DepC <- read.table("TotalCov.txt", header = TRUE)
+DepR <- read.table("TotalRNACov.txt", header = TRUE)
+```
+
+```{r}
+DepC <- as.data.frame(DepC)
+DepC$Sample <- factor(DepC$Sample,levels=c("EC_2","EC_4","EC_7"))
+DepR <- as.data.frame(DepR)
+DepR$Sample <- factor(DepR$Sample,levels=c("RNA_1","RNA_2","RNA_3","RNA_4"))
+```
+
+```{r}
+exons <- read.table("exon.list", header = TRUE, sep = "\t")
+exons <- as.data.frame(exons)
+ 
+genes <- read.table("genes.list", header = TRUE, sep = "\t")
+genes <- as.data.frame(genes)
+ 
+cds <- read.table("CDS.list", header = TRUE, sep = "\t")
+cds <- as.data.frame(cds)
+```
+
+```{r}
+subDepC <-subset(DepC, bp <32755000 & bp > 32739000)
+subDepR <-subset(DepR, bp <32755000 & bp > 32739000)
+subexons <-subset(exons, End <32755205 & End > 32740205)
+subgenes <-subset(genes, End <32800757 & Start < 32754201)
+subcds <-subset(cds, End <32800757 & Start < 32755000)
+subDepR$Depth <- subDepR$Depth / -1
+submean.cov <- ddply(subDepC, .(Contig,bp), summarize,  Depth=mean(Depth))
+submeanR.cov <- ddply(subDepR, .(Contig,bp), summarize,  Depth=mean(Depth))
+subgenes$End[4] <- 32755000
+```
+
+```{r}
+redcol <-"#940000"
+cbPalettedd <- c( "#009E73","#D55E00", "#E69F00")
+```
+
+```{r}
+dd <- ggplot(subDepC, aes(x= bp, y=Depth)) +
+  geom_area(aes(group=Sample),position = "identity",color=alpha("grey30",0.25),fill=cbPalette[4], alpha=0.1, linetype="dotted")+  
+  geom_line(data=submean.cov,aes(y=rollmean(Depth, 100, na.pad=TRUE)),colour=cbPalette[4], size =1.0, alpha=0.9)  +
+  geom_line(data=submeanR.cov,aes(y=rollmean(Depth, 100, na.pad=TRUE)),colour=redcol, size =1.0, alpha=0.9)  +
+  geom_area(data=subDepR, aes(group=Sample),position = "identity",color=alpha("grey30",0.25),fill=redcol, alpha=0.1, linetype="dotted")+
+  scale_color_manual(values=cbPalettedd) +
+  geom_segment(data=subgenes, aes(x = Start, y = 715, xend = End, yend = 715), size = 6,color=cbPalette[9], alpha=1)+
+  geom_segment(data=subexons,aes(x = Start, y = 715, xend = End, yend = 715, color=Treatment),size = 4, alpha=1) +
+  geom_segment(data=subcds,aes(x = Start, y = 715, xend = End, yend = 715),size = 1, color="grey90", alpha=1) +
+  theme_bw()+
+  coord_cartesian(xlim = c(32740000,32755000))+
+  xlim(32740000,32755000) +
+  scale_y_continuous(limits=c(-415,735),labels=c("250","0","500"), breaks=c(-250,0,500),expand=c(0.01,0)) +
+  guides(color=guide_legend("Exons")) +
+  theme(legend.position = c(0.75, 0.15))
+
+png(filename="EecSeq_Figure.png", type="cairo",units="px", width=5600, 
+    height=3000, res=600, bg="transparent")
+dd
+dev.off()
+```
+
