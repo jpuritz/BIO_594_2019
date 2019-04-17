@@ -1,0 +1,501 @@
+---
+title: "WGS-Week11"
+author: "Maggie"
+date: "4/16/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+getwd()
+```
+
+## PCA/MDS for real data
+
+Get the IBS and covariance matrix from the NGS data.  You can do bash from R?!
+
+```{bash}
+angsd -bam all.files -minMapQ 30 -minQ 20 -GL 2 -out all -doMajorMinor 1 -doMaf 1 -SNP_pval 2e-6 -minInd 25  -doIBS 1 -doCounts 1 -doCov 1 -makeMatrix 1 -minMaf 0.05 -P 5
+```
+The answer is yes.
+
+## Multidimensional scaling (MDS)
+
+Lets try to look at our estimate IBS matrix that was created from the first angsd command. (isolation by distance)
+
+
+```{r}
+#read in the names of each individual
+s<-strsplit(basename(scan("all.files",what="theHeck")),"\\.") #is this a joke
+pop<-as.factor(sapply(s,function(x)x[5]))
+#name of the ibsMatrix file
+name <- "all.ibsMat"
+m <- as.matrix(read.table(name))
+#do the MDS analysis on the IBS matrix
+mds <- cmdscale(as.dist(m))
+```
+I still do not fully understand MDS, but that is ok for now. 
+
+Plot MDS
+```{r}
+#plot the results colored by population
+plot(mds,lwd=2,ylab="Dist",xlab="Dist",main="multidimensional scaling",col=pop)
+legend("center",levels(pop),fill=1:3)
+```
+Well, here there are three distinct groups. At least iwth no oeverlap.
+
+ - Based on the plot which two populations are closest and this population is most distant?
+ 
+ Ok I would say CEU and JPT are closer, but I don't know the relative contribution of the x distance factor compared to the y distance factor. 
+ 
+ - Does it make sense that the YRI population form the most distant cluster?
+ 
+ Yes, that is the conclusion I came to. Also it seems to be the more closely clustered of the groups if that means anything. 
+ 
+## Principal component analysis (PCA)
+
+Similarly to the MDS analysis above, now try to do a PCA analysis based on the covarience matrix:
+
+```{r}
+s<-strsplit(basename(scan("all.files",what="theHeck")),"\\.")
+pop<-sapply(s,function(x)x[5])
+name <- "all.covMat"
+m <- as.matrix(read.table(name))
+#get the eigen vectors
+e <- eigen(m)
+```
+Plot PCA
+```{r}
+#plot the two first eigen vectors
+plot(e$vectors[,1:2],lwd=2,ylab="PC 2",xlab="PC 2",main="Principal components",col=as.factor(pop),pch=16);legend("top",fill=1:3,levels(as.factor(pop)))
+```
+This is very similar to the plot above. Although these can't be both PC 2 right? This must be a mess up on the labeling. But I won't change it because I'm not sure which one is 1 or 2. 
+
+
+# fastNGSadmix for PCA
+
+We will use this  reference panel:
+
+|Code| Population of Origin|
+|---|-----|
+|French     | French individuals |
+|Han        | Chinese individuals |
+|Chukchi    | Siberian individuals |
+|Karitiana  | Native American individuals |
+|Papuan     | individuals from Papua New Guinea, Melanesia |
+|Sindhi     | individuals from India |
+|YRI        | Yoruba individuals from Nigeria |
+
+(this is supposed to make a table in markdown, doesn't super work here)
+
+
+And we will also use the same individual as last time namely the two karitiana individuals sample2 and sample3.
+
+First rerun fastNGSadmix to get the admixture proportions, which we will use as admixture aware priors in the PCA analysis
+
+```{bash}
+inputpath=/home/BIO594/Exercises/Week_11/admix_data/
+fastNGSadmixPCA=/home/BIO594/Exercises/Week_11/fastNGSadmixPCA.R
+refGeno=/home/BIO594/Exercises/Week_11/admix_data/ref_panel/humanOrigins_7worldPops
+# Analyse sample2
+fastNGSadmix -likes ${inputpath}/sample2.beagle.gz -fname ${inputpath}/refPanel.txt -Nname ${inputpath}/nInd.txt -outfiles sample2 -whichPops all
+# Analyse sample3
+fastNGSadmix -likes ${inputpath}/sample3.beagle.gz -fname ${inputpath}/refPanel.txt -Nname ${inputpath}/nInd.txt -outfiles sample3 -whichPops all
+```
+Both qopt files should indicate that the sample is 100% Karitiana. We will add our sample to the  genotypes of our reference panel can perform PCA using the genotype likelihoods and admixture aware priors for the NGS sample
+
+
+First lets look a sample 2.
+ - How many sites did that sample have?
+ 
+ 20903, also the number of sites without missing data 
+ 
+Now some code run in the terminal, it works if you don't have the quotes
+
+
+inputpath=/home/BIO594/Exercises/Week_11/admix_data/
+fastNGSadmixPCA=/home/BIO594/Exercises/Week_11/fastNGSadmixPCA.R
+refGeno=/home/BIO594/Exercises/Week_11/admix_data/ref_panel/humanOrigins_7worldPops
+Rscript $fastNGSadmixPCA -likes ${inputpath}/sample2.beagle.gz -qopt sample2.qopt -ref $refGeno -out sample2
+## -likes: is the genotype likelihoods of the NGS sample
+## -qopt: the estimate admixture proportions we will use as prior
+## -geno: genotypes of the reference panel
+## -out: output name (prefix)
+
+
+ - what information does the program spit out?
+ 
+ "Input individual ('SAMPLE') is plotted at in PCA plot:"
+[1] "-0.0793871603054394 0.134119522695567"
+
+Those numbers mean nothing to me
+
+In R code
+```{r, out.width="0.3\\linewidth", include=TRUE, fig.align="center", fig.cap=c("Sample 2"), echo=FALSE}
+knitr::include_graphics("./sample2_PCAplot.pdf")
+```
+Wow the PCA plot has super tightly clustered groups!
+
+
+Ok more in terminal code
+
+
+inputpath=/home/BIO594/Exercises/Week_11/admix_data/
+fastNGSadmixPCA=/home/BIO594/Exercises/Week_11/fastNGSadmixPCA.R
+refGeno=/home/BIO594/Exercises/Week_11/admix_data/ref_panel/humanOrigins_7worldPops
+zcat ${inputpath}/sample2.beagle.gz | sed 's/\(^.*\t.*\t.*\)\t.*\t.*\t.*$/\1\t0.33\t0.33\t0.33/g' | gzip -c > noInfo.beagle.gz
+
+
+Try to view the new beagle file using for example:
+
+zcat noInfo.beagle.gz | head
+
+Output: 
+marker	allele1	allele2	0.33	0.33	0.33
+1_1211292	1	3	0.33	0.33	0.33
+1_1759026	3	1	0.33	0.33	0.33
+1_3120632	0	1	0.33	0.33	0.33
+1_3137199	3	1	0.33	0.33	0.33
+1_3228363	3	2	0.33	0.33	0.33
+1_3587505	1	3	0.33	0.33	0.33
+1_3696536	2	0	0.33	0.33	0.33
+1_3717404	0	2	0.33	0.33	0.33
+1_3742560	0	2	0.33	0.33	0.33
+
+A beagle file is "phasing genotypes and for imputing ungenotyped markers" I think genotype phasing is just calling genotypes, but this has always confused me greately. 
+
+
+Now let's estimate the PCA based on the uninformative beagle file. This will show you where the prior will be placed in the PCA.
+
+More in terminal code
+
+inputpath=/home/BIO594/Exercises/Week_11/admix_data/
+fastNGSadmixPCA=/home/BIO594/Exercises/Week_11/fastNGSadmixPCA.R
+refGeno=/home/BIO594/Exercises/Week_11/admix_data/ref_panel/humanOrigins_7worldPops
+Rscript $fastNGSadmixPCA -likes noInfo.beagle.gz -qopt sample2.qopt -ref $refGeno -out noInfo
+
+
+```{r, out.width="0.3\\linewidth", include=TRUE, fig.align="center", fig.cap=c("your caption"), echo=FALSE}
+knitr::include_graphics("./noInfo_PCAplot.pdf")
+```
+This produced the same plot for me
+
+
+The non-informative prior was set to 0.33 for each genotype. Try to modify the above script and change the value 0.33 to something else. Then perform the PCA one more time
+
+ - Does the PCA change?
+ - Why is the value not important?
+ 
+I will try .75, .05 and .1, although those questions lead me to think it will change nothing
+
+In terminal code:
+inputpath=/home/BIO594/Exercises/Week_11/admix_data/
+fastNGSadmixPCA=/home/BIO594/Exercises/Week_11/fastNGSadmixPCA.R
+refGeno=/home/BIO594/Exercises/Week_11/admix_data/ref_panel/humanOrigins_7worldPops
+zcat ${inputpath}/sample2.beagle.gz | sed 's/\(^.*\t.*\t.*\)\t.*\t.*\t.*$/\1\t0.75\t0.05\t0.1/g' | gzip -c > noInfo.beagle.gz
+
+```{r, out.width="0.3\\linewidth", include=TRUE, fig.align="center", fig.cap=c("your caption"), echo=FALSE}
+knitr::include_graphics("./noInfo_PCAplot.pdf")
+```
+Yes this is again the same. Not the PCA does not change. I am not sure, if it is a "non-informative prior" then 0.33 is the correct setting. But if they aren't equal to eachother then it's no longer the non-informative prior. I feel like this would change it? Unless the signal for clustering is so strong no prior probablity would do anything to it. If it is not important why is it there? 
+
+When we use a prior we want to make sure that it does not dominate the results. We want our NGS data to add information. Lets look at the sample with ultra low depth called sample3.
+- How many informative site with reads did this sample have?
+
+91
+
+The sample only has a single read at each informative sites out of a posible 442769 sites in the reference panel.
+
+ - What is the average depth of the sample?
+
+I don't know how to find that out but my guess would be pretty low. This info is not in the .qopt file
+
+#PCA for sample 3 low depth
+
+terminal code:
+inputpath=/home/BIO594/Exercises/Week_11/admix_data/
+fastNGSadmixPCA=/home/BIO594/Exercises/Week_11/fastNGSadmixPCA.R
+refGeno=/home/BIO594/Exercises/Week_11/admix_data/ref_panel/humanOrigins_7worldPops
+Rscript $fastNGSadmixPCA -likes ${inputpath}/sample3.beagle.gz -qopt sample3.qopt  -ref $refGeno -out sample3
+
+```{r, out.width="0.3\\linewidth", include=TRUE, fig.align="center", fig.cap=c("your caption"), echo=FALSE}
+knitr::include_graphics("./sample3_PCAplot.pdf")
+```
+
+Ok here the clusters are kind of decaying towards the middle of the plot
+
+- Does this sample fall just as nicely as the other Karitiana sample?
+
+No, it is way off on PC1 and 2 now compared to the other Karitiana samples. 
+
+ - Does is fall in the same place as the prior?
+
+No it isn't in the same place as the previous plots if that's what prior means here, if you look at the scales of the axises, the values of where the X is are different. 
+
+# admixture aware priors without estimated admixture proportions
+
+Let's try to perform PCA analysis on the large 1000 genotype genotype likelihoods that you performed admixture analysis.
+First let set the path to program and the input file
+
+```{bash}
+conda install -y numpy scipy pandas numba
+pip install sklearn
+## PCAngsd
+PCAngsd=/usr/local/bin/pcangsd.py
+## beagle genotype likelihood file
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+## copy population information file to current folder
+cp /home/BIO594/Exercises/Week_11/admix_data/pop.info .
+```
+I wonder why some things that are bash work in R and some do not?
+
+
+
+```{bash}
+PCAngsd=/usr/local/bin/pcangsd.py
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+/usr/bin/python $PCAngsd -beagle $GL1000Genomes -o input -n 100
+```
+- What were the populations included? And how many sites?
+
+I am not sure how many populations, is it 7 because of the plots we made earlier? Number of sites after filtering: 49501
+
+The program estimates the covariance matrix that can then be used for PCA. look at the output from the program
+
+ - How many significant PCA (see MAP test in output)?
+ 
+Only 2 significant PCs retained 
+
+Plot the results in R 
+
+```{r}
+pop<-read.table("pop.info")
+C <- as.matrix(read.table("input.cov"))
+ e <- eigen(C)
+plot(e$vectors[,1:2],col=pop[,1],xlab="PC1",ylab="PC2")
+legend("top",fill=1:5,levels(pop[,1]))
+```
+
+ - In the PCA plot can you identify the Mexicans with only European ancestry?
+ 
+ I am guessing this is the obsucred blue cicrles inside the red. Where is this data from exactly??
+ 
+ - What about the African American with East Asian ancestry?
+ 
+ There are no other overlaps, but ASW does get close to YRI
+ 
+ - Based on the PCA would you have the same conclusion as the admixture proportions?
+
+ I am wondering here where the admixture proportions are...
+
+
+
+Try the same analysis but without estimating individual allele frequencies. This is the same as using the first iteration of the algorithm
+
+```{bash}
+PCAngsd=/usr/local/bin/pcangsd.py
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+/usr/bin/python $PCAngsd -beagle $GL1000Genomes -o input2 -iter 0 -n 100
+```
+
+
+Plot the results in R
+```{r}
+pop<-read.table("pop.info")
+C <- as.matrix(read.table("input2.cov"))
+ e <- eigen(C)
+plot(e$vectors[,1:2],col=pop[,1],xlab="PC1",ylab="PC2",main="joint allele frequency")
+legend("top",fill=1:5,levels(pop[,1]))
+```
+
+
+ - Do you see any difference?
+ 
+ Ok yes, I am seeing the spreading out of the clusters and I am remembering what we talked about in class about using estimates of allele frequencies. 
+ 
+ - Would any of your conclusions change? (compared to the previous PCA plot)
+
+I would say there is a lot more shared ancestry or admixture because of the increased overlap. This definetly would change conclusions. 
+
+
+
+Let try to use the PCA to infer admixture proportions based on the first 2 principal components. For the optimization we will use a small penalty on the admixture proportions (alpha).
+
+```{bash}
+PCAngsd=/usr/local/bin/pcangsd.py
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+/usr/bin/python $PCAngsd -beagle $GL1000Genomes -o input -n 100 -admix -admix_alpha 50
+```
+
+Plot the results in R
+```{r}
+pop<-read.table("pop.info",as.is=T)
+q<-read.table("input.K3.a50.0.qopt")
+## order according to population
+ord<-order(pop[,1])
+barplot(t(q)[,ord],col=2:10,space=0,border=NA,xlab="Individuals",ylab="Admixture proportions")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+    
+```
+ - how does this compare to the NGSadmix analysis?
+  
+  I find this harder to interpret than the PCAs becuase there are only 4 colors but 5 populations. Obviously that is important, but the identity of MXL is getting lost in my mind. I see it has a lot of green like CEU, which is concordent with the PCA overlap. But I did not see any of the admixture of CHB in MXL with the PCA analysis so maybe that was a limiting factor of that method. However YRI and ASW coming up with overlap is similar with the PCA.  
+ 
+## Inbreeding in the admixed individuals
+
+Inbreeding in admixed samples is usually not possible to estimate using standard approaches. 
+Let's try to estimate the inbreeding coefficient of the samples using the average allele frequency (this seems standard to me?)
+
+```{bash}
+PCAngsd=/usr/local/bin/pcangsd.py
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+/usr/bin/python $PCAngsd -beagle $GL1000Genomes -o IB0 -inbreed 2 -n 100 -iter 0
+```
+
+join names and results, sort the values and look at the results
+```{bash}
+paste pop.info IB0.inbreed | LC_ALL=C sort -k3g
+``` 
+The third column is an estimate of the inbreeding coefficient (allowing for negative)
+
+ - Does any of the individuals look more inbreed than an offspring of a pair of first cousins  ?
+ 
+ Inbreeding coefficent of first cousins is F =1/16 or 0.0625 so yes, a lot of them have higher than that.
+ 
+ - how do you interpret negative values?
+ 
+ "In cases where there is an excess of observed heterozygotes, then the inbreeding coefficient can be negative." That would be 
+ 
+ - The results will be affected by population structure - Why?
+ 
+ Well some of the individuals could have come from a population that was just more inbred and that would effect all individuals from the population?
+ 
+ - see any pattern of which individuals have low (negative) and high inbreeding coefficients? - can you explain the pattern?
+ 
+ The CHB and YRI are the highest for inbreeding, and they show the least admixture in the plot above, and that makes sense if they did not have geneflow into their population they would be only mating within the population and increasing inbreeding. 
+
+
+
+Now let's try to estimate the inbreeding coefficient of the samples by using the individual allele frequencies predicted by the PCA
+
+```{bash}
+PCAngsd=/usr/local/bin/pcangsd.py
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+/usr/bin/python $PCAngsd -beagle $GL1000Genomes -o IB -inbreed 2 -n 100 
+```
+
+
+join names and results, sort the values and look at the results
+```{bash}
+paste pop.info IB.inbreed | LC_ALL=C sort -k3g
+``` 
+
+ - Does any of the individual look inbreed?
+
+If we consider the first cousin number as a cut off then no, this is with the better estimates of allele frequencies. I am pretty sure inbreeding coefficents are determined by some measure of homozygosity, so it would be really easy to call a lot of homozygous genotypes with low coverage sequences. 
+
+
+# PCangsd and selection
+
+For very resent selection we can look within closely related individuals for example with in Europeans
+
+```{bash}
+## copy positions and sample information 
+cp /home/BIO594/Exercises/Week_11/eu1000g.sample.Info .
+#set pa
+EU1000=/home/BIO594/Exercises/Week_11/eu1000g.small.beagle.gz
+wc eu1000g.sample.Info
+N=424 #one line for header
+```
+
+
+Run PCangsd with to estimate the covariance matrix while jointly estimating the individuals allele frequencies
+
+
+```{bash}
+PCAngsd=/usr/local/bin/pcangsd.py
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+EU1000=/home/BIO594/Exercises/Week_11/eu1000g.small.beagle.gz
+N=424 #one line for header
+/usr/bin/python $PCAngsd -beagle $EU1000 -o EUsmall -n $N -threads 20
+```
+
+Plot the results in R
+
+```{r}
+ cov <- as.matrix(read.table("EUsmall.cov"))
+ e<-eigen(cov)
+ ID<-read.table("eu1000g.sample.Info",head=T)
+ plot(e$vectors[,1:2],col=ID$POP)
+ 
+ legend("topleft",fill=1:4,levels(ID$POP))
+```
+
+
+- Does the plot look like you expected?
+
+Well, I didn't really have an expectation because I had no information on the within-Europe distribution of populations. I do know that looking at PCAs of alleles under selection versus neutral alleles the structure and PCAs are usually very different. 
+
+
+
+Since the European individuals in 1000G are not simple homogeneous disjoint populations it is hard to use IBS/FST or similar statistics to infer selection based on populating differences. However, PCA offers a good description of the differences between individuals which out having the define disjoint groups.
+
+Now let try to use the PC to infer selection along the genome based on the PCA
+
+```{bash}
+PCAngsd=/usr/local/bin/pcangsd.py
+GL1000Genomes=/home/BIO594/Exercises/Week_11/admix_data/input.gz
+EU1000=/home/BIO594/Exercises/Week_11/eu1000g.small.beagle.gz
+N=424 #one line for header
+/usr/bin/python $PCAngsd -beagle $EU1000 -o EUsmall -n $N -selection 1 -sites_save -threads 20
+```
+
+plot the results
+
+```{r}
+## function for QQplot
+qqchi<-function(x,...){
+lambda<-round(median(x)/qchisq(0.5,1),2)
+  qqplot(qchisq((1:length(x)-0.5)/(length(x)),1),x,ylab="Observed",xlab="Expected",...);abline(0,1,col=2,lwd=2)
+legend("topleft",paste("lambda=",lambda))
+}
+### read in seleciton statistics (chi2 distributed)
+s<-scan("EUsmall.selection.gz")
+## make QQ plot to QC the test statistics
+qqchi(s)
+```
+
+```{r}
+# convert test statistic to p-value
+pval<-1-pchisq(s,1)
+## read positions (hg38)
+p<-read.table("EUsmall.sites",colC=c("factor","integer"),sep="_")
+names(p)<-c("chr","pos")
+## make manhatten plot
+plot(-log10(pval),col=p$chr,xlab="Chromosomes",main="Manhatten plot")
+```
+
+```{r}
+## zoom into region 
+ w<-range(which(pval<1e-7)) + c(-100,100)
+ keep<-w[1]:w[2]
+ plot(p$pos[keep],-log10(pval[keep]),col=p$chr[keep],xlab="HG38 Position chr2")
+## see the position of the most significant SNP 
+ p$pos[which.max(s)]
+```
+
+see if you can make sense of the top hit based on the genome.
+- Look in [UCSC browser](http://genome.ucsc.edu/cgi-bin/hgGateway)
+- Choose human GRCh38/hg38
+- search for the position of the top hit and identify the genes at that loci
+
+
+Searching for position 135851076
+
+I don't think there is a gene at this loci, it looks like it is in the middle of a LINE transposable element, or an intronic varient. Although it is shown to be an area of a lot of SNPs http://genome.ucsc.edu/cgi-bin/hgc?hgsid=721428791_NalRsp3Vp8IuPeMaJgfO9SbvKAWs&c=chr2&l=135850999&r=135852000&o=135851075&t=135851076&g=snp151Common&i=rs4988235 Still unsure if it is associated with a gene. 
+
+

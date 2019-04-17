@@ -1,0 +1,175 @@
+---
+title: "PCA and MDS for NGS"
+author: "Maggie"
+date: "4/10/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+getwd()
+```
+
+Exercise created by [Anders Albrechtsen](http://www.popgen.dk/groupWiki/index.php/Anders_Albrechtsen)
+
+Input genotype in R. 0, 1, and 2 must code for the 3 possible genotypes
+```{r}
+G <-matrix(c(1,0,2,0,2,0,2,1,1,1,0,1,0,2,1,2,1,1,1,1,1,0,1,0,2,0,1,1,0,2,1,2,0,1,0),5,by=T)
+nInd <- nrow(G)
+print(G)
+```
+Q: Identify the rows and the columns. Does each row contain the genotypes of a site or an individual? And what about each column?
+
+A: nInd was given the assignment with rows, so probably the 5 rows are individuals. And then the columns are sites. So the inside is the geneotype of the individual per site.
+
+
+Let's try to do MDS. First let's calculate the distance. The simple distance measure as seen in the slides is called a Manhatten distance.
+
+MDS: Multidementional Scaling. From Wikipedia: "Multidimensional scaling (MDS) is a means of visualizing the level of similarity of individual cases of a dataset. MDS is used to translate "information about the pairwise 'distances' among a set of n objects or individuals" into a configuration of n points mapped into an abstract Cartesian space.
+More technically, MDS refers to a set of related ordination techniques used in information visualization, in particular to display the information contained in a distance matrix. It is a form of non-linear dimensionality reduction.
+Given a distance matrix with the distances between each pair of objects in a set, and a chosen number of dimensions, N, an MDS algorithm places each object into N-dimensional space such that the between-object distances are preserved as well as possible. If N is one or two, then 2D scatter plots of the resulting points are possible"
+
+Calculate distance
+
+```{r}
+#apply distance function to the matrix we just made, G, using the Manhatten distance method
+D<-dist(G,upper=T,diag=T,method="manha")
+D
+```
+Q: How many dimensions are used to represent the distances?
+
+A: Probably 5 dimentions 
+
+Then reduce the dimension to 2 dimensions using MDS and plot the results:
+```{r}
+ k2 <- cmdscale(D,k=2)
+ print(k2)
+
+```
+
+Plot this in 2D space
+```{r}
+ 
+ plot(k2,pch=16,cex=3,col=1:5+1,ylab="distance 2nd dimension",xlab="distance 1st dimension",main="Multiple dimension scaling (MDS)")
+ points(k2,pch=as.character(1:5))
+```
+Q: Can you find a example of where the 2 dimensional representation does not capture the true pairwise distances?
+
+A: I'm not sure how the 2nd Dimention gets here. I can see that the 1st dimention values basically come from the D matrix, where 1 is 11 away from 5 and 3 away from 5, and then 2 is 8 away from 5. So that adds up. But I don't know how the dimensions get generated. 
+
+
+First lets try to perform PCA directy on the normalized genotypes without calculating the covariance matrix
+
+Q: Why do we normalize the genotypes?
+
+A: I am really not sure on this, but I think you have to have them in a sort of "normal distribution" state, just like how for many statistical tests an assumption is that your data is normally distributed around the mean. Lets see I tried looking it up and here is something I found "If there is population stratification or there are batch effects, this pattern of variation over the samples should manifest within, or influence to a greater or lesser degree, the data of many different markers. By contrast, any association with the phenotype in question should manifest only over one or very few markers.
+If one can find a way to remove any pattern(s) resulting from stratification or batch effects and test only the data without these patterns, the influence from the stratification or batch effects should be eliminated or minimized." via http://doc.goldenhelix.com/SVS/latest/svsmanual/principal_component_analysis.html. This makes sense, but I don't really think this is for testing an association with a phenotype... 
+
+
+```{r}
+
+ #first normalize the data so that the mean and variance is the same for each SNP
+  
+ normalize <- function(x){
+    nInd <- nrow(x)
+    avg <- colMeans(x)
+    M <- x - rep(colMeans(x),each=nInd)
+    M <- M/sqrt(2*rep(avg/2*(1-avg/2),each=nInd))
+    M
+ }
+ M <- normalize(G)
+ svd <- svd(M)
+ ## print the decomposition for M=SDV
+ ## u is the eigenvectors
+ ## d is eigen values  
+ print(svd)
+```
+
+```{r}
+##make a diagonal matrix with the eigenvalues 
+SIGMA <- matrix(0,nInd,nInd)
+diag(SIGMA) <- svd$d 
+## using the matrixes from the decomposition we can undo the transformation of our normalized genotypes
+M2 <- svd$u%*%SIGMA%*%t(svd$v)
+print(M)
+print(M2)
+```
+
+ Q: Did the reconstruction of the normalized genotypes work?
+ 
+ A: No not exactly. They might be "close"
+ 
+ Q: Would you be able to reconstruct the unnormalized (raw) genotypes?
+ 
+ A: No I would not know how to do that. 
+
+Now try performing PCA based on the covariance matrix instead:
+
+```{r}
+
+## calculate the covariance matrix
+ C <- M %*% t(M)
+ print(C)
+```
+
+
+```{r}
+## then perform the PCA by singular value decomposition
+ e <- eigen(C)	 
+ ## print first PC
+ print(e$vectors[,1])
+```
+
+```{r}
+ ##plot 2 first PC. for the 5 indiviudals
+ plot(e$vectors[,1:2],pch=16,cex=3,col=1:5+1,ylab="2. PC",xlab="1. PC",main="Principle component analysis (PCA)")
+ points(e$vectors[,1:2],pch=as.character(1:5))
+```
+This is like the backwards inverse of the MDS plot. I don't know why though. 
+
+ Q: Did you get the same results using the covariance matrix as using the normalized genotypes directly?
+ 
+ A: No, this is like a mirror of the normalized genotypes plot
+ 
+ Q: What does negative values in the covariance matrix mean?
+ 
+ A: In a general sense, that would mean that both variables vary in the same negative direction
+ 
+ Q: Compare the two plots (MDS vs. PCA)? 
+
+ A: All I can see is the mirroring of the plots, which doesn't make sense to me. Although I do not really understand what MDS is so, therin lies the problem.  
+
+Unlike MDS, PCA will not remove information so you are actually able to reconstruct your covariance matrix from the principal components
+
+```{r}
+
+##make a diagonal matrix with the eigenvalues 
+SIGMA <- matrix(0,nInd,nInd)
+diag(SIGMA) <- e$value
+## transform the PC back to the original data
+## using matrix multiplication V SIGMA Vt
+out <- e$vectors %*% SIGMA %*% t(e$vectors)
+print(out)
+```
+
+```{r}
+print(C)
+```
+C was the original covarience matrix, so the reconstruction worked.
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
