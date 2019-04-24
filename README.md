@@ -6,3 +6,6 @@ Here you will find all relevant course materials including:
 * [Readings](/Readings)
 * [Syllabus](/Syllabus.md)
 * [Exercises](/Exercises)
+
+
+### Please fill out the course evaluation [here](https://forms.gle/g42N5fW2kzTom1sZ7)!
