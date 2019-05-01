@@ -1,4 +1,4 @@
-## Final Assingment Project Plan
+## Final Assignment Project Plan
 Population Structure and Gene Flow in *Acropora cervicornis*  
 Author: E. Chille  
 
