@@ -22,7 +22,7 @@ Configure SRA-Toolkit
 cd sratoolkit.2.9.6-centos_linux64/bin/
 ./vdb-config -i
 ```
-Download data as fastq file 
+Download data as fastq file  
 *Followed [documentation](https://edwards.sdsu.edu/research/fastq-dump/) from Edwards Lab, San Diego State University.*
 
 ```
@@ -46,7 +46,7 @@ Check Read Counts
 zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 ```
 |Index|SRR Number|Number of Reads |Reads Written Pass 1|Reads Written Pass 2|
-|:---:|:---:|:---:|:---:|:---:|:---:|
+|:-----:|:----------:|:----------:|:----------:|:--------:|
 |1|SRR7235989|11,738,621|11738621|11738621|
 |2|SRR7235990|10,218,844|10218844|10218844|
 |3|SRR7235991|14,623,446|14623446|14623446|
@@ -55,7 +55,7 @@ zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 |6|SRR7235994|13,661,163|13661163|13661163|
 |7|SRR7235996|13,428,706|13428706|13428706|
 |8|SRR7235998|16,010,284|16010284|16010284|
-|9|SRR7235999|17,830,992|||
+|9|SRR7235999|17,830,992||17830992|
 |10|SRR7236021|14,846,260|||
 |11|SRR7236022|14,794,553|||
 |12|SRR7236028|17,339,044|||
