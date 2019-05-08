@@ -11,26 +11,22 @@ conda activate finalproject
 ```
 
 #### Step 2: Download Data Using SRA-Toolkit
-**Download and Unpack SRA-Toolkit**
+Download and Unpack SRA-Toolkit
 ```
 wget "ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz"
 
 tar -xzf sratoolkit.current-centos_linux64.tar.gz
 ```
-**Configure SRA-Toolkit**
+Configure SRA-Toolkit
 ```
 cd sratoolkit.2.9.6-centos_linux64/bin/
 ./vdb-config -i
 ```
-**Download data as fastq file**  
+Download data as fastq file 
 *Followed [documentation](https://edwards.sdsu.edu/research/fastq-dump/) from Edwards Lab, San Diego State University.*
 
 ```
 cat SraAccListp | parallel "./fastq-dump --outdir fastq --gzip --skip-technical  --readids --read-filter pass --dumpbase --split-3 --clip {}"
-
-bg
-
-disown -a
 ```
  - **parallel:** Runs all fastq dumps in parallel
  - **fastq-dump:** Downloads SRA data as a fastq file
@@ -45,7 +41,7 @@ disown -a
 
 #### Step 3: Initial Raw Data Assesment and Characterization
 
-**Check Read Counts**
+Check Read Counts
 ```
 zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 ```
@@ -72,7 +68,7 @@ zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 |19|SRR7236036|16,589,862|||
 |20|SRR7236037|14,925,154|||
 
-**Check Read Quality**
+Check Read Quality
 
 ### Plan for post-download
 #### Step 4: Map to Reference Genome
