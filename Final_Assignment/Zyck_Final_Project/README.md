@@ -51,5 +51,9 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 
 #### _References_
 
+Puritz, J. B., Hollenbeck, C. M., Gold, J. R. dDocent: a RADseq, variant-calling pipeline designed for population genomics of non-model organisms. PeerJ 2:e431
+
+Puritz, J.B., Matz, M. V., Toonen, R. J., Weber, J. N., Bolnick, D. I., Bird, C. E. Comment: Demystifying the RAD fad. Molecular Ecology 23: 5937–5942. doi: 10.1111/mec.12965
+
 Puritz, J. B. and Toonen, R. J. 2011. Coastal Pollution Limits Pelagic Larval Dispersal. Nature
 Communications 2:228.
