@@ -33,8 +33,8 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 * Bioinformatic Processing - completed using dDocent 
    * Trimming adapters and low quality reads (fastp)
    * De Novo Reference Assembly (rainbow)
-   * Read Mapping (FreeBayes)
-   * SNP calling and filtering (VCFtools)
+   * Read Mapping (BWA & SAMtools)
+   * SNP calling and filtering (FreeBayes & VCFtools)
 * Population-level Analyses
    * Outlier Detection Programs
    * Bayscan
