@@ -25,8 +25,13 @@ cd sratoolkit.2.9.6-centos_linux64/bin/
 Followed [documentation](https://edwards.sdsu.edu/research/fastq-dump/) from Edwards Lab, San Diego State University.
 
 ```
-./fastq-dump --outdir fastq --gzip --skip-technical  --readids --read-filter pass --dumpbase --split-3 --clip SRR#
+cat SraAccListp | parallel "./fastq-dump --outdir fastq --gzip --skip-technical  --readids --read-filter pass --dumpbase --split-3 --clip {}"
+
+bg
+
+disown -a
 ```
+ - **parallel:** Runs all fastq dumps in parallel
  - **fastq-dump:** Downloads SRA data as a fastq file
  - **outdir fastq:** Puts output files into fastq directory
  - **gzip:** Compresses output files
@@ -36,29 +41,34 @@ Followed [documentation](https://edwards.sdsu.edu/research/fastq-dump/) from Edw
  - **dumpbase:** Formats sequence using base space.
  - **split-3:** Separates the read into left and right ends. If there is a left end without a matching right end, or a right end without a matching left end, they will be put in a single file.
  - **clip:** Applies left and right clips to remove tags.
- 
-Complete for all 20 files:
 
-1. SRR7235989 Y
-2. SRR7235990 Y
-3. SRR7235991: Read/Written 14623446 spots for SRR7235991
-4. SRR7235992: Read/Written 11529163 spots for SRR7235992
-5. SRR7235993 
-6. SRR7235994
-7. SRR7235996
-8. SRR7235998
-9. SRR7235999
-10. SRR7236021
-11. SRR7236022
-12. SRR7236028
-13. SRR7236029
-14. SRR7236030
-15. SRR7236031
-16. SRR7236032
-17. SRR7236033
-18. SRR7236034
-19. SRR7236036
-20. SRR7236037
+Check if everything downloaded correctly. There was no checksum provided with the data, so we will do this by checking number of reads written to each fastq file.
+```
+zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
+```
+|Index|SRR Number|Number of Reads |Reads Written Pass 1|Reads Written Pass 2|
+|---|---|---|---|---|---|
+|1|SRR7235989|11,738,621|11738621|11738621|
+|2|SRR7235990|10,218,844|10218844|10218844|
+|3|SRR7235991|14,623,446|||
+|4|SRR7235992|11,529,163|||
+|5|SRR7235993|15,710,422|||
+|6|SRR7235994|13,661,163|||
+|7|SRR7235996|13,428,706|||
+|8|SRR7235998|16,010,284|||
+|9|SRR7235999|17,830,992|||
+|10|SRR7236021|14,846,260|||
+|11|SRR7236022|14,794,553|||
+|12|SRR7236028|17,339,044|||
+|13|SRR7236029|17,877,353|||
+|14|SRR7236030|13,739,115|||
+|15|SRR7236031|11,541,826|||
+|16|SRR7236032|12,659,512|||
+|17|SRR7236033|16,820,439|||
+|18|SRR7236034|11,054,898|||
+|19|SRR7236036|16,589,862|||
+|20|SRR7236037|14,925,154|||
+
 
 
 ### Plan for post-download
@@ -67,7 +77,7 @@ Align fastq files to reference genome using BWA. Using [documentation](http://bi
 1. Download and install BWA (May have already done this in class?)
 2. Download reference genome as fasta file
     - [Assembly report](https://www.ncbi.nlm.nih.gov/assembly/GCA_000222465.2#/st)
-    - [Whole Genome Shotgun Sequence](https://www.ncbi.nlm.nih.gov/nuccore/1004128514?report=fasta).
+    - [*A. digitifera* Whole Genome Shotgun Sequence](https://www.ncbi.nlm.nih.gov/nuccore/1004128514?report=fasta).
         - I think this is what I want to wget?
 3. Unzip and concatenate chromosome and contig fasta files
 4. Create Reference Index
@@ -78,7 +88,6 @@ bwa index [-a bwtsw|is] index_prefix reference.fasta
 ```
 3. Align files to reference genome
 4. Generate BAM files
-    
 
 #### Step 5: Quality Filter 
 1. Call SNPs using dDocent
