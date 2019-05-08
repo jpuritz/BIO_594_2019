@@ -8,11 +8,14 @@ mkdir finalproject
 cd finalproject
 conda create -n finalproject
 conda activate finalproject
+mkdir data
 ```
 
 #### Step 2: Download Data Using SRA-Toolkit
 Download and Unpack SRA-Toolkit
 ```
+cd ../../RAID_STORAGE2/echille
+mkdir finalproject
 wget "ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz"
 
 tar -xzf sratoolkit.current-centos_linux64.tar.gz
@@ -38,14 +41,21 @@ cat SraAccListp | parallel "./fastq-dump --outdir fastq --gzip --skip-technical 
  - **dumpbase:** Formats sequence using base space.
  - **split-3:** Separates the read into left and right ends. If there is a left end without a matching right end, or a right end without a matching left end, they will be put in a single file.
  - **clip:** Applies left and right clips to remove tags.
+ 
+ Make symbolic link to echille final project directory
+```
+cd ../../echille/finalproject/data
+ln -s /RAID_STORAGE2/echille/finalproject
+```
 
-#### Step 3: Initial Raw Data Assesment and Characterization
+#### Step 3: Initial Raw Data Assesment and Characterization  
+*No checksum was provided for these samples on NCBI*
 
 Check Read Counts
 ```
 zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 ```
-|Index|SRR Number|Number of Reads |Reads Written Pass 1|Reads Written Pass 2|
+|Index|SRR Number|Expected Number of Reads|Reads Written Pass 1|Reads Written Pass 2|
 |:-----:|:----------:|:----------:|:----------:|:--------:|
 |1|SRR7235989|11,738,621|11738621|11738621|
 |2|SRR7235990|10,218,844|10218844|10218844|
@@ -55,51 +65,31 @@ zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 |6|SRR7235994|13,661,163|13661163|13661163|
 |7|SRR7235996|13,428,706|13428706|13428706|
 |8|SRR7235998|16,010,284|16010284|16010284|
-|9|SRR7235999|17,830,992||17830992|
-|10|SRR7236021|14,846,260|||
-|11|SRR7236022|14,794,553|||
-|12|SRR7236028|17,339,044|||
-|13|SRR7236029|17,877,353|||
-|14|SRR7236030|13,739,115|||
-|15|SRR7236031|11,541,826|||
-|16|SRR7236032|12,659,512|||
-|17|SRR7236033|16,820,439|||
-|18|SRR7236034|11,054,898|||
-|19|SRR7236036|16,589,862|||
-|20|SRR7236037|14,925,154|||
+|9|SRR7235999|17,830,992|17830992|17830992|
+|10|SRR7236021|14,846,260|14846260|14846260|
+|11|SRR7236022|14,794,553|14794553|14794553|
+|12|SRR7236028|17,339,044|17339044|17339044|
+|13|SRR7236029|17,877,353|17877353|17877353|
+|14|SRR7236030|13,739,115|13739115|13739115|
+|15|SRR7236031|11,541,826|11541826|11541826|
+|16|SRR7236032|12,659,512|12659512|12659512|
+|17|SRR7236033|16,820,439|16820439|16820439|
+|18|SRR7236034|11,054,898|11054898|11054898|
+|19|SRR7236036|16,589,862|16589862|16589862|
+|20|SRR7236037|14,925,154|14925154|14925154|
 
-Check Read Quality
 
-### Plan for post-download
-#### Step 4: Map to Reference Genome
-Align fastq files to reference genome using BWA. Using [documentation](http://bioinformatics-core-shared-training.github.io/cruk-bioinf-sschool/Day1/Sequence%20Alignment_July2015_ShamithSamarajiwa.pdf) by Shamith Samarajiwa as guide.
-1. Download and install BWA (May have already done this in class?)
-2. Download reference genome as fasta file
-    - [Assembly report](https://www.ncbi.nlm.nih.gov/assembly/GCA_000222465.2#/st)
-    - [*A. digitifera* Whole Genome Shotgun Sequence](https://www.ncbi.nlm.nih.gov/nuccore/1004128514?report=fasta).
-        - I think this is what I want to wget?
-3. Unzip and concatenate chromosome and contig fasta files
-4. Create Reference Index
+Check Read Quality Using FastQC and MultiQC
 ```
-bwa index [-a bwtsw|is] index_prefix reference.fasta
--p index name (change this to whatever you want)
--a index algorithm (bwtsw for long genomes and is for short genomes)
+mkdir fastqc
+cd fastqc
+conda install -c bioconda fastqc
+fastqc --outdir=/fastqc/ ../*fastq.gz .
+
+pip install multiqc
+conda install -c bioconda multiqc
+multiqc .
+scp -r -P echille @kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/fastqc ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
 ```
-3. Align files to reference genome
-4. Generate BAM files
 
-#### Step 5: Quality Filter 
-1. Call SNPs using dDocent
-2. Filter genotypes with:
-    - Calls below 40% across all individuals
-    - Minor allele frequency less than 0.1%
-    - Minor allele count less than 3
-    - Quality score less than 20 
-3. Filter out reads with a minimum depth coverage of 5 calls
-4. Filter by a population specific call rate of 5%? 
-5. Automate filtering using dDocent_filters
-6. Create a prim file for further filtering
-7. Filter out indels and filter by hwe
-8. Filter by Minor Allele Frequency of 5%
 
-#### Step 6: Outlier Detection
