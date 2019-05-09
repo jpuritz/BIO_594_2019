@@ -1,5 +1,5 @@
 # A Genome Analysis of *Salegentibacter* sp.
-#####This analysis will cover the following:
+This analysis will cover the following:
 1. Data assessment using FastQC
 2. Trimmomatic
 3. *De Novo* assembly using Velvet
