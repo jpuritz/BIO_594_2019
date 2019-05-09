@@ -2,13 +2,17 @@
 Population Structure and Gene Flow in *Acropora cervicornis*  
 Author: E. Chille  
 
-#### Step 1: Create Project Directory and Conda Environment
+#### Step 1: Prepare Project Workspace
+Create project directory
 ```
 mkdir finalproject
 cd finalproject
+mkdir data
+```
+Create conda environment
+```
 conda create -n finalproject
 conda activate finalproject
-mkdir data
 ```
 
 #### Step 2: Download Data Using SRA-Toolkit
@@ -51,7 +55,7 @@ ln -s /RAID_STORAGE2/echille/finalproject
 #### Step 3: Initial Raw Data Assesment and Characterization  
 *No checksum was provided for these samples on NCBI*
 
-Check Read Counts
+##### Check Read Counts
 ```
 zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 ```
@@ -79,17 +83,43 @@ zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 |20|SRR7236037|14,925,154|14925154|14925154|
 
 
-Check Read Quality Using FastQC and MultiQC
+##### Check Read Quality Using FastQC and MultiQC
+Create directory for fastqc files
 ```
 mkdir fastqc
 cd fastqc
+```
+Install and Run FastQC
+```
 conda install -c bioconda fastqc
-fastqc --outdir=/fastqc/ ../*fastq.gz .
-
-pip install multiqc
-conda install -c bioconda multiqc
-multiqc .
-scp -r -P echille @kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/fastqc ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
+fastqc ../*fastq.gz .
 ```
 
+Install and Run MultiQC  
+*MultiQC parses bioinformatic analyses from FastQC and combines them into a single HTML report*
+```
+conda install -c bioconda multiqc
+multiqc .
+```
+Save HTML file on local directory
+```
+scp -r -P xxxx echille@kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/fastqc ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
+```
+###### MultiQC Results:  
+![fastqc_sequence_counts](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_sequence_counts_plot.png)  
+![fastqc_mean_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_base_sequence_quality_plot.png)  
+![fastqc_per_sequence_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_sequence_quality_scores_plot.png)  
+![fastqc_per_sequence_gc_content](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_sequence_gc_content_plot.png)  
+
+
+#### Step 4: Quality Trimming and Adaptor Removal
+
+
+#### Step 5: Read Trimming and Adapter Removal
+
+
+#### Step 6: Map Reads to Reference Genome
+
+
+#### Step 7: Call SNPs
 
