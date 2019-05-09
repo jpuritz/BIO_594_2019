@@ -1692,7 +1692,6 @@ First two are slightly better, but not much improvement was needed to begin with
 GC content is still bad, but hopefully I can identify any individuals from other species with PCA.
 
 
-# *Make sure to activate ddocent_env before continuing
 Back in ```ddocent_env``` directory
 #### Created a new folder called ```RefOpt```
 ```javascript
