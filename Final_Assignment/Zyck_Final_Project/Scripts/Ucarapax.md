@@ -1699,7 +1699,7 @@ mkdir RefOpt
 cd RefOpt
 ```
 
-#### Place a subset of individuals of the total data set in ```RefOpt``` (There is definitely a more efficient way to do this)
+#### Place a subset of individuals of the total data set in ```RefOpt``` 
 ```javascript
 ln -s ../FBN_318.F.fq.gz
 ln -s ../FBN_318.R.fq.gz
