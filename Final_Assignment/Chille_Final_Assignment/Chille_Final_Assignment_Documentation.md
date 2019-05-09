@@ -84,11 +84,7 @@ zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 
 
 ##### Check Read Quality Using FastQC and MultiQC
-Create directory for fastqc files
-```
-mkdir fastqc
-cd fastqc
-```
+
 Install and Run FastQC
 ```
 conda install -c bioconda fastqc
@@ -112,14 +108,58 @@ scp -r -P xxxx echille@kitt.uri.edu:/home/echille/finalproject/data/finalproject
 ![fastqc_per_sequence_gc_content](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_sequence_gc_content_plot.png)  
 
 
-#### Step 4: Quality Trimming and Adaptor Removal
+#### Step 4: Quality Trimming and Adaptor Removal Using Trimmomatic
 
-
-#### Step 5: Read Trimming and Adapter Removal
-
-
-#### Step 6: Map Reads to Reference Genome
+Download Trimmomatic
+```
+curl -L -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+unzip Trimmomatic-0.39.zip
+rm Trimmomatic-0.39.zip
+```
+Link fastq files to Timmomatic directory
+```
+cd Trimmomatic-0.39
+ln -s ../*fastq.gz .
+```
+Run Trimmomatic with loop
+```
+for i in *pass_1.fastq.gz; do
+    rsam=${i%pass*}
+    java -jar trimmomatic-0.39.jar PE -phred33 $i ${rsam}pass_2.fastq.gz ${i}_paired_qtrim.fq.gz ${i}_unpaired_qtrim.fq.gz ${rsam}pass_2_paired_qtrim.fq.gz ${rsam}pass_2_unpaired_qtrim.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:5 TRAILING:3 SLIDINGWINDOW:4:25 MINLEN:50
+    done
+```
+Trimmomatic started with errors:
+```
+TrimmomaticPE: Started with arguments:
+ -phred33 SRR7235989_pass_1.fastq.gz SRR7235989_pass_2.fastq.gz SRR7235989_pass_1.fastq.gz_paired_qtrim.fq.gz SRR7235989_pass_1.fastq.gz_unpaired_qtrim.fq.gz SRR7235989_pass_2_paired_qtrim.fq.gz SRR7235989_pass_2_unpaired_qtrim.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:5 TRAILING:3 SLIDINGWINDOW:4:25 MINLEN:50
+java.io.FileNotFoundException: /RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/TruSeq3-PE.fa (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.usadellab.trimmomatic.fasta.FastaParser.parse(FastaParser.java:54)
+	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.loadSequences(IlluminaClippingTrimmer.java:110)
+	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.makeIlluminaClippingTrimmer(IlluminaClippingTrimmer.java:71)
+	at org.usadellab.trimmomatic.trim.TrimmerFactory.makeTrimmer(TrimmerFactory.java:32)
+	at org.usadellab.trimmomatic.Trimmomatic.createTrimmers(Trimmomatic.java:59)
+	at org.usadellab.trimmomatic.TrimmomaticPE.run(TrimmomaticPE.java:552)
+	at org.usadellab.trimmomatic.Trimmomatic.main(Trimmomatic.java:80)
+```
+#### Step 6: Map Reads to Reference Genome  
+Transfer reference [genome](https://www.ncbi.nlm.nih.gov/nuccore/1004128514?report=fasta) from local directory.
+```
+cd Downloads
+scp -r -P xxxx sequence.fasta echille@kitt.uri.edu:/RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/reference
+```
+Rename sequence.fasta to reference.fasta
+```
+mv sequence.fasta ./reference.fasta
+```
 
 
 #### Step 7: Call SNPs
+Create two-tab de-lineated popmap file for SNP filtering  
+*File available [here]()*
+```
+nano popmap
+```
 
