@@ -7,7 +7,7 @@ This analysis will cover the following:
 5. Genome annotation using Prokka
 <br> <br>
 
-Bash scripts were used for many of the analyses and can be found in the Scripts folder.
+Bash scripts were used for some of the analyses and can be found in the Scripts folder.
 ### 1. FastQc
 FastQc was used to asses the initial quality of the genome sequence.
 The raw data files for this data set are BJ1_S5_L001_R1_001.fastq.gz BJ1_S5_L001_R2_001.fastq.gz.
