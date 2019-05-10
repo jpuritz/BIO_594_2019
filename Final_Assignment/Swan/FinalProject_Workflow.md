@@ -10,7 +10,7 @@
 - A total of 40 selected samples among 8 groups, 5 samples per each group (healthy_asian, healthy_caucasian, HIV, HCV, HBV Immune Tolerant (IT), HBV Immune Active (IA), HBV Inactive Carrier (IC), HBV Negative (ENEG)) </br>
 - Find the data on NCBI according to the sample IDs selected earlier: [SRA sites](https://www.ncbi.nlm.nih.gov/sra?linkname=bioproject_sra_all&from_uid=517165)
 - Obtain Accession file and save it as *SraAccList.txt* </br>
-![Accessions List]()
+![Accessions List](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Swan/1.%20Data_Acquisition/AccessionList.png)
 
 ##### Log onto kitt.uri.edu and prepare working environment
 ```
