@@ -1,0 +1,29 @@
+WARN  01-05 23:15:34,725 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 01-05 23:15:34,773 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 01-05 23:15:34,784 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  01-05 23:19:17,493 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 01-05 23:19:17,503 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 01-05 23:19:17,513 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  01-05 23:20:33,302 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 01-05 23:20:33,313 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 01-05 23:20:33,324 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  01-05 23:22:42,547 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 01-05 23:22:42,557 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 01-05 23:22:42,568 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  02-05 14:03:31,019 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 02-05 14:03:31,172 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 02-05 14:03:31,207 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  02-05 14:10:31,450 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 02-05 14:10:31,459 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 02-05 14:10:31,471 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  02-05 15:06:25,728 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+WARN  02-05 15:06:50,699 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+WARN  07-05 15:37:30,360 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 07-05 15:37:30,527 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 07-05 15:37:30,559 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  07-05 15:37:56,930 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 07-05 15:37:56,946 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 07-05 15:37:56,965 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+WARN  07-05 15:39:26,747 (PGDSpiderConfig.java:loadConfig:75)  -PGDSpider configuration file not found! Loading default configuration.
+DEBUG 07-05 15:39:26,760 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
+DEBUG 07-05 15:39:26,780 (ParserFactory.java:getParserInstance:177)  -New VcfParser instance
