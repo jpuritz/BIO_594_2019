@@ -2,7 +2,7 @@
 Population Structure and Gene Flow in *Acropora cervicornis*  
 Author: E. Chille  
 
-#### Step 1: Prepare Project Workspace
+### Step 1: Prepare Project Workspace
 Create project directory
 ```
 mkdir finalproject
@@ -15,7 +15,7 @@ conda create -n finalproject
 conda activate finalproject
 ```
 
-#### Step 2: Download Data Using SRA-Toolkit
+### Step 2: Download Data Using SRA-Toolkit
 Download and Unpack SRA-Toolkit
 ```
 cd ../../RAID_STORAGE2/echille
@@ -34,6 +34,11 @@ Download data as fastq file
 
 ```
 cat SraAccListp | parallel "./fastq-dump --outdir fastq --gzip --skip-technical  --readids --read-filter pass --dumpbase --split-3 --clip {}"
+
+ # Run in background
+ ^Z
+ BG
+ Disown -a
 ```
  - **parallel:** Runs all fastq dumps in parallel
  - **fastq-dump:** Downloads SRA data as a fastq file
@@ -46,16 +51,16 @@ cat SraAccListp | parallel "./fastq-dump --outdir fastq --gzip --skip-technical 
  - **split-3:** Separates the read into left and right ends. If there is a left end without a matching right end, or a right end without a matching left end, they will be put in a single file.
  - **clip:** Applies left and right clips to remove tags.
  
- Make symbolic link to echille final project directory
+Make symbolic link to echille final project directory
 ```
 cd ../../echille/finalproject/data
 ln -s /RAID_STORAGE2/echille/finalproject
 ```
 
-#### Step 3: Initial Raw Data Assesment and Characterization  
+### Step 3: Initial Raw Data Assesment and Characterization  
 *No checksum was provided for these samples on NCBI*
 
-##### Check Read Counts
+#### Check Read Counts
 ```
 zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 ```
@@ -83,7 +88,7 @@ zcat SRR7235989_pass_1.fastq.gz | echo $((`wc -l`/4))
 |20|SRR7236037|14,925,154|14925154|14925154|
 
 
-##### Check Read Quality Using FastQC and MultiQC
+#### Check Read Quality Using FastQC and MultiQC
 
 Install and Run FastQC
 ```
@@ -101,16 +106,16 @@ Save HTML file on local directory
 ```
 scp -r -P xxxx echille@kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/fastqc ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
 ```
-###### MultiQC Results:  
+##### MultiQC Results:  
 ![fastqc_sequence_counts](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_sequence_counts_plot.png)  
 ![fastqc_mean_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_base_sequence_quality_plot.png)  
 ![fastqc_per_sequence_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_sequence_quality_scores_plot.png)  
 ![fastqc_per_sequence_gc_content](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_sequence_gc_content_plot.png)  
 
 
-#### Step 4: Quality Trimming and Adaptor Removal Using Trimmomatic
+### Step 4: Quality Trimming and Adaptor Removal Using Trimmomatic  
 
-Download Trimmomatic
+Download [Trimmomatic](http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf)
 ```
 curl -L -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
 unzip Trimmomatic-0.39.zip
@@ -143,7 +148,26 @@ java.io.FileNotFoundException: /RAID_STORAGE2/echille/finalproject/sratoolkit.2.
 	at org.usadellab.trimmomatic.Trimmomatic.createTrimmers(Trimmomatic.java:59)
 	at org.usadellab.trimmomatic.TrimmomaticPE.run(TrimmomaticPE.java:552)
 	at org.usadellab.trimmomatic.Trimmomatic.main(Trimmomatic.java:80)
+ ```
+Quality-Check Trimmed Reads
 ```
+mkdir qtrim
+mv *qtrim.fastq.gz ./qtrim/
+cd qtrim
+fastqc *qtrim.fastq.gz .
+multiqc
+```
+Save HTML file on local directory
+```
+scp -r -P xxxx echille@kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
+```
+##### MultiQC Results for Trimmed Files:  
+
+![image](http://mdp.tylingsoft.com/icon.png)
+![image](http://mdp.tylingsoft.com/icon.png)
+![image](http://mdp.tylingsoft.com/icon.png)
+![image](http://mdp.tylingsoft.com/icon.png)
+
 #### Step 6: Map Reads to Reference Genome  
 Transfer reference [genome](https://www.ncbi.nlm.nih.gov/nuccore/1004128514?report=fasta) from local directory.
 ```
@@ -154,12 +178,54 @@ Rename sequence.fasta to reference.fasta
 ```
 mv sequence.fasta ./reference.fasta
 ```
+Make directory for mapping
+```
+mkdir mapping
+cd mapping
+```
+Link trimmed fastq files and reference.fasta file to mapping directory
+```
+ln -s ../data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/reference/reference.fasta .
+ln -s ../data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/*paired_qtrim.fq.gz .
+```
+Set up an index for the reference genome 
+```
+samtools faidx reference.fasta
+bwa index reference.fasta &> index.log
+```
+Create and execute a bash [script](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Chille_Final_Assignment/Scripts/bwa.sh) to run bwa
+```
+nano bwa.sh
+
+#!/bin/bash
+F=/home/echille/finalproject/mapping/
+array1=($(ls *qtrim.fq.gz | sed 's/qtrim.fq.gz//g'))
+
+#bwa index reference.fasta
+echo "done index $(date)"
+
+for i in ${array1[@]}; do
+  bwa mem $F/reference.fasta ${i}.pass_1* ${i}.pass_2* -t 8 -a -M -B 3 -O 5 -R -T 20 -A "@RG\tID:${i}\tSM:${i}\tPL:Illumina" 2> bwa.${i}.log | samtools view -@4 -q 1 -SbT $F/reference.fasta - > ${i}.bam
+  																						    
+        	else
+  echo "done ${i}"
+done
+
+array2=($(ls *.bam | sed 's/.bam//g'))
+
+#now sort the bam files with samtools sort
+for i in ${array2[@]}; do
+  samtools sort -@8 ${i}.bam -o ${i}.bam && samtools index ${i}.bam
+done
+
+bwa.sh
+```
+
 
 
 #### Step 7: Call SNPs
-Create two-tab de-lineated popmap file for SNP filtering  
-*File available [here]()*
-```
-nano popmap
-```
+Create popmap file for SNP filtering  
+*File available [here](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Chille_Final_Assignment/popmap)*
+
+
 
