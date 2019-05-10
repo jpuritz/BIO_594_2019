@@ -271,6 +271,8 @@ wget 'https://ccb.jhu.edu/software/stringtie/dl/prepDE.py'
 python prepDE.py -i C_vir_sample_list.txt
 ```
 
+> Expected output - a csv file named `transcript_count_matrix.csv`
+
 ### Step 5: Differential gene expression analysis in R
 > Perform differential expression of transcripts using DESeq2
 > Refer to Rmd for subsequenct analysis steps
