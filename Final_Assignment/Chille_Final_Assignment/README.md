@@ -11,7 +11,7 @@ The goal of this analysis is to quantify genetic structure and gene flow between
 #### Data description
 The data for this study will be obtained through NCBI BioProject 473816: [Genome-wide survey of Caribbean Acroporids](https://www.ncbi.nlm.nih.gov/bioproject?LinkName=sra_bioproject&from_uid=5628611). Five *A. cervicornis* nubbins were collected from four regions in the Caribbean including Florida, the U.S. Virgin Islands, Belize, and Curacao (Kitchen et al., 2019).
 
-DNA was extracted from each sample using the Qiagen DNeasy kit (Qiagen, Valencia, CA) according to the manufacturer’s protocol. DNA quality was assessed using gel electrophoresis and quantity was assesed with Qubit 2.0 fluorometry (Thermo Fisher, Waltham, MA). Sequence library construction and sequencing was completed by the Pennsylvania State University Genomics Core Facility. Paired-end short insert (350 nt) sequencing libraries were constructed using 100 ng sample DNA and the TruSeq DNA Nano kit (Illumina, San Diego, CA). Libraries were pooled with ten samples of *A. palamata* and sequenced on the Illumina HiSeq 2500 Rapid Run (Illumina, San Diego, CA) over four lanes (Kitchen et al., 2019).
+Genomic DNA was extracted from each coral tissue using the Qiagen DNeasy kit (Qiagen, Valencia, CA) according to the manufacturer’s protocol. DNA quality was assessed using gel electrophoresis and quantity was assesed with Qubit 2.0 fluorometry (Thermo Fisher, Waltham, MA). Whole-genome Sequence library construction and sequencing was completed by the Pennsylvania State University Genomics Core Facility. Paired-end short insert sequencing libraries were constructed using 100 ng sample DNA and the TruSeq DNA Nano kit (Illumina, San Diego, CA). Libraries were pooled with ten samples of *A. palamata* and sequenced on the Illumina HiSeq 2500 Rapid Run (Illumina, San Diego, CA) over four lanes (Kitchen et al., 2019). Reads are 150bp paired-end with an insert size of 350 nt.
 
 ##### Samples, Origin, and Accession Number in NCBI:
 |Index|Sample ID|Region|Reef|Latitude|Longitude|Collection Date|SRA Accession|
@@ -39,14 +39,31 @@ DNA was extracted from each sample using the Qiagen DNeasy kit (Qiagen, Valencia
 
 Table 1. Samples, Origin, and Accession Number in NCBI. Adapted from Table 1, Kitchen et al., 2019.
 
-#### Analysis Plan
+#### Analysis Outline
 1. Download genomic data from NCBI using SRA-toolkit
-2. Demultiplex, quality filter and align reads to reference *A. cervicornis* genome using dDocent
-3. Call and filter SNPs using dDocent (**CODE MAY NEED TO BE ALTERED**)
-4. Scan VCF will be scanned for neutral loci and loci under selection using BayeScan v.2.1 and pcadapt
-5. Examine genomic structure using PCA analysis and pairwise Fst on neutral loci
-6. Evaluate summary statistics in neutral loci including observed heterozygosity, expected heterozygosity, overall FST, and FIS uring the basic.stats function in the R package hierfstat
-7. Use Treemix and Admixture to evaluate population connectivity
+2. Initial raw data assesment and characterization using FastQC and MultiQC
+3. Trim reads using Trimmomatic
+4. Align reads to reference genome ([*A. digitifera*](https://www.ncbi.nlm.nih.gov/nuccore/NW_015441057.1?report=fasta)) using BWA MEM
+5. Call and filter SNPs using dDocent (**CODE MAY NEED TO BE ALTERED**)
+6. Scan VCF for neutral loci and loci under selection using BayeScan v.2.1 and pcadapt
+7. Examine genomic structure using PCA analysis and pairwise Fst on neutral loci
+8. Evaluate summary statistics in neutral loci including observed heterozygosity, expected heterozygosity, overall FST, and FIS uring the basic.stats function in the R package hierfstat
+9. Use Treemix and Admixture to evaluate population connectivity
+
+#### Navigation
+- Chille_Final_Assignment_Documentation.md
+- MultiQC_results
+    - fastqc_adapter_content_plot.png
+    - fastqc_per_base_sequence_quality_plot.png
+    - fastqc_per_sequence_gc_content_plot.png
+    - fastqc_per_sequence_quality_scores_plot.png
+    - fastqc_sequence_counts_plot.png
+    - multiqc_report.html
+- Scripts
+    - bwa.sh
+- Supporting_files
+    - popmap
+    - SraAccListp.txt
 
 #### References
 Ctr. for Biological Diversity v. Nat'l Marine Fisheries Serv., 977 F. Supp. 2d 55, 2013 U.S. Dist. LEXIS 148920, 2013 WL 5615059 (United States District Court for the District of Puerto Rico, October 23, 2013, Filed). Retrieved from <https://advance-lexis-com.uri.idm.oclc.org/api/document?collection=cases&id=urn:contentItem:59KG-JKC1-F04F-50BK-00000-00&context=1516831>.
@@ -55,3 +72,4 @@ Drury, C., Paris, C. B., Kourafalou, V. H., & Lirman, D. (2018). Dispersal capac
 
 
 Kitchen, S. A., Ratan, A., Bedoya-Reina, O. C., Burhans, R., Fogarty, N. D., Miller, W., & Baums, I. B. (2019). Genomic variants among threatened Acropora corals. *G3: Genes, Genomes, Genetics*, g3-400125. <https://doi.org/10.1534/g3.119.400125>
+
