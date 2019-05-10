@@ -1,0 +1,268 @@
+[2019-05-10 07:14:53,150] multiqc                                            [DEBUG  ]  No MultiQC config found: /home/echille/miniconda3/lib/python3.6/site-packages/multiqc_config.yaml
+[2019-05-10 07:14:53,150] multiqc                                            [DEBUG  ]  No MultiQC config found: /home/echille/.multiqc_config.yaml
+[2019-05-10 07:14:53,150] multiqc                                            [DEBUG  ]  No MultiQC config found: multiqc_config.yaml
+[2019-05-10 07:14:53,150] multiqc                                            [DEBUG  ]  Command used: /home/echille/miniconda3/bin/multiqc .
+[2019-05-10 07:14:54,104] multiqc                                            [DEBUG  ]  Latest MultiQC version is v1.7
+[2019-05-10 07:14:54,104] multiqc                                            [INFO   ]  This is MultiQC v1.7
+[2019-05-10 07:14:54,104] multiqc                                            [DEBUG  ]  Command     : /home/echille/miniconda3/bin/multiqc .
+[2019-05-10 07:14:54,104] multiqc                                            [DEBUG  ]  Working dir : /RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim
+[2019-05-10 07:14:54,104] multiqc                                            [INFO   ]  Template    : default
+[2019-05-10 07:14:54,104] multiqc                                            [INFO   ]  Searching '.'
+[2019-05-10 07:14:54,104] multiqc                                            [DEBUG  ]  Analysing modules: custom_content, conpair, peddy, methylQA, phantompeakqualtools, qualimap, preseq, quast, qorts, rna_seqc, rsem, rseqc, busco, goleft_indexcov, disambiguate, supernova, deeptools, sargasso, verifybamid, mirtrace, happy, homer, macs2, theta2, snpeff, gatk, htseq, bcftools, featureCounts, dedup, damageprofiler, picard, prokka, samblaster, samtools, bamtools, jellyfish, vcftools, longranger, stacks, bbmap, bismark, biscuit, hicexplorer, hicup, hicpro, salmon, kallisto, slamdunk, star, hisat2, tophat, bowtie2, bowtie1, kat, leehom, adapterRemoval, clipandmerge, cutadapt, flexbar, trimmomatic, skewer, sortmerna, biobloomtools, fastq_screen, afterqc, fastp, fastqc, minionqc, clusterflow, bcl2fastq, interop, flash
+[2019-05-10 07:14:54,104] multiqc                                            [DEBUG  ]  Using temporary directory for creating report: /tmp/tmplbqyiyjy
+[2019-05-10 07:14:54,367] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,367] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,367] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,367] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,367] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,367] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,368] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,368] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,368] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,368] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,368] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,369] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,369] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,369] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,369] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,369] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,370] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,370] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,370] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,371] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,371] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,371] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,371] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,371] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,371] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,372] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,372] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,372] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,372] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235992_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,373] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,373] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,373] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,374] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,374] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,374] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,374] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,375] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,375] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,375] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,375] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,376] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,376] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,376] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,376] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,376] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,377] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,377] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,377] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,377] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,377] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,377] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,377] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,378] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,378] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,378] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,378] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,378] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,378] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,379] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,379] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,379] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,379] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,380] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,380] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,380] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,380] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,380] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,381] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,381] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,381] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,381] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,381] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,381] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,382] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,383] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,383] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235992_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,383] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,383] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,383] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,383] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,384] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,384] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,384] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,384] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,384] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,385] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,385] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,385] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,385] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,385] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,385] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,385] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,386] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,386] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,386] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,387] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,387] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,387] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,388] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,388] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,388] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,388] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,388] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,388] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,389] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,389] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,389] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,389] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,389] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,389] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,389] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,390] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,390] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,390] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,391] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,391] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,391] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,391] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,391] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236034_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,392] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236022_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,392] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236031_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,392] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,392] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235992_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,392] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235990_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,392] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236037_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,393] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,393] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236036_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,393] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,394] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,394] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,394] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235996_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,394] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,394] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,394] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235992_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,394] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,395] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,395] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236028_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,395] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235991_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,396] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235994_pass_1.fastq.gz_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,396] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236029_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,396] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_2_paired_qtrim_fastqc.html
+[2019-05-10 07:14:54,396] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236033_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,397] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235989_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,397] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235993_pass_1.fastq.gz_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,397] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235999_pass_2_unpaired_qtrim.fq.gz
+[2019-05-10 07:14:54,397] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236030_pass_2_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,397] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7235998_pass_1.fastq.gz_unpaired_qtrim_fastqc.html
+[2019-05-10 07:14:54,397] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236021_pass_2_paired_qtrim.fq.gz
+[2019-05-10 07:14:54,397] multiqc                                            [DEBUG  ]  Ignoring file as matched an ignore pattern: SRR7236032_pass_1.fastq.gz_paired_qtrim.fq.gz
+[2019-05-10 07:14:56,071] multiqc                                            [DEBUG  ]  No samples found: custom_content
+[2019-05-10 07:14:56,092] multiqc                                            [DEBUG  ]  No samples found: conpair
+[2019-05-10 07:14:56,127] multiqc                                            [DEBUG  ]  No samples found: peddy
+[2019-05-10 07:14:56,165] multiqc                                            [DEBUG  ]  No samples found: methylQA
+[2019-05-10 07:14:56,185] multiqc                                            [DEBUG  ]  No samples found: phantompeakqualtools
+[2019-05-10 07:14:56,223] multiqc                                            [DEBUG  ]  No samples found: qualimap
+[2019-05-10 07:14:56,235] multiqc                                            [DEBUG  ]  No samples found: preseq
+[2019-05-10 07:14:56,261] multiqc                                            [DEBUG  ]  No samples found: quast
+[2019-05-10 07:14:56,264] multiqc                                            [DEBUG  ]  No samples found: qorts
+[2019-05-10 07:14:56,268] multiqc                                            [DEBUG  ]  No samples found: rna_seqc
+[2019-05-10 07:14:56,272] multiqc                                            [DEBUG  ]  No samples found: rsem
+[2019-05-10 07:14:56,301] multiqc                                            [DEBUG  ]  No samples found: rseqc
+[2019-05-10 07:14:56,315] multiqc                                            [DEBUG  ]  No samples found: busco
+[2019-05-10 07:14:56,319] multiqc                                            [DEBUG  ]  No samples found: goleft_indexcov
+[2019-05-10 07:14:56,323] multiqc                                            [DEBUG  ]  No samples found: disambiguate
+[2019-05-10 07:14:56,328] multiqc                                            [DEBUG  ]  No samples found: supernova
+[2019-05-10 07:14:56,353] multiqc                                            [DEBUG  ]  No samples found: deeptools
+[2019-05-10 07:14:56,357] multiqc                                            [DEBUG  ]  No samples found: sargasso
+[2019-05-10 07:14:56,372] multiqc                                            [DEBUG  ]  No samples found: verifybamid
+[2019-05-10 07:14:56,417] multiqc                                            [DEBUG  ]  No samples found: mirtrace
+[2019-05-10 07:14:56,441] multiqc                                            [DEBUG  ]  No samples found: happy
+[2019-05-10 07:14:56,472] multiqc                                            [DEBUG  ]  No samples found: homer
+[2019-05-10 07:14:56,476] multiqc                                            [DEBUG  ]  No samples found: macs2
+[2019-05-10 07:14:56,479] multiqc                                            [DEBUG  ]  No samples found: theta2
+[2019-05-10 07:14:56,483] multiqc                                            [DEBUG  ]  No samples found: snpeff
+[2019-05-10 07:14:56,500] multiqc                                            [DEBUG  ]  No samples found: gatk
+[2019-05-10 07:14:56,504] multiqc                                            [DEBUG  ]  No samples found: htseq
+[2019-05-10 07:14:56,528] multiqc                                            [DEBUG  ]  No samples found: bcftools
+[2019-05-10 07:14:56,545] multiqc                                            [DEBUG  ]  No samples found: featureCounts
+[2019-05-10 07:14:56,558] multiqc                                            [DEBUG  ]  No samples found: dedup
+[2019-05-10 07:14:56,572] multiqc                                            [DEBUG  ]  No samples found: damageprofiler
+[2019-05-10 07:14:56,601] multiqc                                            [DEBUG  ]  No samples found: picard
+[2019-05-10 07:14:56,605] multiqc                                            [DEBUG  ]  No samples found: prokka
+[2019-05-10 07:14:56,608] multiqc                                            [DEBUG  ]  No samples found: samblaster
+[2019-05-10 07:14:56,628] multiqc                                            [DEBUG  ]  No samples found: samtools
+[2019-05-10 07:14:56,654] multiqc                                            [DEBUG  ]  No samples found: bamtools
+[2019-05-10 07:14:56,672] multiqc                                            [DEBUG  ]  No samples found: jellyfish
+[2019-05-10 07:14:56,704] multiqc                                            [DEBUG  ]  No samples found: vcftools
+[2019-05-10 07:14:56,718] multiqc                                            [DEBUG  ]  No samples found: longranger
+[2019-05-10 07:14:56,722] multiqc                                            [DEBUG  ]  No samples found: stacks
+[2019-05-10 07:14:56,775] multiqc                                            [DEBUG  ]  No samples found: bbmap
+[2019-05-10 07:14:56,803] multiqc                                            [DEBUG  ]  No samples found: bismark
+[2019-05-10 07:14:56,817] multiqc                                            [DEBUG  ]  No samples found: biscuit
+[2019-05-10 07:14:56,829] multiqc                                            [DEBUG  ]  No samples found: hicexplorer
+[2019-05-10 07:14:56,833] multiqc                                            [DEBUG  ]  No samples found: hicup
+[2019-05-10 07:14:56,837] multiqc                                            [DEBUG  ]  No samples found: hicpro
+[2019-05-10 07:14:56,841] multiqc                                            [DEBUG  ]  No samples found: salmon
+[2019-05-10 07:14:56,844] multiqc                                            [DEBUG  ]  No samples found: kallisto
+[2019-05-10 07:14:56,848] multiqc                                            [DEBUG  ]  No samples found: slamdunk
+[2019-05-10 07:14:56,852] multiqc                                            [DEBUG  ]  No samples found: star
+[2019-05-10 07:14:56,868] multiqc                                            [DEBUG  ]  No samples found: hisat2
+[2019-05-10 07:14:56,888] multiqc                                            [DEBUG  ]  No samples found: tophat
+[2019-05-10 07:14:56,900] multiqc                                            [DEBUG  ]  No samples found: bowtie2
+[2019-05-10 07:14:56,913] multiqc                                            [DEBUG  ]  No samples found: bowtie1
+[2019-05-10 07:14:56,917] multiqc                                            [DEBUG  ]  No samples found: kat
+[2019-05-10 07:14:56,921] multiqc                                            [DEBUG  ]  No samples found: leehom
+[2019-05-10 07:14:56,930] multiqc                                            [DEBUG  ]  No samples found: adapterRemoval
+[2019-05-10 07:14:56,934] multiqc                                            [DEBUG  ]  No samples found: clipandmerge
+[2019-05-10 07:14:56,937] multiqc                                            [DEBUG  ]  No samples found: cutadapt
+[2019-05-10 07:14:56,942] multiqc                                            [DEBUG  ]  No samples found: flexbar
+[2019-05-10 07:14:56,946] multiqc                                            [DEBUG  ]  No samples found: trimmomatic
+[2019-05-10 07:14:56,979] multiqc                                            [DEBUG  ]  No samples found: skewer
+[2019-05-10 07:14:56,983] multiqc                                            [DEBUG  ]  No samples found: sortmerna
+[2019-05-10 07:14:57,000] multiqc                                            [DEBUG  ]  No samples found: biobloomtools
+[2019-05-10 07:14:57,013] multiqc                                            [DEBUG  ]  No samples found: fastq_screen
+[2019-05-10 07:14:57,030] multiqc                                            [DEBUG  ]  No samples found: afterqc
+[2019-05-10 07:14:57,047] multiqc                                            [DEBUG  ]  No samples found: fastp
+[2019-05-10 07:14:57,180] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236034_pass_1
+[2019-05-10 07:14:57,198] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235990_pass_1
+[2019-05-10 07:14:57,224] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235991_pass_1
+[2019-05-10 07:14:57,329] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235993_pass_1
+[2019-05-10 07:14:57,355] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236031_pass_1
+[2019-05-10 07:14:57,382] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235998_pass_1
+[2019-05-10 07:14:57,510] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235989_pass_1
+[2019-05-10 07:14:57,527] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235994_pass_1
+[2019-05-10 07:14:57,536] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235996_pass_1
+[2019-05-10 07:14:57,553] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236029_pass_1
+[2019-05-10 07:14:57,578] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236030_pass_1
+[2019-05-10 07:14:57,596] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236022_pass_1
+[2019-05-10 07:14:57,613] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236028_pass_1
+[2019-05-10 07:14:57,621] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7235999_pass_1
+[2019-05-10 07:14:57,630] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236037_pass_1
+[2019-05-10 07:14:57,647] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236033_pass_1
+[2019-05-10 07:14:57,672] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236036_pass_1
+[2019-05-10 07:14:57,681] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236032_pass_1
+[2019-05-10 07:14:57,706] multiqc.modules.fastqc.fastqc                      [DEBUG  ]  Duplicate sample name found! Overwriting: SRR7236021_pass_1
+[2019-05-10 07:14:57,714] multiqc.modules.fastqc.fastqc                      [INFO   ]  Found 57 reports
+[2019-05-10 07:14:58,869] multiqc                                            [DEBUG  ]  No samples found: minionqc
+[2019-05-10 07:14:58,881] multiqc                                            [DEBUG  ]  No samples found: clusterflow
+[2019-05-10 07:14:58,898] multiqc                                            [DEBUG  ]  No samples found: bcl2fastq
+[2019-05-10 07:14:58,901] multiqc                                            [DEBUG  ]  No samples found: interop
+[2019-05-10 07:14:58,918] multiqc                                            [DEBUG  ]  No samples found: flash
+[2019-05-10 07:14:58,972] multiqc                                            [INFO   ]  Compressing plot data
+[2019-05-10 07:14:59,706] multiqc                                            [INFO   ]  Report      : multiqc_report.html
+[2019-05-10 07:14:59,706] multiqc                                            [INFO   ]  Data        : multiqc_data
+[2019-05-10 07:14:59,707] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmplbqyiyjy/multiqc_data/multiqc_data.json' to '/RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/multiqc_data'
+[2019-05-10 07:14:59,709] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmplbqyiyjy/multiqc_data/multiqc_sources.txt' to '/RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/multiqc_data'
+[2019-05-10 07:14:59,710] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmplbqyiyjy/multiqc_data/multiqc_general_stats.txt' to '/RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/multiqc_data'
+[2019-05-10 07:14:59,710] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmplbqyiyjy/multiqc_data/multiqc_fastqc.txt' to '/RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/multiqc_data'
+[2019-05-10 07:15:00,131] multiqc                                            [INFO   ]  MultiQC complete
