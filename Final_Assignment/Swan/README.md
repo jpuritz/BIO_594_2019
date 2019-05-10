@@ -6,7 +6,9 @@ Please go through this documentation prior exploring other folders or files. </b
 
 #### There are two markdown files and five folders for this project
 
-documented on all the background information of this project and also brief analysis plan
+`Swan_BIO594_FinalProjectPlan.md` documented on all the background information of this project and also brief analysis plan.
+
+
 
 
 
