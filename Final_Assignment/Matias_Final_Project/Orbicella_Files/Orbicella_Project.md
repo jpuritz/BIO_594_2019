@@ -1013,7 +1013,7 @@ To choose K, principal component analysis should first be performed with a large
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_2A.recode.vcf
-    ##  - output file:              /tmp/RtmprJxj9H/file12a5b587f2aa3.pcadapt
+    ##  - output file:              /tmp/RtmpcnlHYB/file130582f7651a.pcadapt
     ## 
     ##  - number of individuals detected:   95
     ##  - number of loci detected:      5030
@@ -1171,7 +1171,7 @@ Right now I\`m going to run PCAdapt with the vcf file that we created before tak
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
-    ##  - output file:              /tmp/RtmprJxj9H/file12a5b7c34adf4.pcadapt
+    ##  - output file:              /tmp/RtmpcnlHYB/file130584f7d6a5b.pcadapt
     ## 
     ##  - number of individuals detected:   93
     ##  - number of loci detected:      5092
