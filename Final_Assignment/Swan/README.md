@@ -15,4 +15,4 @@
 
 
 ##### Acknowledgement
-I thank Erin Roberts for her well-documented analysis pipeline and troubleshooting effort, and Evelyn Takyi for all her support as well. Last but not least, I thank Jon for all his valuable input.
+I thank Erin Roberts for her well-documented analysis pipeline and troubleshooting effort, and Evelyn Takyi for her support as well. Last but not least, I thank Jon for his valuable input.
