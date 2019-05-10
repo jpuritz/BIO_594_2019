@@ -1,0 +1,285 @@
+---
+title: "FinalProject"
+author: "Swan Tan"
+output: html_document
+---
+
+#Analysis Using DESeq2
+
+##Theory
+Differential sequence analysis with DESeq uses a generalized linear model, where counts for a gene in a sample are modeled with a negative binomial distribution with fitted mean and a gene specific dispersion parameter. The fitted mean is calculated by multiplying sample specific size factors and a parameter proportional to the "expected true concentrations of fragments". Dispersions are estimated from expected mean values from the maximum likelihood estimate of log2 fold changes. 
+
+Summary: DESeq2 relies on negative binomial distribution to make estimates, and uses Cook's distance to estimate how much fitted coefficients change if samples are removed.
+
+##The Data
+For the purposes of comparison, the same dataset will be used in DESeq2 analysis as in edgeR differential expression analysis. Both programs require a matrix input of raw count data in the form of integer values (unnormalised and unprocessed prior to use).
+
+##Load library and mobData
+```{r Library, results='hide', message=FALSE}
+source("http://bioconductor.org/biocLite.R")
+biocLite("DESeq2")
+library(DESeq2)
+install.packages("data.table")
+library(data.table)
+library(BiocParallel)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("apeglm")
+library(apeglm)
+library("ggplot2")
+library("pheatmap")
+BiocManager::install("vsn")
+library(vsn)
+```
+
+##Set Directory
+```{r set directory} 
+setwd("~/FinalProject/genome")
+```
+
+##Data objects in DESeq2
+Like edgeR, DESeq2 has its own list-based object, which stores read counts, called a DESeqDataObject(). Unlike edgeR, this object includes an associated design formula for the downstream data analysis with the DESeq() function. The design formula tells the DESeq() function which variables will be used in modeling. It uses a tilde (~), followed by the variables with plus signs between them. This formula can be later changed, but afterward all analysis steps must be repeated because the formula is used to estimate dispersion and log2 fold changes.
+
+For use with a count matrix, the function DESeqDataSetFromMatrix() should be used. For this function you should provide the counts matrix, the column information as a DataFrame or data.frame and the design formula.
+
+*NOTE*: Always put the variable of interest at the end of the formula and make sure the control level is the first level.
+
+##Load the data
+```{r DESeqDataSet}
+# load("../mobData.RData")
+# head(mobData)
+humantranscript.count <- read.csv("transcript_count_matrix.csv", header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(humantranscript.count)
+colnames(humantranscript.count)
+humantranscript.countmx <- humantranscript.count[,-1]
+colnames(humantranscript.countmx)
+```
+
+##Prepare the count matrix and metadata table
+```{r count matrix}
+human.transcriptdata <- as.matrix(humantranscript.countmx) #DESeq object only takes a matrix
+
+#Create column metadata table
+reads.id <- c("SRR8489594",  "SRR8489595",  "SRR8489596",  "SRR8489597",  "SRR8489598",
+              "SRR8489603",  "SRR8489604",  "SRR8489605",  "SRR8489606",  "SRR8489608",
+              "SRR8489614_1", "SRR8489617_1", "SRR8489618_1", "SRR8489619_1", "SRR8489620_1",
+              "SRR8489621", "SRR8489622", "SRR8489623",  "SRR8489624",  "SRR8489625",
+              "SRR8489626_1", "SRR8489627_1", "SRR8489628_1", "SRR8489629_1", "SRR8489630_1",
+              "SRR8489632",  "SRR8489633",  "SRR8489634", "SRR8489635",  "SRR8489636",
+              "SRR8489640",  "SRR8489641",  "SRR8489642",  "SRR8489643",  "SRR8489644",
+              "SRR8489648", "SRR8489649",  "SRR8489650",  "SRR8489651",  "SRR8489652")
+reads.desc <- c(rep("HBeAg-_ENEG", 5), rep("HCV", 5), rep("healthy_caucasian", 5), 
+                rep("healthy_asian", 5),  rep("HIV", 5), rep("HBeAg+_IA", 5),
+                rep("HBeAg-_IC", 5), rep("HBeAg+_IT", 5))
+HumanColData <- cbind(reads.id, reads.desc)
+rownames(HumanColData) <- c("SRR8489594",  "SRR8489595",  "SRR8489596",  "SRR8489597", "SRR8489598",
+              "SRR8489603",  "SRR8489604",  "SRR8489605",  "SRR8489606",  "SRR8489608",
+              "SRR8489614_1", "SRR8489617_1", "SRR8489618_1", "SRR8489619_1", "SRR8489620_1",
+              "SRR8489621", "SRR8489622", "SRR8489623",  "SRR8489624",  "SRR8489625",
+              "SRR8489626_1", "SRR8489627_1", "SRR8489628_1", "SRR8489629_1", "SRR8489630_1",
+              "SRR8489632",  "SRR8489633",  "SRR8489634", "SRR8489635",  "SRR8489636",
+              "SRR8489640",  "SRR8489641",  "SRR8489642",  "SRR8489643",  "SRR8489644",
+              "SRR8489648", "SRR8489649",  "SRR8489650",  "SRR8489651",  "SRR8489652")
+colnames(HumanColData) <- c('readsID', 'condition')
+HumanColData <- as.data.frame(HumanColData)
+
+#Check that rownames and column names match in both colData and countData
+all(rownames(HumanColData) %in% colnames(human.transcriptdata))  #Should return TRUE
+all(rownames(HumanColData) == colnames(human.transcriptdata)) 
+# should return TRUE
+```
+
+##Relevel condition to put the wild-type controls at the top
+
+It is important to supply levels (otherwise the levels are chosen in alphabetical order) and to put the *control* or *untreated* level as the first element ("base level"), so
+that the log2 fold changes produced by default will be the expected comparison against the base level.
+An R function for easily changing the base level is relevel.
+```{r relevel}
+#Give the condition column levels
+HumanColData$condition <- factor(HumanColData$condition)
+levels(HumanColData$condition) #check to see that it has levels
+
+#Relevel to make sure that control is the first level in the treatment factor for each
+HumanColData$condition  <- relevel(HumanColData$condition, "healthy_asian")
+```
+
+##Construct DESeqDataSetFromMatrix
+
+We needed to perform individual contrasts for each variable we want to compare, using the DESeq formula you can tell it the variable that models will be run with, and then later when manipulating the *Results* object you will pull out the comparisons you want. 
+```{r DESeqDataSetFromMatrix}
+ddsMob <- DESeqDataSetFromMatrix(countData = human.transcriptdata,
+colData = HumanColData,
+design = ~ condition)
+ddsMob
+```
+
+For experiments with more replicates, DESeq2 can handle collapsing technical replicates. A wide variety of design formulas are possible here depending on the complexity of the experiment.
+
+##Differential Expression Analysis
+Standard steps to perform differential expression analysis are all rolled into a single function in DESeq2, unlike in edgeR where these steps are performed manually in a sequence. These steps can be performed manually, however, in DESeq2 if the user prefers. For experiments with a larger number of samples parallelized computing can be used.
+
+Main steps of the DESeq2 function:
+1. estimation of size factors (s) by estimateSizeFactors
+2. estimation of dispersion (a) by estimateDispersions
+3. negative binomial GLM fitting for (B) and Wald statistics by nbinomWaldTest
+
+```{r DE}
+register(MulticoreParam(12)) #run parallel
+ddsMob <- DESeq(ddsMob, parallel = TRUE)
+```
+
+##Log fold change shrinkage for visualization and ranking
+Shrinkage of effect size (LFC estimates) is useful for visualization and ranking of genes. To shrink the LFC, we pass the dds object to the function lfcShrink. Below we specify to use the apeglm method for effect size shrinkage (Zhu, Ibrahim, and Love 2018), which improves on the previous estimator.
+
+We provide the dds object and the name or number of the coefficient we want to shrink, where the number refers to the order of the coefficient as it appears in resultsNames(dds).
+```{r logfcshrink}
+resultsNames(ddsMob)
+# resLFC <- lfcShrink(ddsMob, coef="condition_HIV_vs_healthy_caucasian", type="apeglm")
+# resLFC
+```
+
+Results are extracted using the function *results()*. This function extracts a results table with log2 fold
+changes, p values and adjusted p values. Supply arguments to results to extract the comparisons you wish to make.
+```{r res}
+#mobResHealthy <- results(ddsMob, contrast = c("condition", "healthy_asian", "healthy_caucasian"))
+
+#res.HBeIT <- results(ddsMob, name="condition_healthy_asian_vs_HBeAg_IT")
+mobResHBeIT <- results(ddsMob, contrast=c("condition", "healthy_asian", "HBeAg+_IT"))
+#pvalue and adjusted pvalue
+#resOrdered.HBeIT <- mobResHBeIT[order(mobResHBeIT$pvalue),]
+
+mobResHBeIA <- results(ddsMob, contrast=c("condition", "healthy_asian", "HBeAg+_IA"))
+
+mobResHBeIC <- results(ddsMob, contrast=c("condition", "healthy_asian", "HBeAg-_IC"))
+
+mobResHBeENEG <- results(ddsMob, contrast=c("condition", "healthy_asian", "HBeAg-_ENEG"))
+
+mobResHIV <- results(ddsMob, contrast = c("condition", "healthy_caucasian", "HIV"))
+
+mobResHCV <- results(ddsMob, contrast = c("condition", "healthy_caucasian", "HCV"))
+
+```
+
+##Preliminary analysis
+Summarize results using the *summary()* function.
+```{r summary}
+summary(mobResHBeIT)
+summary(mobResHBeIA)
+summary(mobResHBeIC)
+summary(mobResHBeENEG)
+summary(mobResHIV)
+summary(mobResHCV)
+```
+
+Order the results tables by their adjusted pvalue. 
+```{r padj}
+mobResHBeIT.ordered <- mobResHBeIT[order(mobResHBeIT$padj),]
+head(mobResHBeIT.ordered)
+
+mobResHBeIA.ordered <- mobResHBeIA[order(mobResHBeIA$padj),]
+
+mobResHBeIC.ordered <- mobResHBeIC[order(mobResHBeIC$padj),]
+
+mobResHBeENEG.ordered <- mobResHBeENEG[order(mobResHBeENEG$padj),]
+
+mobResHIV.ordered <- mobResHIV[order(mobResHIV$padj),]
+
+mobResHCV.ordered <- mobResHCV[order(mobResHCV$padj),]
+
+```
+
+##Exploring results
+#MA plots
+
+In DESeq2, the function plotMA shows the log2 fold changes attributable to a given variable over the mean of normalized counts for all the samples in the DESeqDataSet. Points will be colored red if the adjusted p value is less than 0.1. Points which fall out of the window are plotted as open triangles pointing either up or down.
+
+```{r plotMA}
+par(mfrow=c(2,3), mar=c(4,4,2,1))
+plotMA(mobResHIV.ordered, main="Log2 fold change between Healthy Asian and HIV patients")
+
+plotMA(mobResHCV.ordered, main="Log2 fold change between Healthy Asian and HCV patients")
+
+plotMA(mobResHBeIT.ordered, main="Log2 fold change between Healthy Asian and \n Hepatitis B Immune Tolerant")
+
+plotMA(mobResHBeIA.ordered, main="Log2 fold change between Healthy Asian and \n Hepatitis B Immune Active")
+
+plotMA(mobResHBeIC.ordered, main="Log2 fold change between Healthy Asian and \n Hepatitis B Inactive Carrier")
+
+plotMA(mobResHBeENEG.ordered, main="Log2 fold change between Healthy Asian and \n negative Hepatitis B")
+
+```
+
+#Plotcounts
+To examine the counts of reads for a single gene across the groups use *plotCounts()*, which normalizes counts by sequencing depth and adds a pseudocount of 1/2 to allow for log scale plotting. The counts are grouped by the variables in intgroup,
+where more than one variable can be specified. Here we specify the gene which had the smallest p-value
+from the results table created above. You can select the gene to plot by rowname or by numeric index.
+
+```{r plotcount}
+#par(mfrow=c(2,3), mar=c(4,4,2,1))
+p1 <- plotCounts(ddsMob, gene=which.min(mobResHBeIT$padj), intgroup="condition", returnData = TRUE)
+ggplot(p1, aes(x=condition, y=count)) + 
+  geom_point(position=position_jitter(w=0.1,h=0)) + 
+  scale_y_log10(breaks=c(25,100,400)) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- plotCounts(ddsMob, gene=which.min(mobResHBeIA$padj), intgroup="condition", returnData = TRUE)
+ggplot(p2, aes(x=condition, y=count)) + 
+  geom_point(position=position_jitter(w=0.1,h=0)) + 
+  scale_y_log10(breaks=c(25,100,400)) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+plotCounts(ddsMob, gene=which.min(mobResHBeIC$padj), intgroup="condition")
+plotCounts(ddsMob, gene=which.min(mobResHBeENEG$padj), intgroup="condition")
+
+p5 <- plotCounts(ddsMob, gene=which.min(mobResHIV$padj), intgroup="condition", returnData = TRUE)
+ggplot(p5, aes(x=condition, y=count)) + 
+  geom_point(position=position_jitter(w=0.1,h=0)) + 
+  scale_y_log10(breaks=c(25,100,400)) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+plotCounts(ddsMob, gene=which.min(mobResHCV$padj), intgroup="condition")
+```
+
+##Effects of transformations on the variance
+The figure below plots the standard deviation of the transformed data, across samples, against the mean, using the shifted logarithm transformation, the regularized log transformation and the variance stabilizing transformation. The shifted logarithm has elevated standard deviation in the lower count range, and the regularized log to a lesser extent, while for the variance stabilized data the standard deviation is roughly constant along the whole dynamic range.
+
+Note that the vertical axis in such plots is the square root of the variance over all samples, so including the variance due to the experimental conditions. While a flat curve of the square root of variance over the mean may seem like the goal of such transformations, this may be unreasonable in the case of datasets with many true differences due to the experimental conditions.
+
+```{r transformation}
+ntd <- normTransform(ddsMob)
+meanSdPlot(assay(ntd))
+
+vsd <- vst(ddsMob, blind=FALSE)
+#rld <- rlog(ddsMob, blind=FALSE)
+head(assay(vsd), 3)
+meanSdPlot(assay(vsd))
+```
+
+## Heatmap of count matrix
+To explore a count matrix, it is often instructive to look at it as a heatmap. To show how to produce such a heatmap for various transformations of the data.
+```{r heatmap}
+# this gives log2(n + 1)
+select <- order(rowMeans(counts(ddsMob,normalized=TRUE)),
+                decreasing=TRUE)[1:20]
+df <- as.data.frame(colData(ddsMob)[,c('readsID', 'condition')])
+pheatmap(assay(ntd)[select,], cluster_rows=FALSE, show_rownames=FALSE,
+         cluster_cols=FALSE, annotation_col=df)
+
+```
+
+##Principal component plot of the samples
+```{r PCA}
+plotPCA(vsd, intgroup=c('condition')) + 
+  labs(title="PCA plot according to patients' condition")
+plotPCA(vsd, intgroup=c('readsID', 'condition')) + 
+  labs(title="PCA plot according to \n sample ID and patient's condition")
+```
+
+##References
+Reference: Differential analysis of count data - the DESeq2 package
+Michael Love, Simon Anders, Wolfgang Huber, Department of Biostatistics, Dana Farber Cancer Institute and Harvard School of Public Health, Boston, US; European Molecular Biology Laboratory (EMBL), Heidelberg, Germany.
+December 16, 2014 
+Klaus, Bernd. 2014."Differential expression analysis of RNA-Seq data using DESeq2". European Molecular Biology Laboratory (EMBL). Heidelberg, Germany.
+
+https://mikelove.wordpress.com/2016/09/28/deseq2-or-edger/
+
+Online Tutorial:
+http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#log-fold-change-shrinkage-for-visualization-and-ranking
+
