@@ -33,14 +33,14 @@ reference genome (Prada et al., 2016).
 Data description
 ----------------
 
-A total of 475 tissue samples from colonies of the mountainous star
+A total of 195 tissue samples from colonies of the mountainous star
 coral, *O. faveolata*, were collected from three populations along the
 Caribbean basin (table 1). After DNA extraction of each sample,
 reduced-genome representation libraries were created by Genotyping by
 Sequencing (GBS) using a frequent enzyme cutter, ApeKI, a
-four-nucleotide cutter (table 2). The assembled genome of Orbicella
-faveolata (485 Mb) contains 1932 scaffolds with an N50 of 1.16 Mbp and
-90% of the genome falls in 98 scaffolds (Prada et al., 2016).
+four-nucleotide cutter. The assembled genome of Orbicella faveolata (485
+Mb) contains 1932 scaffolds with an N50 of 1.16 Mbp and 90% of the
+genome falls in 98 scaffolds (Prada et al., 2016).
 
 <table>
 <thead>
@@ -51,93 +51,52 @@ faveolata (485 Mb) contains 1932 scaffolds with an N50 of 1.16 Mbp and
 </thead>
 <tbody>
 <tr class="odd">
-<td>Puerto Rico (PR) and US Virgin Islands (USVI)</td>
-<td>278</td>
+<td>Curacao (CU)</td>
+<td>95</td>
 </tr>
 <tr class="even">
-<td>Curacao (CU)</td>
-<td>149</td>
+<td>Panama (PAN)</td>
+<td>16</td>
 </tr>
 <tr class="odd">
-<td>Panama (PAN)</td>
-<td>48</td>
+<td>Puerto Rico (PR)</td>
+<td>79</td>
 </tr>
 </tbody>
 </table>
 
 Table 1. Location and number of colonies sampled for each population of
-O. faveolata on the Caribbean.
-
-<table>
-<thead>
-<tr class="header">
-<th>Library ID</th>
-<th>File name</th>
-<th>Size (GB)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>8066</td>
-<td>HCHGKBGXY_1_fastq.gz</td>
-<td>22</td>
-</tr>
-<tr class="even">
-<td>8065</td>
-<td>HCTCJBGXY_1_fastq.gz</td>
-<td>24</td>
-</tr>
-<tr class="odd">
-<td>8063</td>
-<td>HCJJTBGXY_1_fastq.gz</td>
-<td>30</td>
-</tr>
-<tr class="even">
-<td>8064</td>
-<td>HCFMGBGXY_1_fastq.gz</td>
-<td>31</td>
-</tr>
-<tr class="odd">
-<td>8062</td>
-<td>H5FYWBGXY_1_fastq.gz</td>
-<td>27</td>
-</tr>
-</tbody>
-</table>
-
-Table 2. Libraries created by Genotyping by Sequencing using the enzyme
-ApeKI
+*O. faveolata* across the Caribbean.
 
 Analysis plan
 -------------
 
-* Raw sequencing reads will be demultiplexed, quality filtered and aligned
-to the O. faveolata reference genome using de dDocent pipeline (Puritz
-et al., 2014)
-* SNP calling will be carried out with the aforementioned pipeline to produce a VCF that will be filtered to keep
-variants that have been successfully genotyped in 50% of individuals
-only, a minimum quality score of 30, and a minor allele count of 3.
-* Recode genotypes that have less than 3 reads, remove individuals with
-more than 75% missing data, filter out loci with an allele balance below
-0.25 and above 0.75, a minimum read depth of 10x, deviations from
-Hardy–Weinberg equilibrium in each population, and an overall minor
-allele frequency (MAF) of 5%. 
-* This final VCF will be scanned for
-putative loci under natural selection using BayeScan v.2.1 and pcadapt
-v.4.0.2. 
-  * Loci identified by any of these methods will be removed in
-order to continue with an exclusively neutral set of loci to examine
-genetic structure. 
-* Analysis of principal components (PCA) and
-discriminant analysis of principal components (DAPC) using the adegenet
-package. 
-  * These two free-model methods do not make any underlying
-biological assumptions to find genetic clusters. 
-  * Additionally, genetic
-structure will be explored through the estimation of the pairwise Fst
-with the package hierfstat and a Mantel test will be applied to look for
-evidence of isolation-by-distance as an indirect measure of potential
-connectivity.
+-   Raw sequencing reads were demultiplexed, quality filtered and
+    aligned to the *O. faveolata* reference genome using de dDocent
+    pipeline (Puritz et al., 2014)
+-   SNP calling was carried out with the aforementioned pipeline to
+    produce a VCF that was filtered to keep variants that have been
+    successfully genotyped in 50% of individuals only, a minimum quality
+    score of 30, and a minor allele count of 3.
+-   Recode genotypes that have less than 3 reads, removed individuals
+    with more than 75% missing data, filtered out loci with an allele
+    balance below 0.25 and above 0.75, a minimum read depth of 10x,
+    deviations from Hardy–Weinberg equilibrium in each population, and
+    an overall minor allele frequency (MAF) of 5%.
+-   This final VCF was scanned for putative loci under natural selection
+    using BayeScan v.2.1 (unsuccessfully) and pcadapt v.4.0.2 (partially
+    successfully)
+-   Loci identified by any of these methods were removed in order to
+    continue with an exclusively neutral set of loci to examine genetic
+    structure.
+-   Analysis of principal components (PCA) and discriminant analysis of
+    principal components (DAPC) using the adegenet package.These two
+    model-free methods do not make any underlying biological assumptions
+    to find genetic clusters.
+-   Additionally, genetic structure was explored through the estimation
+    of the pairwise Fst with the package hierfstat and a Mantel test was
+    applied to look for evidence of isolation-by-distance as an indirect
+    measure of potential connectivity.
 
 References
 ----------
