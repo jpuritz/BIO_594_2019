@@ -107,9 +107,9 @@ Save HTML file on local directory
 scp -r -P xxxx echille@kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/fastqc ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
 ```
 ##### MultiQC Results:  
-![fastqc_sequence_counts](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_sequence_counts_plot.png)  
-![fastqc_mean_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_base_sequence_quality_plot.png)  
-![fastqc_per_sequence_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_sequence_quality_scores_plot.png)  
+![fastqc_sequence_counts](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/Pre-Trimming/fastqc_sequence_counts_plot.png)  
+![fastqc_mean_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/Pre-Trimming/fastqc_per_base_sequence_quality_plot.png)  
+![fastqc_per_sequence_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/Pre-Trimming/fastqc_per_sequence_quality_scores_plot.png)  
 ![fastqc_per_sequence_gc_content](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/fastqc_per_sequence_gc_content_plot.png)  
 
 
@@ -157,8 +157,6 @@ Transfer reference [genome](https://www.ncbi.nlm.nih.gov/nuccore/1004128514?repo
 ```
 cd Downloads
 scp -r -P xxxx Downloads/GCF_000222465.1_Adig_1.1_genomic.fna.gz echille@kitt.uri.edu:/RAID_STORAGE2/echille/finalproject/
-
-
 ```
 Make directory for mapping
 ```
@@ -170,8 +168,7 @@ Link trimmed fastq files and reference.fasta file to mapping directory
 ln -s ../data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/reference/reference.fasta .
 ln -s ../data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/*_qtrim.fq.gz .
 ```
-Change headers in pass_2 FastQ files to match pass_1 files  
-*Do this for each pass 2 file*
+Change headers in pass_2 FastQ files to match pass_1 files. Do this for each pass 2 file.
 ```
 zcat SRR7235991_pass_2_paired_qtrim.fq.gz | sed 's/SRR7235991.2.2/SRR7235991.2.1/g' > SRR7235991_pass_2_paired_qtrim.fq
 gzip SRR7235991_pass_2_paired_qtrim.fq
@@ -186,15 +183,14 @@ Create and execute a bash [script](https://github.com/jpuritz/BIO_594_2019/blob/
 nano bwa.sh
 
 #!/bin/bash
-F=/home/echille/finalproject/mapping/
-array1=($(ls *qtrim.fq.gz | sed 's/qtrim.fq.gz//g'))
+F=/home/echille/finalproject/mapping
+array1=($(ls *pass_1.fastq.gz_paired_qtrim.fq.gz | sed 's/pass_1.fastq.gz_paired_qtrim.fq.gz//g'))
 
-#bwa index reference.fasta
+bwa index GCF_000222465.1_Adig_1.1_genomic.fna
 echo "done index $(date)"
 
 for i in ${array1[@]}; do
-  bwa mem $F/reference.fasta ${i}.pass_1* ${i}.pass_2* -t 8 -a -M -B 3 -O 5 -R -T 20 -A "@RG\tID:${i}\tSM:${i}\tPL:Illumina" 2> bwa.${i}.log | samtools view -@4 -q 1 -SbT $F/reference.fasta - > ${i}.bam
-  															
+  bwa mem $F/GCF_000222465.1_Adig_1.1_genomic.fna ${i}pass_1.fastq.gz_paired_qtrim.fq.gz ${i}pass_2_paired_qtrim.fq.gz -t 8 -a -M -B 3 -O 5 -R "@RG\tID:${i}\tSM:${i}\tPL:Illumina" 2> bwa.${i}.log | samto$
   echo "done ${i}"
 done
 
@@ -207,8 +203,19 @@ done
 
 bash bwa.sh
 ```
+**Ran into errors:**
 
+> After replacing the headers I ran my bash script and all but 6 files went through without errors. Genomes SRR7235989_ SRR7235990_ SRR7235991_ SRR7235998_ SRR7236032_ SRR7236034_ had the error message: *[W::sam_read1] parse error at line 2424; [main_samview] truncated file*. These truncated files created empty bam files. The other files still only contain headers. 
+> 
+> 
+> After that, I once again tried to run the command:  
+> *bwa mem GCF_000222465.1_Adig_1.1_genomic.fna SRR7235992_pass_1.fastq.gz_paired_qtrim.fq.gz SRR72359992_pass_2_paired_qtrim.fq.gz  -t 8 -a -M -B 3 -O 5 -R "@RG\tID:${i}\tSM:${i}\tPL:Illumina" 2> bwa.SRR7235992.log*  
+> on files that were "truncated" and files that went through without any error messages. 
+> 
+> However, when I tried to do the second part of the command *samtools view -@4 -q 1 -SbT $F/GCF_000222465.1_Adig_1.1_genomic.fna - > SRR7235992.bam*," I recieved the error *[samfaipath] fail to read file /GCF_000222465.1_Adig_1.1_genomic.fna.*
+> 
 
+**Because of extensive problems running BWA, the remainder of this file will document what I would have done if mapping had run smoothly:**
 
 #### Step 7: Call SNPs Using dDocent
 Create popmap [file](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Chille_Final_Assignment/popmap) for SNP filtering  

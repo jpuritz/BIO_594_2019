@@ -1,0 +1,61 @@
+[bwa_index] Pack FASTA... 3.16 sec
+[bwa_index] Construct BWT for the packed sequence...
+[BWTIncCreate] textLength=894994314, availableWord=74974868
+[BWTIncConstructFromPacked] 10 iterations done. 99999994 characters processed.
+[BWTIncConstructFromPacked] 20 iterations done. 199999994 characters processed.
+[BWTIncConstructFromPacked] 30 iterations done. 296154282 characters processed.
+[BWTIncConstructFromPacked] 40 iterations done. 381779418 characters processed.
+[BWTIncConstructFromPacked] 50 iterations done. 457879258 characters processed.
+[BWTIncConstructFromPacked] 60 iterations done. 525512986 characters processed.
+[BWTIncConstructFromPacked] 70 iterations done. 585621994 characters processed.
+[BWTIncConstructFromPacked] 80 iterations done. 639043050 characters processed.
+[BWTIncConstructFromPacked] 90 iterations done. 686519786 characters processed.
+[BWTIncConstructFromPacked] 100 iterations done. 728713194 characters processed.
+[BWTIncConstructFromPacked] 110 iterations done. 766210778 characters processed.
+[BWTIncConstructFromPacked] 120 iterations done. 799534682 characters processed.
+[BWTIncConstructFromPacked] 130 iterations done. 829149034 characters processed.
+[BWTIncConstructFromPacked] 140 iterations done. 855466314 characters processed.
+[BWTIncConstructFromPacked] 150 iterations done. 878853162 characters processed.
+[bwt_gen] Finished constructing BWT in 158 iterations.
+[bwa_index] 296.73 seconds elapse.
+[bwa_index] Update BWT... 2.39 sec
+[bwa_index] Pack forward-only FASTA... 2.17 sec
+[bwa_index] Construct SA from BWT and Occ... 125.72 sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa index GCF_000222465.1_Adig_1.1_genomic.fna
+[main] Real time: 432.834 sec; CPU: 430.184 sec
+done index Sun May 12 12:35:31 EDT 2019
+done SRR7235989_
+[W::sam_read1] parse error at line 2424
+[main_samview] truncated file.
+done SRR7235990_
+[W::sam_read1] parse error at line 2424
+[main_samview] truncated file.
+done SRR7235991_
+[W::sam_read1] parse error at line 2424
+[main_samview] truncated file.
+done SRR7235992_
+done SRR7235993_
+done SRR7235994_
+done SRR7235996_
+done SRR7235998_
+[W::sam_read1] parse error at line 2424
+[main_samview] truncated file.
+done SRR7235999_
+done SRR7236021_
+done SRR7236022_
+done SRR7236028_
+done SRR7236029_
+done SRR7236030_
+done SRR7236031_
+done SRR7236032_
+[W::sam_read1] parse error at line 2424
+[main_samview] truncated file.
+done SRR7236033_
+done SRR7236034_
+[W::sam_read1] parse error at line 2424
+[main_samview] truncated file.
+done SRR7236036_
+done SRR7236037_
+
+
