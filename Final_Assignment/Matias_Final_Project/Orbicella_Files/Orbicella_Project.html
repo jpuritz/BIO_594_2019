@@ -244,12 +244,12 @@ multiqc /RAID_STORAGE2/mgomez/Orbicella_Raw/B_HCFMGBGXY/</code></pre>
 </div>
 <div id="now-we-copy-the-multiqc-reports-for-each-library-to-the-class-repository" class="section level2">
 <h2>Now we copy the multiqc reports for each library to the class repository</h2>
-<pre><code>cp /RAID_STORAGE2/mgomez/Orbicella_Raw/A_H5FYWBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/MultiQC_Reports/A_H5FYWBGXY_RAW_multiqc_report.html
+<pre><code>cp /RAID_STORAGE2/mgomez/Orbicella_Raw/A_H5FYWBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/MultiQC_Reports/A_H5FYWBGXY_RAW_multiqc_report.html
 
- cp /RAID_STORAGE2/mgomez/Orbicella_Raw/B_HCFMGBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/MultiQC_Reports/B_HCFMGBGXY_RAW_multiqc_report.html</code></pre>
+ cp /RAID_STORAGE2/mgomez/Orbicella_Raw/B_HCFMGBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/MultiQC_Reports/B_HCFMGBGXY_RAW_multiqc_report.html</code></pre>
 </div>
-<div id="we-are-now-goin-to-estimate-number-of-reads-in-our-data-following-the-script-referenceopt.sh-from-ddocent" class="section level2">
-<h2>We are now goin to estimate number of reads in our data following the script ReferenceOpt.sh from dDocent</h2>
+<div id="we-are-now-goin-to-estimate-number-of-reads-in-our-data-following-the-script-referenceopt.sh-from-ddocent-httpsgithub.comjpuritzddocentblobmasterscriptsreferenceopt.sh" class="section level2">
+<h2>We are now goin to estimate number of reads in our data following the script ReferenceOpt.sh from dDocent (<a href="https://github.com/jpuritz/dDocent/blob/master/scripts/ReferenceOpt.sh" class="uri">https://github.com/jpuritz/dDocent/blob/master/scripts/ReferenceOpt.sh</a>)</h2>
 </div>
 <div id="create-a-new-folder-called-refopt" class="section level2">
 <h2>Create a new folder called RefOpt</h2>
@@ -275,8 +275,8 @@ multiqc /RAID_STORAGE2/mgomez/Orbicella_Raw/B_HCFMGBGXY/</code></pre>
 <div id="plot-values-for-each-k1k2-combination-across-similarity-thresholds" class="section level2">
 <h2>Plot values for each k1,k2 combination across similarity thresholds</h2>
 </div>
-<div id="pick-a-similarity-threshold-at-the-point-of-inflection-on-the-curve-heres-some-r-code-to-quickly-plot-this-for-you" class="section level2">
-<h2>Pick a similarity threshold at the point of inflection on the curve ##Here’s some R code to quickly plot this for you:</h2>
+<div id="pick-a-similarity-threshold-at-the-point-of-inflection-on-the-curve-heres-some-r-code-to-quickly-plot-this-for-you-taken-from-httpwww.ddocent.comquick" class="section level2">
+<h2>Pick a similarity threshold at the point of inflection on the curve ##Here’s some R code to quickly plot this for you (Taken from <a href="http://www.ddocent.com/quick/" class="uri">http://www.ddocent.com/quick/</a>):</h2>
 <pre><code>mkdir /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/RefOpt
 cd /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/RefOpt
 cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/CU_101.F.fq.gz CU_102.F.fq.gz CU_103.F.fq.gz CU_104.F.fq.gz PAN2014_233.F.fq.gz PAN2014_234.F.fq.gz PAN2014_235.F.fq.gz PAN2014_236.F.fq.gz  PR_100.F.fq.gz PR_101.F.fq.gz PR_102.F.fq.gz PR_103.F.fq.gz /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/RefOpt/
@@ -311,8 +311,8 @@ process_radtags -f B_HCFMGBGXY/HCFMGBGXY_1_fastq.gz -b barcodes_HCFMGBGXY -e ape
 <div id="the-option--e-specifies-the-5-restriction-site--i-states-the-format-of-the-input-sequences.the--r-option-tells-the-program-to-fix-cut-sites-and-barcodes-that-have-up-to-1-2-mutations-in-them.-this-can-be-changed-with-the-barcode_dist-flag." class="section level2">
 <h2>The option -e specifies the 5’ restriction site, -i states the format of the input sequences.The -r option tells the program to fix cut sites and barcodes that have up to 1-2 mutations in them. This can be changed with the –barcode_dist flag.</h2>
 </div>
-<div id="now-copy-the-demultiplexed-files-from-dir-a_h5fywbgxy-and-b_hcfmgbgxy-to-a-new-dir-and-change-to-in" class="section level1">
-<h1>Now copy the demultiplexed files from dir A_H5FYWBGXY and B_HCFMGBGXY to a new dir and change to in</h1>
+<div id="now-copy-the-demultiplexed-files-from-dir-a_h5fywbgxy-and-b_hcfmgbgxy-to-a-new-dir-and-change-to-it" class="section level1">
+<h1>Now copy the demultiplexed files from dir A_H5FYWBGXY and B_HCFMGBGXY to a new dir and change to it</h1>
 <pre><code>mkdir Libraries_A_B
 cp A_H5FYWBGXY/*fq.gz .
 cp B_HCFMGBGXY/*fq.gz .
@@ -395,16 +395,16 @@ Now sit back, relax, and wait for your analysis to finish
 <div id="we-are-now-going-to-aggregate-the-results-from-fastqc-analyses-across-all-samples-into-a-single-report-and-move-it-the-class-repository." class="section level2">
 <h2>we are now going to aggregate the results from FASTQC analyses across all samples into a single report and move it the class repository.</h2>
 <pre><code>multiqc multiqc /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/
-cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/MultiQC_Reports/All_Trimmed_Samples_multiqc_report.html</code></pre>
+cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/MultiQC_Reports/All_Trimmed_Samples_multiqc_report.html</code></pre>
 </div>
-<div id="snp-filtering" class="section level2">
-<h2>SNP filtering</h2>
+<div id="snp-filtering-httpwww.ddocent.comfiltering" class="section level2">
+<h2>SNP filtering (<a href="http://www.ddocent.com/filtering/" class="uri">http://www.ddocent.com/filtering/</a>)</h2>
 </div>
-<div id="first-lets-create-a-working-dir-and-chang-to-it-then-copy-the-raw-vcf-file-generetaed-by-ddocent-to-start-the-snp-filetring" class="section level2">
-<h2>First, let´s create a working dir and chang to it, then copy the raw VCF file generetaed by dDocent to start the SNP filetring</h2>
+<div id="first-lets-create-a-working-dir-and-change-to-it-then-copy-the-raw-vcf-file-generetaed-by-ddocent-to-start-the-snp-filtering" class="section level2">
+<h2>First, let´s create a working dir and change to it, then copy the raw VCF file generetaed by dDocent to start the SNP filtering</h2>
 <pre><code>mkdir SNP_Filtering
 cd SNP_Filtering
-mv /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/TotalRawSNPs.vcf .</code></pre>
+cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/TotalRawSNPs.vcf .</code></pre>
 </div>
 <div id="we-are-going-to-use-the-program-vcftools-httpvcftools.sourceforge.net-to-filter-our-vcf-file.-to-make-this-file-more-manageable-lets-start-by-applying-three-step-filter.-we-are-going-to-only-keep-variants-that-have-been-successfully-genotyped-in-50-of-individuals-a-minimum-quality-score-of-30-and-a-minor-allele-count-of-3" class="section level2">
 <h2>we are going to use the program VCFtools (<a href="http://vcftools.sourceforge.net" class="uri">http://vcftools.sourceforge.net</a>) to filter our vcf file. To make this file more manageable, let’s start by applying three step filter. We are going to only keep variants that have been successfully genotyped in 50% of individuals, a minimum quality score of 30, and a minor allele count of 3</h2>
@@ -855,8 +855,8 @@ mawk '!/#/' DP3g95p5maf05.fil1.vcf | wc -l
 mawk '!/#/' DP3g95p5maf05.fil4.vcf | wc -l
 8946</code></pre>
 </div>
-<div id="the-next-filter-we-will-apply-is-to-look-at-the-ration-of-locus-quality-score-to-depth-heng-li-found-some-interesting-results-about-how-quality-score-and-locus-depth-are-related-to-each-other-in-real-and-spurious-variant-calls-in-short-with-whole-genome-samples-it-was-found-that-high-coverage-can-lead-to-inflated-locus-quality-scores.-heng-proposed-that-for-read-depths-greater-than-the-mean-depth-plus-2-3-times-the-square-root-of-mean-depth-that-the-quality-score-will-be-twice-as-large-as-the-depth-in-real-variants-and-below-that-value-for-false-variants.-implement-two-filters-based-on-this-idea.-the-first-is-removing-any-locus-that-has-a-quality-score-below-14-of-the-depth.ddocent" class="section level2">
-<h2>The next filter we will apply is to look at the ration of locus quality score to depth Heng Li found some interesting results about how quality score and locus depth are related to each other in real and spurious variant calls In short, with whole genome samples, it was found that high coverage can lead to inflated locus quality scores. Heng proposed that for read depths greater than the mean depth plus 2-3 times the square root of mean depth that the quality score will be twice as large as the depth in real variants and below that value for false variants. implement two filters based on this idea. the first is removing any locus that has a quality score below 1/4 of the depth.(dDocent)</h2>
+<div id="the-next-filter-we-will-apply-is-to-look-at-the-ration-of-locus-quality-score-to-depth-heng-li-found-some-interesting-results-about-how-quality-score-and-locus-depth-are-related-to-each-other-in-real-and-spurious-variant-calls-in-short-with-whole-genome-samples-it-was-found-that-high-coverage-can-lead-to-inflated-locus-quality-scores.-heng-proposed-that-for-read-depths-greater-than-the-mean-depth-plus-2-3-times-the-square-root-of-mean-depth-that-the-quality-score-will-be-twice-as-large-as-the-depth-in-real-variants-and-below-that-value-for-false-variants.-implement-two-filters-based-on-this-idea.-the-first-is-removing-any-locus-that-has-a-quality-score-below-14-of-the-depth-ddocent." class="section level2">
+<h2>The next filter we will apply is to look at the ration of locus quality score to depth Heng Li found some interesting results about how quality score and locus depth are related to each other in real and spurious variant calls In short, with whole genome samples, it was found that high coverage can lead to inflated locus quality scores. Heng proposed that for read depths greater than the mean depth plus 2-3 times the square root of mean depth that the quality score will be twice as large as the depth in real variants and below that value for false variants. implement two filters based on this idea. the first is removing any locus that has a quality score below 1/4 of the depth (dDocent).</h2>
 <pre><code>vcffilter -f &quot;QUAL / DP &gt; 0.25&quot; DP3g95p5maf05.fil4.vcf &gt; DP3g95p5maf05.fil5.vcf</code></pre>
 </div>
 <div id="the-second-is-more-complicated.-the-first-step-is-to-create-a-list-of-the-depth-of-each-locus" class="section level2">
@@ -951,8 +951,8 @@ Outputting VCF file...
 After filtering, kept 6438 out of a possible 8853 Sites
 Run Time = 2.00 seconds</code></pre>
 </div>
-<div id="the-next-filter-to-apply-is-hwe.-heng-li-also-found-that-hwe-is-another-excellent-filter-to-remove-erroneous-variant-calls.-we-dont-want-to-apply-it-across-the-board-since-population-structure-will-create-departures-from-hwe-as-well.-we-need-to-apply-this-by-population.-ive-included-a-perl-script-written-by-chris-hollenbeck-one-of-the-phd-students-in-my-current-lab-that-will-do-this-for-us." class="section level3">
-<h3>The next filter to apply is HWE. Heng Li also found that HWE is another excellent filter to remove erroneous variant calls. We don’t want to apply it across the board, since population structure will create departures from HWE as well. We need to apply this by population. I’ve included a perl script written by Chris Hollenbeck, one of the PhD student’s in my current lab that will do this for us.</h3>
+<div id="the-next-filter-to-apply-is-hwe.-heng-li-also-found-that-hwe-is-another-excellent-filter-to-remove-erroneous-variant-calls.-we-dont-want-to-apply-it-across-the-board-since-population-structure-will-create-departures-from-hwe-as-well.-we-need-to-apply-this-by-population.-ive-included-a-perl-script-written-by-chris-hollenbeck-one-of-the-phd-students-in-my-current-lab-that-will-do-this-for-us-ddocent." class="section level3">
+<h3>The next filter to apply is HWE. Heng Li also found that HWE is another excellent filter to remove erroneous variant calls. We don’t want to apply it across the board, since population structure will create departures from HWE as well. We need to apply this by population. I’ve included a perl script written by Chris Hollenbeck, one of the PhD student’s in my current lab that will do this for us (dDocent).</h3>
 <pre><code>curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/filter_hwe_by_pop.pl
 chmod +x filter_hwe_by_pop.pl</code></pre>
 </div>
@@ -1001,8 +1001,8 @@ cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/SNP_Filtering/popmap .</cod
 <h2>Run BayeScan</h2>
 <pre><code>BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_BayesScan -threads 20 -nbp 30 -thin 20 </code></pre>
 </div>
-<div id="the-fact-that-bayescan-is-not-running-could-be-related-to-having-only-2-individuals-in-one-populations.-this-small-number-of-individuals-is-not-enough-to-etimate-allele-frequencies.-so-im-going-to-take-out-those-two-individuals-from-the-last-vcf-file-i-rerun-bayescan." class="section level2">
-<h2>The fact that BayesCan is not running could be related to having only 2 individuals in one populations. This small number of individuals is not enough to etimate allele frequencies. So, I`m going to take out those two individuals from the last vcf file I rerun BayeScan.</h2>
+<div id="the-fact-that-bayescan-is-not-running-could-be-related-to-having-only-2-individuals-in-one-populations.-this-small-number-of-individuals-is-not-enough-to-etimate-allele-frequencies.-so-im-going-to-take-out-those-two-individuals-from-the-last-vcf-file-and-rerun-bayescan." class="section level2">
+<h2>The fact that BayesCan is not running could be related to having only 2 individuals in one populations. This small number of individuals is not enough to etimate allele frequencies. So, I`m going to take out those two individuals from the last vcf file and rerun BayeScan.</h2>
 </div>
 <div id="we-first-make-a-file-with-the-individuals-to-want-to-removepan2014_235-and-pan2014_240" class="section level2">
 <h2>We first make a file with the individuals to want to remove:PAN2014_235 and PAN2014_240</h2>
@@ -1073,8 +1073,11 @@ write output file done.</code></pre>
 <div id="run-bayescan-1" class="section level2">
 <h2>Run BayeScan</h2>
 </div>
-<div id="it-did-not-run-either-after-haveing-taken-out-the-two-only-individuals-from-pan2014-population.-the-same-segmentation-fault-error-popped-out" class="section level2">
-<h2>It did not run either after haveing taken out the two only individuals from PAN2014 population. The same “Segmentation fault”&quot; error popped out</h2>
+<div id="it-did-not-run-either-after-haveing-taken-out-the-two-only-individuals-from-pan2014-population.-the-same-segmentation-fault-error-popped-out." class="section level2">
+<h2>It did not run either after haveing taken out the two only individuals from PAN2014 population. The same “Segmentation fault”&quot; error popped out.</h2>
+</div>
+<div id="here-i-will-actualy-need-to-find-the-problem-to-be-able-to-run-bayescan-to-filter-potential-loci-under-selection." class="section level2">
+<h2>Here, I will actualy need to find the problem to be able to run BayeScan to filter potential loci under selection.</h2>
 <pre><code>BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20 
 Using 20 threads (80 cpu detected on this machine)
 Pilot runs...
@@ -1121,8 +1124,8 @@ Outputting VCF file...
 After filtering, kept 5030 out of a possible 5092 Sites
 Run Time = 2.00 seconds</code></pre>
 </div>
-<div id="we-are-goint-to-use-pcaadapat-to-detect-outlier-loci" class="section level2">
-<h2>We are goint to use PCAadapat to detect outlier loci</h2>
+<div id="we-are-going-to-use-pcaadapat-to-detect-outlier-loci" class="section level2">
+<h2>We are going to use PCAadapat to detect outlier loci</h2>
 </div>
 <div id="we-first-load-the-library-pcadapt-on-r-httpscran.r-project.orgwebpackagespcadaptvignettespcadapt.html" class="section level2">
 <h2>We first load the library pcadapt on r (<a href="https://cran.r-project.org/web/packages/pcadapt/vignettes/pcadapt.html" class="uri">https://cran.r-project.org/web/packages/pcadapt/vignettes/pcadapt.html</a>)</h2>
@@ -1142,7 +1145,7 @@ Run Time = 2.00 seconds</code></pre>
 ## Summary:
 ## 
 ##  - input file:               SNP.DP3g95p5maf05.HWE_2A.recode.vcf
-##  - output file:              /tmp/RtmprJxj9H/file12a5b587f2aa3.pcadapt
+##  - output file:              /tmp/RtmpcoeHTR/file48b532b82b32.pcadapt
 ## 
 ##  - number of individuals detected:   95
 ##  - number of loci detected:      5030
@@ -1152,8 +1155,8 @@ Run Time = 2.00 seconds</code></pre>
 
 x &lt;- pcadapt(input = filename, K=20)</code></pre>
 </div>
-<div id="since-pcadapt-discarded-1517-variants-beacuse-they-were-not-snps-im-going-to-check-out-the-allele-frequency-of-all-my-snps-to-make-sure-the-are-not-fixed-alleles-that-might-be-beings-discarded-by-pcadapt" class="section level2">
-<h2>Since PCAdapt discarded 1517 variants beacuse they were not SNPs, I’m going to check out the allele frequency of all my SNPs to make sure the are not fixed alleles that might be beings discarded by PCAdapt</h2>
+<div id="since-pcadapt-discarded-1517-variants-beacuse-they-were-not-snps-im-going-to-check-out-the-allele-frequency-of-all-my-snps-to-make-sure-the-are-not-fixed-alleles-that-might-be-being-discarded-by-pcadapt" class="section level2">
+<h2>Since PCAdapt discarded 1517 variants beacuse they were not SNPs, I’m going to check out the allele frequency of all my SNPs to make sure the are not fixed alleles that might be being discarded by PCAdapt</h2>
 </div>
 <div id="we-first-make-a-file-with-the-frequencies-of-each-allele" class="section level2">
 <h2>We first make a file with the frequencies of each allele</h2>
@@ -1191,12 +1194,15 @@ Outputting Frequency Statistics...
 After filtering, kept 5030 out of a possible 5030 Sites
 Run Time = 0.00 seconds</code></pre>
 </div>
-<div id="we-then-use-the-next-next-command-line-to-see-if-there-are-any-1-numbers" class="section level2">
-<h2>We then use the next next command line to see if there are any 1 numbers</h2>
+<div id="we-then-use-the-next-next-command-line-to-see-if-there-are-any-fixed-alleles-1.0" class="section level2">
+<h2>We then use the next next command line to see if there are any fixed alleles (1.0)</h2>
 <pre><code>cut -f5 SNP.DP3g95p5maf05.HWE_2A.recode.vcf.frq | grep 1 </code></pre>
 </div>
-<div id="there-does-not-seem-to-be-any-fixed-allele-so-this-is-not-the-cause-of-the-problem.-beacuase-we-do-not-know-what-the-variants-taken-out-are-we-cannot-rely-filter-the-vcf-file-for-the-identified-oulier-loci.-im-going-to-continue-here-running-pcadapt-fot-the-exercise-sake." class="section level2">
-<h2>There does not seem to be any fixed allele so this is not the cause of the problem. Beacuase we do not know what the variants taken out are we cannot rely filter the vcf file for the identified oulier loci. I`m going to continue here running PCAdapt fot the exercise sake.</h2>
+<div id="there-does-not-seem-to-be-any-fixed-allele-so-this-is-not-the-cause-of-the-problem.-because-we-do-not-know-what-the-variants-taken-out-are-we-cannot-really-filter-the-vcf-file-for-the-identified-outlier-loci.-im-going-to-continue-here-running-pcadapt-fot-the-exercise-sake." class="section level2">
+<h2>There does not seem to be any fixed allele so this is not the cause of the problem. Because we do not know what the variants taken out are we cannot really filter the vcf file for the identified outlier loci. I`m going to continue here running PCAdapt fot the exercise sake.</h2>
+</div>
+<div id="in-the-future-i-will-need-to-find-what-the-problem-is-and-why-those-variants-are-being-discarded." class="section level2">
+<h2>In the future I will need to find what the problem is and why those variants are being discarded.</h2>
 </div>
 <div id="the-scree-plot-displays-in-decreasing-order-the-percentage-of-variance-explained-by-each-pc.-up-to-a-constant-it-corresponds-to-the-eigenvalues-in-decreasing-order.-the-ideal-pattern-in-a-scree-plot-is-a-steep-curve-followed-by-a-bend-and-a-straight-line.-the-eigenvalues-that-correspond-to-random-variation-lie-on-a-straight-line-whereas-the-ones-that-correspond-to-population-structure-lie-on-a-steep-curve.-we-recommend-to-keep-pcs-that-correspond-to-eigenvalues-to-the-left-of-the-straight-line-cattells-rule.-in-the-provided-example-k-2-is-the-optimal-choice-for-k.-the-plot-function-displays-a-scree-plot" class="section level2">
 <h2>The ‘scree plot’ displays in decreasing order the percentage of variance explained by each PC. Up to a constant, it corresponds to the eigenvalues in decreasing order. The ideal pattern in a scree plot is a steep curve followed by a bend and a straight line. The eigenvalues that correspond to random variation lie on a straight line whereas the ones that correspond to population structure lie on a steep curve. We recommend to keep PCs that correspond to eigenvalues to the left of the straight line (Cattell’s rule). In the provided example, K = 2 is the optimal choice for K. The plot function displays a scree plot:</h2>
@@ -1212,13 +1218,10 @@ Run Time = 0.00 seconds</code></pre>
 grep PAN2014 popmap | wc -l
 grep PR popmap | wc -l
 
-## 0
-## 0
-## 0</code></pre>
+## 40
+## 2
+## 53</code></pre>
 </div>
-</div>
-<div id="since-we-modifiy-the-pomap-file-to-eliminate-those-2-individuals-from-pan2014-population-there-are-no-individuals-assigned-to-tha-population.-but-we-know-from-all-previous-analyses-that-those-2-individuals-are-included-in-the-vcf-snp.dp3g95p5maf05.hwe_2a.recode.vcf" class="section level1">
-<h1>Since we modifiy the pomap file to eliminate those 2 individuals from PAN2014 population, there are no individuals assigned to tha population. But we know from all previous analyses that those 2 individuals are included in the vcf SNP.DP3g95p5maf05.HWE_2A.recode.vcf</h1>
 <div id="when-population-labels-are-known-individuals-of-the-same-populations-can-be-displayed-with-the-same-color-using-the-pop-argument-which-should-contain-the-list-of-indices-of-the-populations-of-origin." class="section level2">
 <h2>When population labels are known, individuals of the same populations can be displayed with the same color using the pop argument, which should contain the list of indices of the populations of origin.</h2>
 <pre><code>poplist.names &lt;- c(rep(&quot;CU&quot;,40), rep(&quot;PAN2014&quot;,2),rep(&quot;PR&quot;,53))
@@ -1303,7 +1306,7 @@ hist(x$pvalues, xlab = &quot;p-values&quot;, main = NULL, breaks = 50, col = &qu
 ## Summary:
 ## 
 ##  - input file:               SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
-##  - output file:              /tmp/RtmprJxj9H/file12a5b7c34adf4.pcadapt
+##  - output file:              /tmp/RtmpcoeHTR/file48b5460fa428.pcadapt
 ## 
 ##  - number of individuals detected:   93
 ##  - number of loci detected:      5092
@@ -1318,15 +1321,15 @@ hist(x$pvalues, xlab = &quot;p-values&quot;, main = NULL, breaks = 50, col = &qu
 <h2>First, we write the oulier to a text file</h2>
 <pre><code>write.table(outliers, file =&quot;outliers.txt&quot;, row.names = FALSE, col.names = FALSE)</code></pre>
 </div>
-<div id="next-we-make-a-file-with-all-the-loci-in-the-vcf-but-ignoring-the-headres-and-extracting-only-the-1st-and-second-columnd-that-have-the-chrom-and-id-labels.-additionally-we-add-a-column-of-numbers-to-every-loci" class="section level2">
-<h2>Next, we make a file with all the loci in the vcf but ignoring the headres and extracting only the 1st and second columnd that have the CHROM and ID labels. Additionally we add a column of numbers to every loci</h2>
+<div id="next-we-make-a-file-with-all-the-loci-in-the-vcf-but-ignoring-the-headers-and-extracting-only-the-1st-and-second-columnd-that-have-the-chrom-and-id-labels.-additionally-we-add-a-column-of-numbers-to-every-loci." class="section level2">
+<h2>Next, we make a file with all the loci in the vcf but ignoring the headers and extracting only the 1st and second columnd that have the CHROM and ID labels. Additionally we add a column of numbers to every loci.</h2>
 <pre><code>paste &lt;(seq 1 5030) &lt;(mawk '!/#/' SNP.DP3g95p5maf05.HWE_2A.recode.vcf | cut -f1,2) &gt; SNP.DP3g95p5maf05.HWE_2A.loci</code></pre>
 </div>
-<div id="we-now-compare-the-files-outliers.txt-and-snp.dp3g95p5maf05.hwe_2a.loci-to-have-only-those-loci-commun-in-each-loci-position-and-extract-the-fields-2-and-3-to-make-a-new-file-that-we-will-use-the-vcf-file." class="section level2">
-<h2>We now compare the files outliers.txt and SNP.DP3g95p5maf05.HWE_2A.loci to have only those loci commun in each loci position and extract the fields 2 and 3 to make a new file that we will use the vcf file.</h2>
+<div id="we-now-compare-the-files-outliers.txt-and-snp.dp3g95p5maf05.hwe_2a.loci-to-have-only-those-commun-loci-in-each-loci-position-and-extract-the-fields-2-and-3-to-make-a-new-file-that-we-will-use-to-filter-the-vcf-file." class="section level2">
+<h2>We now compare the files outliers.txt and SNP.DP3g95p5maf05.HWE_2A.loci to have only those commun loci in each loci position and extract the fields 2 and 3 to make a new file that we will use to filter the vcf file.</h2>
 </div>
-<div id="note-that-these-loci-are-not-the-ones-that-really-correspond-to-those-detected-by-pcadapt-becuase-this-many-variants-were-discarded-by-it.-im-showing-a-way-to-get-rid-of-those-loci-assuming-they-were-the-ones-that-really-corresponded-to-the-vcf." class="section level2">
-<h2>Note that these loci are not the ones that really correspond to those detected by PCAdapt becuase this many variants were discarded by it. I`m showing a way to get rid of those loci assuming they were the ones that really corresponded to the vcf.</h2>
+<div id="note-that-these-loci-are-not-the-ones-that-really-correspond-to-those-detected-by-pcadapt-becuase-these-many-variants-were-discarded-by-it.-im-showing-a-way-to-get-rid-of-those-loci-assuming-they-were-the-ones-that-really-corresponded-to-the-vcf." class="section level2">
+<h2>Note that these loci are not the ones that really correspond to those detected by PCAdapt becuase these many variants were discarded by it. I`m showing a way to get rid of those loci assuming they were the ones that really corresponded to the vcf.</h2>
 </div>
 <div id="helpful-link-httpsaskubuntu.comquestions879754awk-comparing-2-columns-of-2-files-and-print-common-lines" class="section level2">
 <h2>Helpful link: <a href="https://askubuntu.com/questions/879754/awk-comparing-2-columns-of-2-files-and-print-common-lines" class="uri">https://askubuntu.com/questions/879754/awk-comparing-2-columns-of-2-files-and-print-common-lines</a></h2>
@@ -1443,13 +1446,6 @@ colnames(my_vcf@gt)[-1] == CU_PAN_PR_pop$Sample
 
 pop(my_genind) &lt;- CU_PAN_PR_pop$Population</code></pre>
 </div>
-</div>
-<div id="test-population-structure-as-measured-by-the-fst-statistics" class="section level1">
-<h1>Test Population Structure as measured by the Fst statistics</h1>
-<pre><code>library(&quot;hierfstat&quot;)
-fstat(my_genind)
-matFst &lt;- pairwise.fst(my_genind)
-matFst</code></pre>
 <div id="most-code-if-not-all-taken-from-httpsgrunwaldlab.github.iopopulation_genetics_in_rgbs_analysis.html" class="section level2">
 <h2>Most code, if not all, taken from: ##<a href="https://grunwaldlab.github.io/Population_Genetics_in_R/gbs_analysis.html" class="uri">https://grunwaldlab.github.io/Population_Genetics_in_R/gbs_analysis.html</a></h2>
 </div>
@@ -1775,7 +1771,7 @@ scatter(Orbicella_dapc, col = cols, cex = 2, legend = TRUE, clabel = F, posi.leg
 </div>
 </div>
 <div id="structure-like-plot" class="section level2">
-<h2>Structure like-plot</h2>
+<h2>Structure-like plot</h2>
 <pre><code>compoplot(Orbicella_dapc,col = cols, posi = 'top')</code></pre>
 <div class="figure">
 <img src="data:image/png;base64,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" />
