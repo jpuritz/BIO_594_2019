@@ -121,7 +121,7 @@ curl -L -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmo
 unzip Trimmomatic-0.39.zip
 rm Trimmomatic-0.39.zip
 ```
-Link fastq files to Timmomatic directory
+Link fastq files to Trimmomatic directory
 ```
 cd Trimmomatic-0.39
 ln -s ../*fastq.gz .
@@ -133,50 +133,32 @@ for i in *pass_1.fastq.gz; do
     java -jar trimmomatic-0.39.jar PE -phred33 $i ${rsam}pass_2.fastq.gz ${i}_paired_qtrim.fq.gz ${i}_unpaired_qtrim.fq.gz ${rsam}pass_2_paired_qtrim.fq.gz ${rsam}pass_2_unpaired_qtrim.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:5 TRAILING:3 SLIDINGWINDOW:4:25 MINLEN:50
     done
 ```
-Trimmomatic started with errors:
-```
-TrimmomaticPE: Started with arguments:
- -phred33 SRR7235989_pass_1.fastq.gz SRR7235989_pass_2.fastq.gz SRR7235989_pass_1.fastq.gz_paired_qtrim.fq.gz SRR7235989_pass_1.fastq.gz_unpaired_qtrim.fq.gz SRR7235989_pass_2_paired_qtrim.fq.gz SRR7235989_pass_2_unpaired_qtrim.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:5 TRAILING:3 SLIDINGWINDOW:4:25 MINLEN:50
-java.io.FileNotFoundException: /RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/TruSeq3-PE.fa (No such file or directory)
-	at java.io.FileInputStream.open0(Native Method)
-	at java.io.FileInputStream.open(FileInputStream.java:195)
-	at java.io.FileInputStream.<init>(FileInputStream.java:138)
-	at org.usadellab.trimmomatic.fasta.FastaParser.parse(FastaParser.java:54)
-	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.loadSequences(IlluminaClippingTrimmer.java:110)
-	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.makeIlluminaClippingTrimmer(IlluminaClippingTrimmer.java:71)
-	at org.usadellab.trimmomatic.trim.TrimmerFactory.makeTrimmer(TrimmerFactory.java:32)
-	at org.usadellab.trimmomatic.Trimmomatic.createTrimmers(Trimmomatic.java:59)
-	at org.usadellab.trimmomatic.TrimmomaticPE.run(TrimmomaticPE.java:552)
-	at org.usadellab.trimmomatic.Trimmomatic.main(Trimmomatic.java:80)
- ```
 Quality-Check Trimmed Reads
 ```
 mkdir qtrim
 mv *qtrim.fastq.gz ./qtrim/
 cd qtrim
-fastqc *qtrim.fastq.gz .
-multiqc
+fastqc *fq.gz
+multiqc .
 ```
 Save HTML file on local directory
 ```
-scp -r -P xxxx echille@kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
+scp -r -P 2292 echille@kitt.uri.edu:/home/echille/finalproject/data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/multiqc* ~/Documents/repos/BIO594_Puritz/Final_Assignment/Chille_Final_Assignment/MultiQC_results
 ```
 ##### MultiQC Results for Trimmed Files:  
 
-![image](http://mdp.tylingsoft.com/icon.png)
-![image](http://mdp.tylingsoft.com/icon.png)
-![image](http://mdp.tylingsoft.com/icon.png)
-![image](http://mdp.tylingsoft.com/icon.png)
+![mean_sequence_quality](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/Post-Trimming/fastqc_per_base_sequence_quality_plot.png)
+![per_sequence_quality_scores](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/Post-Trimming/fastqc_per_sequence_quality_scores_plot.png)
+![sequence_length_distribution](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/Post-Trimming/fastqc_sequence_length_distribution_plot.png)
+![per_sequence_gc_content](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Chille_Final_Assignment/MultiQC_results/Post-Trimming/fastqc_per_sequence_gc_content_plot.png)
 
 #### Step 6: Map Reads to Reference Genome  
 Transfer reference [genome](https://www.ncbi.nlm.nih.gov/nuccore/1004128514?report=fasta) from local directory.
 ```
 cd Downloads
-scp -r -P xxxx sequence.fasta echille@kitt.uri.edu:/RAID_STORAGE2/echille/finalproject/sratoolkit.2.9.6-centos_linux64/bin/reference
-```
-Rename sequence.fasta to reference.fasta
-```
-mv sequence.fasta ./reference.fasta
+scp -r -P xxxx Downloads/GCF_000222465.1_Adig_1.1_genomic.fna.gz echille@kitt.uri.edu:/RAID_STORAGE2/echille/finalproject/
+
+
 ```
 Make directory for mapping
 ```
@@ -186,12 +168,18 @@ cd mapping
 Link trimmed fastq files and reference.fasta file to mapping directory
 ```
 ln -s ../data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/reference/reference.fasta .
-ln -s ../data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/*paired_qtrim.fq.gz .
+ln -s ../data/finalproject/sratoolkit.2.9.6-centos_linux64/bin/fastq/trimmed_reads/Trimmomatic-0.39/qtrim/*_qtrim.fq.gz .
 ```
+Change headers in pass_2 FastQ files to match pass_1 files  
+*Do this for each pass 2 file*
+```
+zcat SRR7235991_pass_2_paired_qtrim.fq.gz | sed 's/SRR7235991.2.2/SRR7235991.2.1/g' > SRR7235991_pass_2_paired_qtrim.fq
+gzip SRR7235991_pass_2_paired_qtrim.fq
+```
+
 Set up an index for the reference genome 
 ```
-samtools faidx reference.fasta
-bwa index reference.fasta &> index.log
+samtools faidx GCF_000222465.1_Adig_1.1_genomic.fna.gz
 ```
 Create and execute a bash [script](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Chille_Final_Assignment/Scripts/bwa.sh) to run bwa
 ```
@@ -206,8 +194,7 @@ echo "done index $(date)"
 
 for i in ${array1[@]}; do
   bwa mem $F/reference.fasta ${i}.pass_1* ${i}.pass_2* -t 8 -a -M -B 3 -O 5 -R -T 20 -A "@RG\tID:${i}\tSM:${i}\tPL:Illumina" 2> bwa.${i}.log | samtools view -@4 -q 1 -SbT $F/reference.fasta - > ${i}.bam
-  																						    
-        	else
+  															
   echo "done ${i}"
 done
 
@@ -218,14 +205,37 @@ for i in ${array2[@]}; do
   samtools sort -@8 ${i}.bam -o ${i}.bam && samtools index ${i}.bam
 done
 
-bwa.sh
+bash bwa.sh
 ```
 
 
 
-#### Step 7: Call SNPs
-Create popmap file for SNP filtering  
-*File available [here](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Chille_Final_Assignment/popmap)*
+#### Step 7: Call SNPs Using dDocent
+Create popmap [file](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Chille_Final_Assignment/popmap) for SNP filtering  
+```
+nano popmap
+
+SRR7235990	FL
+SRR7235991	FL
+SRR7235992	FL
+SRR7235993	FL
+SRR7235994	FL
+SRR7235989	VI
+SRR7235998	VI
+SRR7235999	VI
+SRR7236021	VI
+SRR7236022	VI
+SRR7236028	BZ
+SRR7236031	BZ
+SRR7236032	BZ
+SRR7236033	BZ
+SRR7236034	BZ
+SRR7235996	CC
+SRR7236029	CC
+SRR7236030	CC
+SRR7236036	CC
+SRR7236037	CC
+```
 
 
 
