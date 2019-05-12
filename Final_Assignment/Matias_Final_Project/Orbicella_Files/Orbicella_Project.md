@@ -59,12 +59,12 @@ First install the program MultiQC
 Now we copy the multiqc reports for each library to the class repository
 ------------------------------------------------------------------------
 
-    cp /RAID_STORAGE2/mgomez/Orbicella_Raw/A_H5FYWBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/MultiQC_Reports/A_H5FYWBGXY_RAW_multiqc_report.html
+    cp /RAID_STORAGE2/mgomez/Orbicella_Raw/A_H5FYWBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/MultiQC_Reports/A_H5FYWBGXY_RAW_multiqc_report.html
 
-     cp /RAID_STORAGE2/mgomez/Orbicella_Raw/B_HCFMGBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/MultiQC_Reports/B_HCFMGBGXY_RAW_multiqc_report.html
+     cp /RAID_STORAGE2/mgomez/Orbicella_Raw/B_HCFMGBGXY/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/MultiQC_Reports/B_HCFMGBGXY_RAW_multiqc_report.html
 
-We are now goin to estimate number of reads in our data following the script ReferenceOpt.sh from dDocent
----------------------------------------------------------------------------------------------------------
+We are now goin to estimate number of reads in our data following the script ReferenceOpt.sh from dDocent (<https://github.com/jpuritz/dDocent/blob/master/scripts/ReferenceOpt.sh>)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Create a new folder called RefOpt
 ---------------------------------
@@ -90,8 +90,8 @@ Visualize data in kopt.data
 Plot values for each k1,k2 combination across similarity thresholds
 -------------------------------------------------------------------
 
-Pick a similarity threshold at the point of inflection on the curve \#\#Here’s some R code to quickly plot this for you:
-------------------------------------------------------------------------------------------------------------------------
+Pick a similarity threshold at the point of inflection on the curve \#\#Here’s some R code to quickly plot this for you (Taken from <http://www.ddocent.com/quick/>):
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     mkdir /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/RefOpt
     cd /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/RefOpt
@@ -128,7 +128,7 @@ We can now go ahead and demultiplex the data. This means we are going to separat
 The option -e specifies the 5’ restriction site, -i states the format of the input sequences.The -r option tells the program to fix cut sites and barcodes that have up to 1-2 mutations in them. This can be changed with the --barcode\_dist flag.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Now copy the demultiplexed files from dir A\_H5FYWBGXY and B\_HCFMGBGXY to a new dir and change to in
+Now copy the demultiplexed files from dir A\_H5FYWBGXY and B\_HCFMGBGXY to a new dir and change to it
 =====================================================================================================
 
     mkdir Libraries_A_B
@@ -219,17 +219,17 @@ we are now going to aggregate the results from FASTQC analyses across all sample
 ----------------------------------------------------------------------------------------------------------------------------------------
 
     multiqc multiqc /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/
-    cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/MultiQC_Reports/All_Trimmed_Samples_multiqc_report.html
+    cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/multiqc_report.html /home/mgomez/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/MultiQC_Reports/All_Trimmed_Samples_multiqc_report.html
 
-SNP filtering
--------------
+SNP filtering (<http://www.ddocent.com/filtering/>)
+---------------------------------------------------
 
-First, let´s create a working dir and chang to it, then copy the raw VCF file generetaed by dDocent to start the SNP filetring
-------------------------------------------------------------------------------------------------------------------------------
+First, let´s create a working dir and change to it, then copy the raw VCF file generetaed by dDocent to start the SNP filtering
+-------------------------------------------------------------------------------------------------------------------------------
 
     mkdir SNP_Filtering
     cd SNP_Filtering
-    mv /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/TotalRawSNPs.vcf .
+    cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_A_B/TotalRawSNPs.vcf .
 
 we are going to use the program VCFtools (<http://vcftools.sourceforge.net>) to filter our vcf file. To make this file more manageable, let’s start by applying three step filter. We are going to only keep variants that have been successfully genotyped in 50% of individuals, a minimum quality score of 30, and a minor allele count of 3
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -700,8 +700,8 @@ Yet another filter that can be applied is whether or not their is a discrepancy 
     mawk '!/#/' DP3g95p5maf05.fil4.vcf | wc -l
     8946
 
-The next filter we will apply is to look at the ration of locus quality score to depth Heng Li found some interesting results about how quality score and locus depth are related to each other in real and spurious variant calls In short, with whole genome samples, it was found that high coverage can lead to inflated locus quality scores. Heng proposed that for read depths greater than the mean depth plus 2-3 times the square root of mean depth that the quality score will be twice as large as the depth in real variants and below that value for false variants. implement two filters based on this idea. the first is removing any locus that has a quality score below 1/4 of the depth.(dDocent)
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+The next filter we will apply is to look at the ration of locus quality score to depth Heng Li found some interesting results about how quality score and locus depth are related to each other in real and spurious variant calls In short, with whole genome samples, it was found that high coverage can lead to inflated locus quality scores. Heng proposed that for read depths greater than the mean depth plus 2-3 times the square root of mean depth that the quality score will be twice as large as the depth in real variants and below that value for false variants. implement two filters based on this idea. the first is removing any locus that has a quality score below 1/4 of the depth (dDocent).
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     vcffilter -f "QUAL / DP > 0.25" DP3g95p5maf05.fil4.vcf > DP3g95p5maf05.fil5.vcf
 
@@ -807,7 +807,7 @@ Let’s plot the data as a histogram
     After filtering, kept 6438 out of a possible 8853 Sites
     Run Time = 2.00 seconds
 
-### The next filter to apply is HWE. Heng Li also found that HWE is another excellent filter to remove erroneous variant calls. We don’t want to apply it across the board, since population structure will create departures from HWE as well. We need to apply this by population. I’ve included a perl script written by Chris Hollenbeck, one of the PhD student’s in my current lab that will do this for us.
+### The next filter to apply is HWE. Heng Li also found that HWE is another excellent filter to remove erroneous variant calls. We don’t want to apply it across the board, since population structure will create departures from HWE as well. We need to apply this by population. I’ve included a perl script written by Chris Hollenbeck, one of the PhD student’s in my current lab that will do this for us (dDocent).
 
     curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/filter_hwe_by_pop.pl
     chmod +x filter_hwe_by_pop.pl
@@ -863,8 +863,8 @@ Run BayeScan
 
     BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_BayesScan -threads 20 -nbp 30 -thin 20 
 
-The fact that BayesCan is not running could be related to having only 2 individuals in one populations. This small number of individuals is not enough to etimate allele frequencies. So, I\`m going to take out those two individuals from the last vcf file I rerun BayeScan.
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+The fact that BayesCan is not running could be related to having only 2 individuals in one populations. This small number of individuals is not enough to etimate allele frequencies. So, I\`m going to take out those two individuals from the last vcf file and rerun BayeScan.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 We first make a file with the individuals to want to remove:PAN2014\_235 and PAN2014\_240
 -----------------------------------------------------------------------------------------
@@ -940,8 +940,11 @@ Outlier Detection
 Run BayeScan
 ------------
 
-It did not run either after haveing taken out the two only individuals from PAN2014 population. The same "Segmentation fault"" error popped out
------------------------------------------------------------------------------------------------------------------------------------------------
+It did not run either after haveing taken out the two only individuals from PAN2014 population. The same "Segmentation fault"" error popped out.
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Here, I will actualy need to find the problem to be able to run BayeScan to filter potential loci under selection.
+------------------------------------------------------------------------------------------------------------------
 
     BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20 
     Using 20 threads (80 cpu detected on this machine)
@@ -990,7 +993,7 @@ we need to limit SNPs to only those with two alleles:
     After filtering, kept 5030 out of a possible 5092 Sites
     Run Time = 2.00 seconds
 
-We are goint to use PCAadapat to detect outlier loci
+We are going to use PCAadapat to detect outlier loci
 ----------------------------------------------------
 
 We first load the library pcadapt on r (<https://cran.r-project.org/web/packages/pcadapt/vignettes/pcadapt.html>)
@@ -1013,7 +1016,7 @@ To choose K, principal component analysis should first be performed with a large
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_2A.recode.vcf
-    ##  - output file:              /tmp/RtmpVCREoC/file131c2581b5d7f.pcadapt
+    ##  - output file:              /tmp/RtmpcoeHTR/file48b532b82b32.pcadapt
     ## 
     ##  - number of individuals detected:   95
     ##  - number of loci detected:      5030
@@ -1023,8 +1026,8 @@ To choose K, principal component analysis should first be performed with a large
 
     x <- pcadapt(input = filename, K=20)
 
-Since PCAdapt discarded 1517 variants beacuse they were not SNPs, I'm going to check out the allele frequency of all my SNPs to make sure the are not fixed alleles that might be beings discarded by PCAdapt
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Since PCAdapt discarded 1517 variants beacuse they were not SNPs, I'm going to check out the allele frequency of all my SNPs to make sure the are not fixed alleles that might be being discarded by PCAdapt
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 We first make a file with the frequencies of each allele
 --------------------------------------------------------
@@ -1063,13 +1066,16 @@ We first make a file with the frequencies of each allele
     After filtering, kept 5030 out of a possible 5030 Sites
     Run Time = 0.00 seconds
 
-We then use the next next command line to see if there are any 1 numbers
-------------------------------------------------------------------------
+We then use the next next command line to see if there are any fixed alleles (1.0)
+----------------------------------------------------------------------------------
 
     cut -f5 SNP.DP3g95p5maf05.HWE_2A.recode.vcf.frq | grep 1 
 
-There does not seem to be any fixed allele so this is not the cause of the problem. Beacuase we do not know what the variants taken out are we cannot rely filter the vcf file for the identified oulier loci. I\`m going to continue here running PCAdapt fot the exercise sake.
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+There does not seem to be any fixed allele so this is not the cause of the problem. Because we do not know what the variants taken out are we cannot really filter the vcf file for the identified outlier loci. I\`m going to continue here running PCAdapt fot the exercise sake.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+In the future I will need to find what the problem is and why those variants are being discarded.
+-------------------------------------------------------------------------------------------------
 
 The ‘scree plot’ displays in decreasing order the percentage of variance explained by each PC. Up to a constant, it corresponds to the eigenvalues in decreasing order. The ideal pattern in a scree plot is a steep curve followed by a bend and a straight line. The eigenvalues that correspond to random variation lie on a straight line whereas the ones that correspond to population structure lie on a steep curve. We recommend to keep PCs that correspond to eigenvalues to the left of the straight line (Cattell’s rule). In the provided example, K = 2 is the optimal choice for K. The plot function displays a scree plot:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1085,12 +1091,9 @@ Counting individuals in each population
     grep PAN2014 popmap | wc -l
     grep PR popmap | wc -l
 
-    ## 0
-    ## 0
-    ## 0
-
-Since we modifiy the pomap file to eliminate those 2 individuals from PAN2014 population, there are no individuals assigned to tha population. But we know from all previous analyses that those 2 individuals are included in the vcf SNP.DP3g95p5maf05.HWE\_2A.recode.vcf
-===========================================================================================================================================================================================================================================================================
+    ## 40
+    ## 2
+    ## 53
 
 When population labels are known, individuals of the same populations can be displayed with the same color using the pop argument, which should contain the list of indices of the populations of origin.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1171,7 +1174,7 @@ Right now I\`m going to run PCAdapt with the vcf file that we created before tak
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
-    ##  - output file:              /tmp/RtmpVCREoC/file131c2779f8bfa.pcadapt
+    ##  - output file:              /tmp/RtmpcoeHTR/file48b5460fa428.pcadapt
     ## 
     ##  - number of individuals detected:   93
     ##  - number of loci detected:      5092
@@ -1187,17 +1190,17 @@ First, we write the oulier to a text file
 
     write.table(outliers, file ="outliers.txt", row.names = FALSE, col.names = FALSE)
 
-Next, we make a file with all the loci in the vcf but ignoring the headres and extracting only the 1st and second columnd that have the CHROM and ID labels. Additionally we add a column of numbers to every loci
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Next, we make a file with all the loci in the vcf but ignoring the headers and extracting only the 1st and second columnd that have the CHROM and ID labels. Additionally we add a column of numbers to every loci.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
     paste <(seq 1 5030) <(mawk '!/#/' SNP.DP3g95p5maf05.HWE_2A.recode.vcf | cut -f1,2) > SNP.DP3g95p5maf05.HWE_2A.loci
 
-We now compare the files outliers.txt and SNP.DP3g95p5maf05.HWE\_2A.loci to have only those loci commun in each loci position and extract the fields 2 and 3 to make a new file that we will use the vcf file.
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+We now compare the files outliers.txt and SNP.DP3g95p5maf05.HWE\_2A.loci to have only those commun loci in each loci position and extract the fields 2 and 3 to make a new file that we will use to filter the vcf file.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Note that these loci are not the ones that really correspond to those detected by PCAdapt becuase this many variants were discarded by it. I\`m showing a way to get rid of those loci assuming they were the ones that really corresponded to the vcf.
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Note that these loci are not the ones that really correspond to those detected by PCAdapt becuase these many variants were discarded by it. I\`m showing a way to get rid of those loci assuming they were the ones that really corresponded to the vcf.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Helpful link: <https://askubuntu.com/questions/879754/awk-comparing-2-columns-of-2-files-and-print-common-lines>
 ----------------------------------------------------------------------------------------------------------------
@@ -1318,14 +1321,6 @@ We load a population table
     ## [85] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
 
     pop(my_genind) <- CU_PAN_PR_pop$Population
-
-Test Population Structure as measured by the Fst statistics
-===========================================================
-
-    library("hierfstat")
-    fstat(my_genind)
-    matFst <- pairwise.fst(my_genind)
-    matFst
 
 Most code, if not all, taken from: \#\#<https://grunwaldlab.github.io/Population_Genetics_in_R/gbs_analysis.html>
 -----------------------------------------------------------------------------------------------------------------
@@ -1566,7 +1561,7 @@ We can perform a PCA on our genlight object by using the glPCA function.
     title(ylab="Proportion of variance explained")
     title(xlab="Eigenvalue")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-89-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-88-1.png)
 
     Orbicella_genlight_pca$eig
 
@@ -1631,7 +1626,7 @@ of the data for each the population:
 
     ## Warning: Removed 1 rows containing missing values (geom_path).
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-90-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-89-1.png)
 
 We can further explore population assignments using a discriminant analysis of principal components (DAPC).
 -----------------------------------------------------------------------------------------------------------
@@ -1641,19 +1636,19 @@ We can further explore population assignments using a discriminant analysis of p
     scatter(Orbicella_dapc, col = cols, cex = 2, legend = TRUE, clabel = F, posi.leg = "topleft", scree.pca = TRUE,
             posi.pca = "topright", cleg = 0.75)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-91-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-90-1.png)
 
     scatter(Orbicella_dapc, col = cols, cex = 2, legend = TRUE, clabel = F, posi.leg = "topleft", scree.pca = FALSE,
             posi.pca = "topleft", cleg = 0.75)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-91-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-90-2.png)
 
-Structure like-plot
+Structure-like plot
 -------------------
 
     compoplot(Orbicella_dapc,col = cols, posi = 'top')
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-92-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-91-1.png)
 
     Orbicella_dapc_resu<- as.data.frame(Orbicella_dapc$posterior)
     Orbicella_dapc_resu$pop <- pop(Orbicella_removed)
@@ -1672,7 +1667,7 @@ Structure like-plot
     p <- p + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 8))
     p
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-92-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-91-2.png)
 
 We now calculate the genetic differentiation as measured the Fst statistics
 ===========================================================================
@@ -1734,7 +1729,12 @@ We now calculate the genetic differentiation as measured the Fst statistics
 </table>
 
 Table 1. Genetic differentiation (*Fst*) of *Orbicella faveolata*
-populations across the Caribbean. \#Mantel test: isolation by distance
+populations across the Caribbean. CU\_PAN\_PR\_pop&lt;-
+read.table("/home/mgomez/repos/Orbicella/Orbicella\_VCF/CU\_PAN\_PR\_pop.txt",sep
+= "", header=TRUE)
+
+Mantel test: isolation by distance
+==================================
 
     xy <-read.table("/home/mgomez/repos/Orbicella/Orbicella_VCF/dis_mat.txt",sep = "\t", header=TRUE)
 
@@ -1779,9 +1779,9 @@ populations across the Caribbean. \#Mantel test: isolation by distance
 
     plot (ibd)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-95-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-94-1.png)
 
     plot(Dgeo,Dgen)
     abline(lm(Dgen~Dgeo), col="red", lty=2)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-95-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-94-2.png)
