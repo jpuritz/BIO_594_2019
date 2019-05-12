@@ -1016,7 +1016,7 @@ To choose K, principal component analysis should first be performed with a large
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_2A.recode.vcf
-    ##  - output file:              /tmp/RtmpcoeHTR/file48b532b82b32.pcadapt
+    ##  - output file:              /tmp/Rtmpn1xJif/file5a932e671d4f.pcadapt
     ## 
     ##  - number of individuals detected:   95
     ##  - number of loci detected:      5030
@@ -1174,7 +1174,7 @@ Right now I\`m going to run PCAdapt with the vcf file that we created before tak
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
-    ##  - output file:              /tmp/RtmpcoeHTR/file48b5460fa428.pcadapt
+    ##  - output file:              /tmp/Rtmpn1xJif/file5a933ce33905.pcadapt
     ## 
     ##  - number of individuals detected:   93
     ##  - number of loci detected:      5092
@@ -1729,9 +1729,7 @@ We now calculate the genetic differentiation as measured the Fst statistics
 </table>
 
 Table 1. Genetic differentiation (*Fst*) of *Orbicella faveolata*
-populations across the Caribbean. CU\_PAN\_PR\_pop&lt;-
-read.table("/home/mgomez/repos/Orbicella/Orbicella\_VCF/CU\_PAN\_PR\_pop.txt",sep
-= "", header=TRUE)
+populations across the Caribbean.
 
 Mantel test: isolation by distance
 ==================================

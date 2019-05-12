@@ -1332,8 +1332,6 @@ pop(my_genind)
 |Panama|0.176|-|
 |Puerto Rico|0.066|0.272|
 Table 1. Genetic differentiation (*Fst*)  of *Orbicella faveolata* populations across the Caribbean.
-CU_PAN_PR_pop<- read.table("/home/mgomez/repos/Orbicella/Orbicella_VCF/CU_PAN_PR_pop.txt",sep = "\t", header=TRUE)
-
 
 #Mantel test: isolation by distance
 ```{r}
