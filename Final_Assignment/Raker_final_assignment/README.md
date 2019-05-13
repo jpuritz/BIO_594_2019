@@ -21,6 +21,13 @@ Adult and larvae *D. antillarum* were exposedto high (7.9), medium (7.6), and lo
 ### Future Analysis
 Compare *D. antillarum* to two other urchin species (other species being analyzed by other investigators)
 
+### Navigation
+**Raker_project_plan.md**: original outline for the project
+**da_md.md**: markdown file of steps taken to analyze *D. antillarum* data
+**Data**: directory containing tab delimited text file grouping samples by pH treatment, MultiQC report, fastp output
+**Orthofinder_results**: directory containing .csv files describing orthogroups
+**Images**: directory containing images used in da_md.md
+
 ### References
 
 ###### FastQC
