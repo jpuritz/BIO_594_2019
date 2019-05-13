@@ -138,21 +138,21 @@ In a terminal window:
 ¯\_(ツ)_/¯ scp -P zzzz mschedl@KITT.uri.edu:/home/mschedl/Working-CASE-RNA/fastqc-before/multiqc_report.html /Users/maggieschedl/Desktop/URI/Classes/Puritz/CASE-RNA/outputs
 ```
 
-![image1](before-qual.png)  
+![image1](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/before-qual.png)  
 These are the mean quality scores across all reads, they look really good (all above 30). There is a little dip in the beginning of some though.
 
-![image2](before-per-seq-qual.png)  
+![image2](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/before-per-seq-qual.png)  
 These are the per-sequence quality scores. Again, most look pretty good, where a lot of them are above 30 or at 40. But there is a tail that goes low, so I would like to shrink that tail.
 
-![image3](GC.png)  
+![image3](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/GC.png)  
 This is an image of the GC content of all the reads. In theory it should look like a normal distribution. This is not very normally distributed, indicating some sort of bias or contamination.
 
 **Results Specific to RNASeq Data**
 
-![image4](seq-counts.png)  
+![image4](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/seq-counts.png)  
 This shows the number of unique and duplicate reads for each sample. Because this is RNASeq data, there should be a lot of duplicate reads.
 
-![image5](over-rep-seq.png)  
+![image5](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/over-rep-seq.png)  
 Same with the over-represented sequences. This is to be expected with RNASeq data, but not good with other types of data.
 
 ----
@@ -165,10 +165,10 @@ fastp --in1 CA_J06.F.fq.gz --in2 CA_J06.R.fq.gz --out1 CA_J06.F.trim.fq.gz --out
 
 The same parameters were applied to each sample. At the time I did not feel like I could make a loop to do them all, so each code was run separately. Afterwards, another MultiQC report was generated.
 
-![image6](after-qual.png)  
+![image6](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/after-qual.png)  
 Importantly, the quality scores are still high.
 
-![image7](after-pre-seq-qual)  
+![image7](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/after-pre-seq-qual)  
 And the tail of that distribution scooted up a little.
 
 ----
@@ -506,13 +506,13 @@ plotMA(SEresLFC, ylim=c(-10,15))
 plotMA(CASEresLFC, ylim=c(-10,15))
 ```
 Coastal Acidification compared to Control  
-![image8](CAresLFC.png)
+![image8](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/CAresLFC.png)
 
 Sewage Effluent compared to  Control  
-![image9](SEresLFC.png)
+![image9](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/SEresLFC.png)
 
 Coastal Acidification + Sewage Effluent Double Stress compared to Control  
-![image10](CASEresLFC.png)
+![image10](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/CASEresLFC.png)
 
 Then I looked at which transcripts had the lowest adjusted pvalue. Interestingly, SE and CASE had the same transcript for this.
 
@@ -525,7 +525,7 @@ ggplot(minadjpCA, aes(x=treatment, y=count)) +
   geom_point(position=position_jitter(w=0.1,h=0), colour="#9e7bc6") +
   scale_y_log10(breaks=c(25,100,400)) + ggtitle("MSTRG.25584.1") + ylab("Normalize Read Counts") + xlab("Treatment")
   ```
-  ![image11](MSTRG.25584.1.png)
+  ![image11](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/MSTRG.25584.1.png)
 
   ```
   #Sewage Effluent/Both lowest adjusted pvalue
@@ -536,7 +536,7 @@ ggplot(minadjpSE, aes(x=treatment, y=count)) +
   geom_point(position=position_jitter(w=0.1,h=0), colour="#f2a7ed") +
   scale_y_log10(breaks=c(25,100,400)) + ggtitle("MSTRG.23078.1") + ylab("Normalize Read Counts") + xlab("Treatment")
   ```
-  ![image12](MSTRG.23078.1.png)
+  ![image12](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/MSTRG.23078.1.png)
 
   I looked at some heat maps, did various transformations, and some other things I'm not sure about yet. Here I'm just going to show the variance stabilizing transformation and some preliminary PCAs.
 
@@ -548,11 +548,11 @@ ggplot(minadjpSE, aes(x=treatment, y=count)) +
   ```
   plotPCA(vsd_CASE_dds, intgroup=c("treatment"))
   ```
-  ![image13](treatmentPCA.png)
+  ![image13](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/treatmentPCA.png)
 
   ```
   plotPCA(vsd_CASE_dds, intgroup=c("library")
   ```
-  ![image14](libraryPCA.png)
+  ![image14](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/libraryPCA.png)
 
-  Moving Forward: It kind of looks like things cluster better by library. So that is something I need to remove from the data. I also am not sure if I used the right transformation, if I am using the right DESeq2 object, maybe I should be using the multi-factorial one for analysis. Or I should have made it from the gene_count_matrix and not the transcript_count_matrix in the first place. These are all things I will try next! 
+  Moving Forward: It kind of looks like things cluster better by library. So that is something I need to remove from the data. I also am not sure if I used the right transformation, if I am using the right DESeq2 object, maybe I should be using the multi-factorial one for analysis. Or I should have made it from the gene_count_matrix and not the transcript_count_matrix in the first place. These are all things I will try next!
