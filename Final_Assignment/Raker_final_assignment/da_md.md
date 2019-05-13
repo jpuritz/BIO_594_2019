@@ -5,6 +5,7 @@
 #### Data uploaded and analyzed on KITT
 
 ###### accessing KITT account
+###### original data files located in /RAID_STORAGE2/Shared_Data/Prada_Data/
 ```
 ssh -p -Y 2292 craker@kitt.uri.edu
 ```
