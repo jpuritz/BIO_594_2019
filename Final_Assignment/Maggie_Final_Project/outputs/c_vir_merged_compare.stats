@@ -1,0 +1,30 @@
+# gffcompare v0.11.2 | Command line was:
+#gffcompare -r /home/mschedl/Working-CASE-RNA/histat/stringtie/ref_C_virginica-3.0_top_level.gff3 -G -o c_vir_merged_compare C_Vir_ST_merged.gtf
+#
+
+#= Summary for dataset: C_Vir_ST_merged.gtf 
+#     Query mRNAs :   79635 in   42550 loci  (72680 multi-exon transcripts)
+#            (11864 multi-transcript loci, ~1.9 transcripts per locus)
+# Reference mRNAs :   67853 in   39152 loci  (65384 multi-exon)
+# Super-loci w/ reference transcripts:    34880
+#-----------------| Sensitivity | Precision  |
+        Base level:    89.8     |    86.7    |
+        Exon level:    86.4     |    83.6    |
+      Intron level:    87.5     |    89.6    |
+Intron chain level:    59.8     |    53.8    |
+  Transcript level:    60.4     |    51.5    |
+       Locus level:    82.5     |    75.2    |
+
+     Matching intron chains:   39117
+       Matching transcripts:   41012
+              Matching loci:   32315
+
+          Missed exons:   32408/352731	(  9.2%)
+           Novel exons:   26576/372535	(  7.1%)
+        Missed introns:   18845/310704	(  6.1%)
+         Novel introns:   10302/303560	(  3.4%)
+           Missed loci:    2576/39152	(  6.6%)
+            Novel loci:    7417/42550	( 17.4%)
+
+ Total union super-loci across all input datasets: 42297 
+79635 out of 79635 consensus transcripts written in c_vir_merged_compare.annotated.gtf (0 discarded as redundant)

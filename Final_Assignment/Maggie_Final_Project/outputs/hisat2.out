@@ -1,0 +1,252 @@
+20231777 reads; of these:
+  20231777 (100.00%) were paired; of these:
+    4527888 (22.38%) aligned concordantly 0 times
+    14217121 (70.27%) aligned concordantly exactly 1 time
+    1486768 (7.35%) aligned concordantly >1 times
+    ----
+    4527888 pairs aligned concordantly 0 times; of these:
+      81508 (1.80%) aligned discordantly 1 time
+    ----
+    4446380 pairs aligned 0 times concordantly or discordantly; of these:
+      8892760 mates make up the pairs; of these:
+        7150689 (80.41%) aligned 0 times
+        1542612 (17.35%) aligned exactly 1 time
+        199459 (2.24%) aligned >1 times
+82.33% overall alignment rate
+[bam_sort_core] merging from 18 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CA_J06.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CA_J06.F.trim.fq.gz Wed May 8 23:48:47 EDT 2019
+21536257 reads; of these:
+  21536257 (100.00%) were paired; of these:
+    4769185 (22.14%) aligned concordantly 0 times
+    13675568 (63.50%) aligned concordantly exactly 1 time
+    3091504 (14.35%) aligned concordantly >1 times
+    ----
+    4769185 pairs aligned concordantly 0 times; of these:
+      88606 (1.86%) aligned discordantly 1 time
+    ----
+    4680579 pairs aligned 0 times concordantly or discordantly; of these:
+      9361158 mates make up the pairs; of these:
+        7474791 (79.85%) aligned 0 times
+        1589811 (16.98%) aligned exactly 1 time
+        296556 (3.17%) aligned >1 times
+82.65% overall alignment rate
+[bam_sort_core] merging from 23 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CA_J08.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CA_J08.F.trim.fq.gz Thu May 9 00:55:20 EDT 2019
+25383921 reads; of these:
+  25383921 (100.00%) were paired; of these:
+    5350779 (21.08%) aligned concordantly 0 times
+    16065098 (63.29%) aligned concordantly exactly 1 time
+    3968044 (15.63%) aligned concordantly >1 times
+    ----
+    5350779 pairs aligned concordantly 0 times; of these:
+      77780 (1.45%) aligned discordantly 1 time
+    ----
+    5272999 pairs aligned 0 times concordantly or discordantly; of these:
+      10545998 mates make up the pairs; of these:
+        8794439 (83.39%) aligned 0 times
+        1557161 (14.77%) aligned exactly 1 time
+        194398 (1.84%) aligned >1 times
+82.68% overall alignment rate
+[bam_sort_core] merging from 28 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CA_J11.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CA_J11.F.trim.fq.gz Thu May 9 01:52:44 EDT 2019
+36997630 reads; of these:
+  36997630 (100.00%) were paired; of these:
+    7454172 (20.15%) aligned concordantly 0 times
+    21880738 (59.14%) aligned concordantly exactly 1 time
+    7662720 (20.71%) aligned concordantly >1 times
+    ----
+    7454172 pairs aligned concordantly 0 times; of these:
+      111082 (1.49%) aligned discordantly 1 time
+    ----
+    7343090 pairs aligned 0 times concordantly or discordantly; of these:
+      14686180 mates make up the pairs; of these:
+        12018366 (81.83%) aligned 0 times
+        2332399 (15.88%) aligned exactly 1 time
+        335415 (2.28%) aligned >1 times
+83.76% overall alignment rate
+[bam_sort_core] merging from 46 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CA_J18.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CA_J18.F.trim.fq.gz Thu May 9 03:28:09 EDT 2019
+26724680 reads; of these:
+  26724680 (100.00%) were paired; of these:
+    5412767 (20.25%) aligned concordantly 0 times
+    17779022 (66.53%) aligned concordantly exactly 1 time
+    3532891 (13.22%) aligned concordantly >1 times
+    ----
+    5412767 pairs aligned concordantly 0 times; of these:
+      99178 (1.83%) aligned discordantly 1 time
+    ----
+    5313589 pairs aligned 0 times concordantly or discordantly; of these:
+      10627178 mates make up the pairs; of these:
+        8543543 (80.39%) aligned 0 times
+        1874470 (17.64%) aligned exactly 1 time
+        209165 (1.97%) aligned >1 times
+84.02% overall alignment rate
+[bam_sort_core] merging from 28 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CASE_J03.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CASE_J03.F.trim.fq.gz Thu May 9 04:35:25 EDT 2019
+31487890 reads; of these:
+  31487890 (100.00%) were paired; of these:
+    6520745 (20.71%) aligned concordantly 0 times
+    20013813 (63.56%) aligned concordantly exactly 1 time
+    4953332 (15.73%) aligned concordantly >1 times
+    ----
+    6520745 pairs aligned concordantly 0 times; of these:
+      119606 (1.83%) aligned discordantly 1 time
+    ----
+    6401139 pairs aligned 0 times concordantly or discordantly; of these:
+      12802278 mates make up the pairs; of these:
+        10405632 (81.28%) aligned 0 times
+        2137761 (16.70%) aligned exactly 1 time
+        258885 (2.02%) aligned >1 times
+83.48% overall alignment rate
+[bam_sort_core] merging from 35 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CASE_J09.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CASE_J09.F.trim.fq.gz Thu May 9 05:53:12 EDT 2019
+24420393 reads; of these:
+  24420393 (100.00%) were paired; of these:
+    5329993 (21.83%) aligned concordantly 0 times
+    15737704 (64.44%) aligned concordantly exactly 1 time
+    3352696 (13.73%) aligned concordantly >1 times
+    ----
+    5329993 pairs aligned concordantly 0 times; of these:
+      82009 (1.54%) aligned discordantly 1 time
+    ----
+    5247984 pairs aligned 0 times concordantly or discordantly; of these:
+      10495968 mates make up the pairs; of these:
+        8672772 (82.63%) aligned 0 times
+        1627619 (15.51%) aligned exactly 1 time
+        195577 (1.86%) aligned >1 times
+82.24% overall alignment rate
+[bam_sort_core] merging from 25 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CASE_J12.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CASE_J12.F.trim.fq.gz Thu May 9 06:51:04 EDT 2019
+35880950 reads; of these:
+  35880950 (100.00%) were paired; of these:
+    7862754 (21.91%) aligned concordantly 0 times
+    21412271 (59.68%) aligned concordantly exactly 1 time
+    6605925 (18.41%) aligned concordantly >1 times
+    ----
+    7862754 pairs aligned concordantly 0 times; of these:
+      105070 (1.34%) aligned discordantly 1 time
+    ----
+    7757684 pairs aligned 0 times concordantly or discordantly; of these:
+      15515368 mates make up the pairs; of these:
+        13056836 (84.15%) aligned 0 times
+        2148520 (13.85%) aligned exactly 1 time
+        310012 (2.00%) aligned >1 times
+81.81% overall alignment rate
+[bam_sort_core] merging from 42 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CASE_J13.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CASE_J13.F.trim.fq.gz Thu May 9 08:19:01 EDT 2019
+28559423 reads; of these:
+  28559423 (100.00%) were paired; of these:
+    6186431 (21.66%) aligned concordantly 0 times
+    18374446 (64.34%) aligned concordantly exactly 1 time
+    3998546 (14.00%) aligned concordantly >1 times
+    ----
+    6186431 pairs aligned concordantly 0 times; of these:
+      100489 (1.62%) aligned discordantly 1 time
+    ----
+    6085942 pairs aligned 0 times concordantly or discordantly; of these:
+      12171884 mates make up the pairs; of these:
+        9920124 (81.50%) aligned 0 times
+        1959863 (16.10%) aligned exactly 1 time
+        291897 (2.40%) aligned >1 times
+82.63% overall alignment rate
+[bam_sort_core] merging from 30 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CON_J02.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CON_J02.F.trim.fq.gz Thu May 9 09:42:22 EDT 2019
+27241965 reads; of these:
+  27241965 (100.00%) were paired; of these:
+    5908812 (21.69%) aligned concordantly 0 times
+    18143534 (66.60%) aligned concordantly exactly 1 time
+    3189619 (11.71%) aligned concordantly >1 times
+    ----
+    5908812 pairs aligned concordantly 0 times; of these:
+      114619 (1.94%) aligned discordantly 1 time
+    ----
+    5794193 pairs aligned 0 times concordantly or discordantly; of these:
+      11588386 mates make up the pairs; of these:
+        9385139 (80.99%) aligned 0 times
+        1966123 (16.97%) aligned exactly 1 time
+        237124 (2.05%) aligned >1 times
+82.77% overall alignment rate
+[bam_sort_core] merging from 27 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CON_J05.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CON_J05.F.trim.fq.gz Thu May 9 10:47:02 EDT 2019
+35068166 reads; of these:
+  35068166 (100.00%) were paired; of these:
+    7854161 (22.40%) aligned concordantly 0 times
+    22047375 (62.87%) aligned concordantly exactly 1 time
+    5166630 (14.73%) aligned concordantly >1 times
+    ----
+    7854161 pairs aligned concordantly 0 times; of these:
+      111230 (1.42%) aligned discordantly 1 time
+    ----
+    7742931 pairs aligned 0 times concordantly or discordantly; of these:
+      15485862 mates make up the pairs; of these:
+        13107121 (84.64%) aligned 0 times
+        2120568 (13.69%) aligned exactly 1 time
+        258173 (1.67%) aligned >1 times
+81.31% overall alignment rate
+[bam_sort_core] merging from 37 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//CON_J10.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//CON_J10.F.trim.fq.gz Thu May 9 12:14:16 EDT 2019
+28192467 reads; of these:
+  28192467 (100.00%) were paired; of these:
+    5411212 (19.19%) aligned concordantly 0 times
+    17687954 (62.74%) aligned concordantly exactly 1 time
+    5093301 (18.07%) aligned concordantly >1 times
+    ----
+    5411212 pairs aligned concordantly 0 times; of these:
+      110759 (2.05%) aligned discordantly 1 time
+    ----
+    5300453 pairs aligned 0 times concordantly or discordantly; of these:
+      10600906 mates make up the pairs; of these:
+        8498930 (80.17%) aligned 0 times
+        1849963 (17.45%) aligned exactly 1 time
+        252013 (2.38%) aligned >1 times
+84.93% overall alignment rate
+[bam_sort_core] merging from 33 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//SE_J01.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//SE_J01.F.trim.fq.gz Thu May 9 13:36:24 EDT 2019
+24674517 reads; of these:
+  24674517 (100.00%) were paired; of these:
+    4977702 (20.17%) aligned concordantly 0 times
+    15544627 (63.00%) aligned concordantly exactly 1 time
+    4152188 (16.83%) aligned concordantly >1 times
+    ----
+    4977702 pairs aligned concordantly 0 times; of these:
+      91743 (1.84%) aligned discordantly 1 time
+    ----
+    4885959 pairs aligned 0 times concordantly or discordantly; of these:
+      9771918 mates make up the pairs; of these:
+        8015930 (82.03%) aligned 0 times
+        1568742 (16.05%) aligned exactly 1 time
+        187246 (1.92%) aligned >1 times
+83.76% overall alignment rate
+[bam_sort_core] merging from 28 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//SE_J04.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//SE_J04.F.trim.fq.gz Thu May 9 14:44:31 EDT 2019
+30650184 reads; of these:
+  30650184 (100.00%) were paired; of these:
+    7445201 (24.29%) aligned concordantly 0 times
+    20740885 (67.67%) aligned concordantly exactly 1 time
+    2464098 (8.04%) aligned concordantly >1 times
+    ----
+    7445201 pairs aligned concordantly 0 times; of these:
+      104259 (1.40%) aligned discordantly 1 time
+    ----
+    7340942 pairs aligned 0 times concordantly or discordantly; of these:
+      14681884 mates make up the pairs; of these:
+        12175081 (82.93%) aligned 0 times
+        2188673 (14.91%) aligned exactly 1 time
+        318130 (2.17%) aligned >1 times
+80.14% overall alignment rate
+[bam_sort_core] merging from 26 files and 1 in-memory blocks...
+/home/mschedl/Working-CASE-RNA/histat//SE_J07.F.trim.fq.gz_bam
+HISAT2 PE /home/mschedl/Working-CASE-RNA/histat//SE_J07.F.trim.fq.gz Thu May 9 15:52:42 EDT 2019
