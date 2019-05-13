@@ -406,6 +406,7 @@ PROKKA_05092019.ffn	PROKKA_05092019.gff	PROKKA_05092019.tsv
 PROKKA_05092019.fna	PROKKA_05092019.log	PROKKA_05092019.txt
 ```
 Below is a description of what each file contains. 
+```
 .faa = Protein FASTA file of the translated CDS sequences. 
 .ffn = Nucleotide FASTA file of all the prediction transcripts (CDS, rRNA, tRNA, tmRNA, misc_RNA) 
 .fna = Nucleotide FASTA file of the input contig sequences. 
@@ -415,7 +416,7 @@ Below is a description of what each file contains.
 .tbl = Feature Table file, used by "tbl2asn" to create the .sqn file. 
 .tsv = Tab-separated file of all features: locus_tag,ftype,len_bp,gene,EC_number,COG,product. 
 .txt = Statistics relating to the annotated features found. 
-
+```
 
 Below is a view of the some of the proteins that were identified in the PROKKA_05092019.faa file.
 ```
