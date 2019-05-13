@@ -7,7 +7,7 @@
 ###### accessing KITT account
 ###### original data files located in /RAID_STORAGE2/Shared_Data/Prada_Data/
 ```
-ssh -p -Y 2292 craker@kitt.uri.edu
+ssh -p -Y XXXX craker@kitt.uri.edu
 ```
 ###### Prepare a working directory with data
 Make a directory
@@ -37,7 +37,7 @@ Generate a multiqc report
 ```
 conda install multiqc
 multiqc .
-scp -P 2292 craker@kitt.uri.edu:/home/craker/diadema/fastqc_results/multiqc_report.html /Users/cassieraker/Desktop/Urchin2/fastqc
+scp -P XXXX craker@kitt.uri.edu:/home/craker/diadema/fastqc_results/multiqc_report.html /Users/cassieraker/Desktop/Urchin2/fastqc
 ```
 Mean Quality Scores from MultiQC report
 ![mean quality scores](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Raker_final_assignment/Images/fastqc_meanqualityscores.png)
@@ -189,7 +189,7 @@ The *Diadema antillarum* data was compared to sequences from *Strongylocentrotou
 
 Download *Diadema antillarum* data to personal computer, and then moved to KITT
 ```
-scp -P 2292 ~/Desktop/Diadema/SPU_peptide.fasta.zip craker@kitt.uri.edu:/home/craker/diadema/
+scp -P XXXX ~/Desktop/Diadema/SPU_peptide.fasta.zip craker@kitt.uri.edu:/home/craker/diadema/
 unzip SPU_peptide.fasta.zip
 ```
 
