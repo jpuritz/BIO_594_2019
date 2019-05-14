@@ -3,7 +3,7 @@
 
 Author: Amy Zyck
 
-Last Updated: May 9, 2019
+Last Updated: May 14, 2019
 
 Data uploaded and analyzed on KITT (made by J. Puritz)
 
@@ -2403,4 +2403,340 @@ Please enter your email address.  dDocent will email you when it is finished run
 Don't worry; dDocent has no financial need to sell your email address to spammers.
 ```
 
-*a b c d files are technical replicates -> will be used later in filtering
+```javascript
+ After filtering, kept 217438 out of a possible 572071 Sites
+```
+
+`dDocent` does minimal filtering. Using VCFtools, SNPs are filtered to only those that are called in 90% of all individuals. Further filtering must be completed using VCFtools.
+
+`dDocent` will output a `TotalRawSNPs.vcf` files which will be used for further filtering.
+
+### SNP Filtering
+Steps for filtering followed the SNP Filtering Tutorial: http://www.ddocent.com/filtering/
+
+
+In `Fiddler_Crab` make a new filtering directory
+```javascript
+mkdir filtering
+cd filtering
+ln -s ../TotalRawSNPs.vcf .
+```
+
+Change all genotypes with less than 5 reads to missing data
+```javascript
+vcftools --vcf TotalRawSNPs.vcf --recode-INFO-all --minDP 5 --out TRSdp5 --recode
+```
+```javascript
+After filtering, kept 376 out of 376 Individuals
+Outputting VCF file...
+After filtering, kept 572071 out of a possible 572071 Sites
+Run Time = 789.00 seconds
+```
+
+Filter out all variants that are present below a minor allele frequency of 1%, are not successfully genotyped in at least 50% of samples, and do not have a minimum quality score of 20.
+```javascript
+vcftools --vcf TRSdp5.recode.vcf --recode-INFO-all --max-missing 0.5 --maf 0.01 --minQ 20 --out TRSdp5g5 --recode
+```
+```javascript
+After filtering, kept 376 out of 376 Individuals
+Outputting VCF file...
+After filtering, kept 82363 out of a possible 572071 Sites
+Run Time = 164.00 seconds
+```
+
+Use a custom script called `filter_missing_ind.sh` to filter out bad individuals
+```javascript
+curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/filter_missing_ind.sh
+chmod +x filter_missing_ind.sh
+./filter_missing_ind.sh TRSdp5g5.recode.vcf TRSdp5g5MI
+```
+This produces a histogram of the % missing data per individual.
+```javascript
+Histogram of % missing data per individual
+    Number of Occurrences
+      45 ++---------+---------+----------+---------+----------+----------+---------+----------+---------+---------++
+         +          +         +          +         +          'totalmissing' using (bin($1,binwidth)):(1.0) ****** +
+         |                **                                                                                       |
+      40 ++               **                                                                                      ++
+         |                **                                                                                       |
+      35 ++               **                                                                                      ++
+         |                **                                                                                       |
+         |               ****                                                                                      |
+      30 ++           ** ****                                                                                     ++
+         |            ** ****                                                                                      |
+      25 ++           ** ****                                                                                     ++
+         |           *** ****                                                                                      |
+         |          *********                                                                                      |
+      20 ++         *********                                                                                     ++
+         |          *********                                                                                      |
+      15 ++         *********                                                                                     ++
+         |       *************                                                                                     |
+         |       * ***********                                                                                     |
+      10 ++   **** *************                                                            **                    ++
+         |    **** *************                                                            **                     |
+       5 ++ ****** *************                                                            ***                   ++
+         |  ****** ********************                                                    ******                  |
+         + ******* **************** * ********************************************************* ****************** +
+       0 ++*******************************************************************************************************++
+         0         0.1       0.2        0.3       0.4        0.5        0.6       0.7        0.8       0.9         1
+                                                      % of missing data
+
+The 85% cutoff would be 0.224591
+Would you like to set a different cutoff, yes or no
+no
+```
+```javascript
+After filtering, kept 324 out of 376 Individuals
+Outputting VCF file...
+After filtering, kept 82363 out of a possible 82363 Sites
+Run Time = 164.00 seconds
+```
+Use a second custom script `pop_missing_filter.sh` to filter loci that have high missing data values in a single population. This step needs a file that maps individuals to populations `popmap`.
+```javascript
+ln -s ../popmap .
+cat popmap
+```
+Here is a portion of the output
+```javascript
+FBN_306 FBN
+FBN_307 FBN
+FBN_308 FBN
+FBN_309 FBN
+FBN_310 FBN
+FBN_311 FBN
+FBN_312 FBN
+FBN_313 FBN
+FBN_314 FBN
+FBN_315 FBN
+FBN_316 FBN
+FBN_317 FBN
+FBN_318 FBN
+FBN_319 FBN
+FBN_320 FBN
+FBN_321 FBN
+FBN_322 FBN
+FBN_323 FBN
+FBN_324 FBN
+FBN_325 FBN
+FBN_326 FBN
+FBN_327a        FBN
+FBN_327b        FBN
+FBN_327c        FBN
+FBN_327d        FBN
+FBN_328 FBN
+FBN_329 FBN
+FBN_330 FBN
+FBN_331 FBN
+FBN_332 FBN
+```
+
+```javascript
+curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/pop_missing_filter.sh
+chmod +x pop_missing_filter.sh
+./pop_missing_filter.sh TRSdp5g5MI.recode.vcf popmap 0.25 0 TRSdp5g5MIp25
+```
+```javascript
+After filtering, kept 324 out of 324 Individuals
+Outputting VCF file...
+After filtering, kept 48261 out of a possible 82363 Sites
+Run Time = 57.00 seconds
+```
+Filter sites again by MAF, and filter out any sites with less than 90% overall call rate
+```javascript
+vcftools --vcf TRSdp5g5MIp25.recode.vcf --recode-INFO-all --maf 0.01 --max-missing 0.9 --out TRSdp5g5MIp25g9 --recode
+```
+```javascript
+After filtering, kept 324 out of 324 Individuals
+Outputting VCF file...
+After filtering, kept 36369 out of a possible 82363 Sites
+Run Time = 50.00 seconds
+```
+**From this point forward, the filtering steps assume that the vcf file was generated by FreeBayes**
+
+Use a third custom filter script `dDocent_filters`
+```javascript
+curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/dDocent_filters
+chmod +x dDocent_filters
+./dDocent_filters TRSdp5g5MIp25g9.recode.vcf TRSdpg55MIp25g9d
+```
+```javascript
+This script will automatically filter a FreeBayes generated VCF file using criteria related to site depth,
+quality versus depth, strand representation, allelic balance at heterzygous individuals, and paired read representation.
+The script assumes that loci and individuals with low call rates (or depth) have already been removed.
+
+Contact Jon Puritz (jpuritz@gmail.com) for questions and see script comments for more details on particular filters
+
+Number of sites filtered based on allele balance at heterozygous loci, locus quality, and mapping quality / Depth
+ 8233 of 36369
+
+Are reads expected to overlap?  In other words, is fragment size less than 2X the read length?  Enter yes or no.
+no
+Number of additional sites filtered based on overlapping forward and reverse reads
+ 3419 of 28136
+
+Is this from a mixture of SE and PE libraries? Enter yes or no.
+no
+Number of additional sites filtered based on properly paired status
+ 443 of 24717
+
+Number of sites filtered based on high depth and lower than 2*DEPTH quality score
+ 1356 of 24274
+
+                                             Histogram of mean depth per site
+
+  250 +++----+----+-----+----+----+-----+----+----+-----+----+-----+----+----+-----+----+----+-----+----+----+-----++
+      | +    +    +     +    +    +     +    +    +     +  'meandepthpersite' using (bin($1,binwidth)):(1.0) ******+|
+      |                                                                                                             |
+      |                                                *                                                            |
+      |                                         *      *              *  *                                          |
+  200 ++                                        **     * * *          *  *                                         ++
+      |                                         **     * * *        * *  *                                          |
+      |                                       * **    ** * *** *    ******         *                                |
+      |                                      ******   **** *** *  ************     *                                |
+  150 ++                                    ***********************************    *                               ++
+      |                                     ***********************************    *                                |
+      |                                 * * *************************************  *                                |
+      |                              ** *****************************************  ***                              |
+      |                           * *********************************************  ***                              |
+  100 ++                          * **************************************************                             ++
+      |                  * ** *   * *************************************************** *                           |
+      |          ** ************ ** ******************************************************                          |
+      |      **  ****************** ******************************************************** * *                    |
+   50 ++    *********************** ************************************************************                   ++
+      |   ***************************************************************************************                   |
+      |  ******************************************************************************************  ***            |
+      | ************************************************************************************************  ****      |
+      |******************************************************************************************************** * ***
+    0 +**************************************************************************************************************
+        14   28   42    56   70   84    98  112  126   140  154   168  182  196   210  224  238   252  266  280   294
+                                                        Mean Depth
+
+If distrubtion looks normal, a 1.645 sigma cutoff (~90% of the data) would be 186570.033
+The 95% cutoff would be 270
+Would you like to use a different maximum mean depth cutoff than 270, yes or no
+no
+Number of sites filtered based on maximum mean depth
+ 1244 of 24274
+
+Number of sites filtered based on within locus depth mismatch
+ 15 of 23029
+
+Total number of sites filtered
+ 13355 of 36369
+
+Remaining sites
+ 23014
+
+Filtered VCF file is called Output_prefix.FIL.recode.vcf
+
+Filter stats stored in TRSdpg55MIp25g9d.filterstats
+```
+
+Break complex mutational events (combinations of SNPs and INDELs) into sepearte SNP and INDEL calls, and then remove INDELs.
+```javascript
+vcfallelicprimitives TRSdpg55MIp25g9d.FIL.recode.vcf --keep-info --keep-geno > TRSdpg55MIp25g9d.prim.vcf
+vcftools --vcf TRSdpg55MIp25g9d.prim.vcf --remove-indels --recode --recode-INFO-all --out SNP.TRSdpg55MIp25g9d
+```
+```javascript
+After filtering, kept 324 out of 324 Individuals
+Outputting VCF file...
+After filtering, kept 23929 out of a possible 25280 Sites
+Run Time = 24.00 seconds
+```
+
+ Filter out loci that are out of HWE in more than half the populations, using `filter_hwe_by_pop.pl` written by Chris Hollenbeck
+```javascript
+curl -L -O https://github.com/jpuritz/dDocent/blob/master/scripts/filter_hwe_by_pop.pl
+chmod +x filter_hwe_by_pop.pl
+./filter_hwe_by_pop.pl -v SNP.TRSdpg55MIp25g9d.recode.vcf -p popmap -c 0.5 -o SNP.TRSdpg55MIp25g9dHWE
+```
+```javascript
+Processing population: FBN (33 inds)
+Processing population: FBS (30 inds)
+Processing population: OBN (31 inds)
+Processing population: OBS (32 inds)
+Processing population: PCN (33 inds)
+Processing population: PCS (32 inds)
+Processing population: SPN (32 inds)
+Processing population: SPS (33 inds)
+Processing population: WC1 (28 inds)
+Processing population: WC2 (32 inds)
+Processing population: WC3 (29 inds)
+Processing population: WC4 (31 inds)
+Outputting results of HWE test for filtered loci to 'filtered.hwe'
+Kept 23387 of a possible 23929 loci (filtered 542 loci)
+```
+
+This data set contains technical replicates. I will use a custom script `dup_sample_filter.sh` to automatically remove sites in VCF files that do not have congruent genotypes across duplicate individuals. It will only consider genotypes that have at least 5 reads.
+
+`dup_sample_filter.sh` is located: https://github.com/amaeliazyck/RADseq_Uca-rapax_2016/blob/master/Scripts/dup_sample_filter.sh
+
+The technical replicates are listed in `duplicates.samples.1` with the following format (each name should be separated by a tab):
+```javascript
+FBN_327a        FBN_327b
+FBN_327a        FBN_327c
+FBN_327a        FBN_327d
+FBN_327b        FBN_327c
+FBN_327b        FBN_327d
+FBN_327c        FBN_327d
+OBN_9b         OBN_9c
+OBN_9b         OBN_9d
+OBN_9c         OBN_9d
+OBS_245a        OBS_245b
+OBS_245a        OBS_245c
+OBS_245a        OBS_245d
+OBS_245b        OBS_245c
+OBS_245b        OBS_245d
+OBS_245c        OBS_245d
+PCN_210a        PCN_210b
+PCN_223a        PCN_223b
+PCS_361a        PCS_361b
+PCS_365a        PCS_365b
+SPS_74a        SPS_74b
+SPS_92a        SPS_92b
+SPS_92a        SPS_92c
+SPS_92a        SPS_92d
+SPS_92b        SPS_92c
+SPS_92b        SPS_92d
+SPS_92c        SPS_92d
+WC2_301a        WC2_301b
+WC2_305a        WC2_305b
+WC2_305a        WC2_305c
+WC2_305b        WC2_305c
+```  
+Copy to `filtering`.
+```javascript
+ln -s ../dup_sample_filter.sh .
+ln -s ../duplicates.samples.1 .
+```
+Run script.
+```javascript
+bash dup_sample_filter.sh SNP.TRSdpg55MIp25g9dHWE.recode.vcf duplicates.samples.1
+```
+This produces a `mismatched.loci` file.
+```javascript
+head mismatched.loci
+```
+```javascript
+6       dDocent_Contig_10187    180
+2       dDocent_Contig_15668    103
+4       dDocent_Contig_16739    120
+2       dDocent_Contig_5732     24
+12      dDocent_Contig_1102     263
+9       dDocent_Contig_6846     256
+2       dDocent_Contig_17135    32
+1       dDocent_Contig_12432    80
+1       dDocent_Contig_7095     139
+4       dDocent_Contig_6621     197
+```
+Remove the mismatched loci. 
+```javascript
+cat mismatched.loci | cut -f2,3 > mismatchedloci
+vcftools --vcf SNP.TRSdpg55MIp25g9dHWE.recode.vcf --exclude-positions mismatchedloci --recode --recode-INFO-all --out SNP.TRSdpg55MIp25g9dHWEMM
+```
+```javascript
+After filtering, kept 324 out of 324 Individuals 
+Outputting VCF file... 
+After filtering, kept 17058 out of a possible 23387 Sites
+Run Time = 16.00 seconds
+```
