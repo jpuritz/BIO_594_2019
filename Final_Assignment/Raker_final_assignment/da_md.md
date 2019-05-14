@@ -248,6 +248,9 @@ Error, no TPM value specified for transcript [TRINITY_DN0_c0_g1_i2] of gene [TRI
 ```
 These matrix files, specifically the salmon.isoforms.count.matrix file, would have been used to run DESeq2, and complete my gene expression analysis.
 
+#### From Jon: This is not a great way to end your analysis.  At the very least, you should document the troubleshooting steps you took to try to solve this.  However, this issue can be solved.  I suggest taking a look at the error message and at the data files for those replicates vs others.  Is the `*.genes` file the one to use?  Do those files look correct for this and other samples?
+
+
 ##### DESeq2
 DESeq2 can actually be run from Trinity scripts, as long as the proper R packages are installed. To install the proper R packages:
 ```
