@@ -168,7 +168,7 @@ The same parameters were applied to each sample. At the time I did not feel like
 ![image6](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/after-qual.png)  
 Importantly, the quality scores are still high.
 
-![image7](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/after-pre-seq-qual.png)  
+![image7](https://raw.githubusercontent.com/jpuritz/BIO_594_2019/master/Final_Assignment/Maggie_Final_Project/images/after-per-seq-qual.png)  
 And the tail of that distribution scooted up a little.
 
 ----
