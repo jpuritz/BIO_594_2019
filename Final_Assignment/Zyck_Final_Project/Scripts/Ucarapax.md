@@ -2644,7 +2644,7 @@ After filtering, kept 23929 out of a possible 25280 Sites
 Run Time = 24.00 seconds
 ```
 
- Filter out loci that are out of HWE in more than half the populations, using `filter_hwe_by_pop.pl` written by (Chris Hollenbeck)[https://github.com/chollenbeck]
+ Filter out loci that are out of HWE in more than half the populations, using `filter_hwe_by_pop.pl` written by [Chris Hollenbeck](https://github.com/chollenbeck)
 ```javascript
 curl -L -O https://github.com/jpuritz/dDocent/blob/master/scripts/filter_hwe_by_pop.pl
 chmod +x filter_hwe_by_pop.pl
@@ -2740,7 +2740,7 @@ Outputting VCF file...
 After filtering, kept 17058 out of a possible 23387 Sites
 Run Time = 16.00 seconds
 ```
-Use the script `rad_haplotyper.pl` written by (Chris Hollenbeck)[https://github.com/chollenbeck]. This tool takes a VCF file of SNPs and will parse through BAM files looking to link SNPs into haplotypes along paired reads.
+Use the script `rad_haplotyper.pl` written by [Chris Hollenbeck](https://github.com/chollenbeck). This tool takes a VCF file of SNPs and will parse through BAM files looking to link SNPs into haplotypes along paired reads.
 
 First, copy the most recent VCF file to the directory with the BAM files and `reference.fasta`. In my case, it is `ddocent_env`.
 ```javascript
@@ -2800,6 +2800,9 @@ Use this file to create a list of loci to filter.
  curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/remove.bad.hap.loci.sh
  chmod +x remove.bad.hap.loci.sh
  ./remove.bad.hap.loci.sh loci.to.remove SNP.TRSdpg55MIp25g9dHWEMM.recode.vcf
+ ```
+  This generates the FINAL filtered VCF file `SNP.TRSdpg55MIp25g9dHWEMM.filtered.vcf`
+ ```javascript
  mawk '!/#/' SNP.TRSdpg55MIp25g9dHWEMM.filtered.vcf | wc -l
  ```
  **16570 SNPs are left after filtering.**
