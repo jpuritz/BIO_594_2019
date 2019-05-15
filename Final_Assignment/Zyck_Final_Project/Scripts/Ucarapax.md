@@ -2805,7 +2805,7 @@ Use this file to create a list of loci to filter.
  ```javascript
  mawk '!/#/' SNP.TRSdpg55MIp25g9dHWEMM.filtered.vcf | wc -l
  ```
- **16570 SNPs are left after filtering.**
+ **14434 SNPs are left after filtering.**
 
  Use the script `ErrorCount.sh` to evaluate potential errors.
  ```javascript
