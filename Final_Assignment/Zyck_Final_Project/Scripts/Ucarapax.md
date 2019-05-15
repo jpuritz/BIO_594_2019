@@ -3,7 +3,7 @@
 
 Author: Amy Zyck
 
-Last Updated: May 14, 2019
+Last Updated: May 15, 2019
 
 Data uploaded and analyzed on KITT (made by J. Puritz)
 
@@ -2644,7 +2644,7 @@ After filtering, kept 23929 out of a possible 25280 Sites
 Run Time = 24.00 seconds
 ```
 
- Filter out loci that are out of HWE in more than half the populations, using `filter_hwe_by_pop.pl` written by Chris Hollenbeck
+ Filter out loci that are out of HWE in more than half the populations, using `filter_hwe_by_pop.pl` written by (Chris Hollenbeck)[https://github.com/chollenbeck]
 ```javascript
 curl -L -O https://github.com/jpuritz/dDocent/blob/master/scripts/filter_hwe_by_pop.pl
 chmod +x filter_hwe_by_pop.pl
@@ -2740,3 +2740,91 @@ Outputting VCF file...
 After filtering, kept 17058 out of a possible 23387 Sites
 Run Time = 16.00 seconds
 ```
+Use the script `rad_haplotyper.pl` written by (Chris Hollenbeck)[https://github.com/chollenbeck]. This tool takes a VCF file of SNPs and will parse through BAM files looking to link SNPs into haplotypes along paired reads.
+
+First, copy the most recent VCF file to the directory with the BAM files and `reference.fasta`. In my case, it is `ddocent_env`.
+```javascript
+cp SNP.TRSdpg55MIp25g9dHWEMM.recode.vcf ../
+```
+```javascript
+curl -L -O https://raw.githubusercontent.com/chollenbeck/rad_haplotyper/master/rad_haplotyper.pl
+chmod +x rad_haplotyper.pl
+```
+Several packages will need to be downloaded in order for this to run.
+
+perl-bio-cigar: `conda install -c bioconda perl-bio-cigar`
+
+perl-List-MoreUtils: `conda install -c bioconda perl-List-MoreUtils`
+
+perl-Term-ProgressBar: `conda install -c bioconda perl-Term-ProgressBar`
+
+perl-Parallel-ForkManager: `conda install -c bioconda perl-Parallel-ForkManager`
+
+```javascript
+rad_haplotyper.pl -v SNP.TRSdpg55MIp25g9dHWEMM.recode.vcf -x 10 -mp 5 -ml 4 -n -r reference.fasta
+```
+Output will resemble
+```javascript
+Building haplotypes for FBN_306
+Building haplotypes for FBN_307
+Building haplotypes for FBN_308
+Building haplotypes for FBN_310
+Building haplotypes for FBN_311
+...
+Filtered 27 loci below missing data cutoff
+Filtered 98 possible paralogs
+Filtered 242 loci with low coverage or genotyping errors
+Filtered 0 loci with an excess of haplotypes
+```
+The script found another 367 loci to remove, stored in a file called `stats.out`
+```javascript
+head stats.out
+```
+```javascript
+Locus                   Sites   Haplotypes      Inds_Haplotyped Total_Inds      Prop_Haplotyped Status  Poss_Paralog    Low_Cov/Geno_Err        Miss_Geno       Comment
+dDocent_Contig_10016    5       6               305             324             0.941           PASSED          0               1               18
+dDocent_Contig_10019    3       4               317             324             0.978           PASSED          2               0               5
+dDocent_Contig_1002     0       0               0               324             0.000           FILTERED        0               324             0               Low Coverage/Genotyping Errors
+dDocent_Contig_10027    13      15              309             324             0.954           FILTERED        2               13              0               Low Coverage/Genotyping Errors
+dDocent_Contig_10033    1       2               304             324             0.938           PASSED          0               0               20
+dDocent_Contig_10034    7       10              324             324             1.000           PASSED          0               0               0
+dDocent_Contig_10036    4       5               322             324             0.994           PASSED          0               0               2
+dDocent_Contig_10045    7       9               304             324             0.938           PASSED          0               2               18
+```
+Use this file to create a list of loci to filter.
+```javascript
+ grep FILTERED stats.out | mawk '!/Complex/' | cut -f1 > loci.to.remove
+ ```
+ Remove the bad RAD loci using the script `remove.bad.hap.loci.sh`
+ ```javascript
+ curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/remove.bad.hap.loci.sh
+ chmod +x remove.bad.hap.loci.sh
+ ./remove.bad.hap.loci.sh loci.to.remove SNP.TRSdpg55MIp25g9dHWEMM.recode.vcf
+ mawk '!/#/' SNP.TRSdpg55MIp25g9dHWEMM.filtered.vcf | wc -l
+ ```
+ **16570 SNPs are left after filtering.**
+
+ Use the script `ErrorCount.sh` to evaluate potential errors.
+ ```javascript
+curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ErrorCount.sh
+chmod +x ErrorCount.sh
+./ErrorCount.sh SNP.TRSdpg55MIp25g9dHWEMM.filtered.vcf
+```
+```javascript
+This script counts the number of potential genotyping errors due to low read depth
+It report a low range, based on a 50% binomial probability of observing the second allele in a heterozygote and a high range based on a 25% probability.
+Potential genotyping errors from genotypes from only 1 read range from 0.0 to 0.0
+Potential genotyping errors from genotypes from only 2 reads range from 0.0 to 0.0
+Potential genotyping errors from genotypes from only 3 reads range from 0.0 to 0.0
+Potential genotyping errors from genotypes from only 4 reads range from 0.0 to 0.0
+Potential genotyping errors from genotypes from only 5 reads range from 751.21875 to 5697
+324 number of individuals and 16570 equals 5368680 total genotypes
+Total genotypes not counting missing data 5339311
+Total potential error rate is between 0.00014069582198901693 and 0.0010669916024745516
+SCORCHED EARTH SCENARIO
+WHAT IF ALL LOW DEPTH HOMOZYGOTE GENOTYPES ARE ERRORS?????
+The total SCORCHED EARTH error rate is 0.004502266303648542.
+```
+The maximum error is well below 5% so all seems well.
+
+#### This completes the filtering portion. Next steps will include detecting outlier SNPs using BayeScan, PCAdapt, and OutFlank. 
