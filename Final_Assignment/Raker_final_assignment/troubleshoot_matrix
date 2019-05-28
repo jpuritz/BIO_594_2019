@@ -1,0 +1,237 @@
+## TROUBLESHOOTING BUILDING A GENE EXPRESSION MATRIX FOR FURTHER GENE EXPRESSION ANALYSIS
+## Last updated: 5/28/19
+## Has error been resolved as of last update: no.
+
+## where the script should be
+$TRINITY_HOME/util/align_and_estimate_abundance.pl
+
+## script with option attempt 1
+$TRINITY_HOME/util/align_and_estimate_abundance.pl /
+--single diadema.best.fasta --est_method ~/miniconda3/bin/salmon /
+--output_dir /home/craker/diadema/trinity_out_dir
+## didn't recognize any arguments for some reason
+
+## attempt 2
+/home/craker/miniconda3/bin/align_and_estimate_abundance.pl --transcripts diadema.best.fasta \
+--seqType fq --single reads_clean.fq.gz --est_method RSEM --aln_method bowtie --trinity_mode --prep_reference --output_dir rsem_outdir
+## can't find any programs, need to reinstall bowtie2
+
+## conda install bowtie2
+## try again maybe with better file paths?
+~/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl --transcripts diadema.best.fasta \
+--seqType fq --single reads_clean.fq.gz --est_method salmon --aln_method bowtie2 --trinity_mode \
+--prep_reference --output_dir trinity_outdir
+## IT'S WORKING
+## but maybe some errors and can't find single end files?
+## also wants me to use the --validateMappings option
+
+## attempt with different single end string and --validateMappings option
+~/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl --transcripts diadema.best.fasta \
+--seqType fq --single reads_clean.fq.gz --est_method salmon --salmon_add_opts --validateMappings option \
+--aln_method bowtie2 --trinity_mode \
+--prep_reference --output_dir trinity_outdir
+## Error, don't understand arguments: option  at /home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl line 296.
+
+## attempt with different path
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl --transcripts diadema.best.fasta \
+--seqType fq --single reads_clean.fq.gz --est_method salmon --salmon_add_opts --validateMappings option \
+--aln_method bowtie2 --trinity_mode \
+--prep_reference --output_dir trinity_outdir
+
+## maybe in multiple steps
+/home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --est_method RSEM --aln_method bowtie --trinity_mode --prep_reference
+## nope
+
+## maybe list all files like with original trinity run?
+~/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --seqType fq \
+--single DA-HI-A_S79_L007_R1_001.fastq.gz.clean.gz,\
+DA-HI-B_S80_L007_R1_001.fastq.gz.clean.gz,\
+DA-HI-C_S81_L007_R1_001.fastq.gz.clean.gz,\
+DA-HI-D_S82_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-A_S72_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-B_S73_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-C_S74_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-D_S75_L007_R1_001.fastq.gz.clean.gz,\
+DA-MED-A_S76_L007_R1_001.fastq.gz.clean.gz,\
+DA-MED-B_S77_L007_R1_001.fastq.gz.clean.gz,\
+DA-MED-D_S78_L007_R1_001.fastq.gz.clean.gz,\
+OADA0006_S16_L002_R1_001.fastq.gz.clean.gz,\
+OADA0049_S25_L003_R1_001.fastq.gz.clean.gz,\
+OADA0058_S19_L002_R1_001.fastq.gz.clean.gz,\
+OADA0071_S53_L005_R1_001.fastq.gz.clean.gz,\
+OADA0081_S67_L006_R1_001.fastq.gz.clean.gz,\
+OADA0085_S24_L002_R1_001.fastq.gz.clean.gz,\
+OADA0101_S18_L002_R1_001.fastq.gz.clean.gz,\
+OADA0102_S33_L003_R1_001.fastq.gz.clean.gz,\
+OADA0116_S26_L003_R1_001.fastq.gz.clean.gz,\
+OADA0139_S17_L002_R1_001.fastq.gz.clean.gz,\
+OADA0174_S20_L002_R1_001.fastq.gz.clean.gz \
+--est_method salmon --aln_method bowtie2 --trinity_mode \
+--prep_reference --output_dir trinity_outdir
+
+## again but with different arguments
+~/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --seqType fq \
+--single DA-HI-A_S79_L007_R1_001.fastq.gz.clean.gz,\
+DA-HI-B_S80_L007_R1_001.fastq.gz.clean.gz,\
+DA-HI-C_S81_L007_R1_001.fastq.gz.clean.gz,\
+DA-HI-D_S82_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-A_S72_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-B_S73_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-C_S74_L007_R1_001.fastq.gz.clean.gz,\
+DA-LOW-D_S75_L007_R1_001.fastq.gz.clean.gz,\
+DA-MED-A_S76_L007_R1_001.fastq.gz.clean.gz,\
+DA-MED-B_S77_L007_R1_001.fastq.gz.clean.gz,\
+DA-MED-D_S78_L007_R1_001.fastq.gz.clean.gz,\
+OADA0006_S16_L002_R1_001.fastq.gz.clean.gz,\
+OADA0049_S25_L003_R1_001.fastq.gz.clean.gz,\
+OADA0058_S19_L002_R1_001.fastq.gz.clean.gz,\
+OADA0071_S53_L005_R1_001.fastq.gz.clean.gz,\
+OADA0081_S67_L006_R1_001.fastq.gz.clean.gz,\
+OADA0085_S24_L002_R1_001.fastq.gz.clean.gz,\
+OADA0101_S18_L002_R1_001.fastq.gz.clean.gz,\
+OADA0102_S33_L003_R1_001.fastq.gz.clean.gz,\
+OADA0116_S26_L003_R1_001.fastq.gz.clean.gz,\
+OADA0139_S17_L002_R1_001.fastq.gz.clean.gz,\
+OADA0174_S20_L002_R1_001.fastq.gz.clean.gz \
+--est_method RSEM --aln_method bowtie2 --bowtie2_RSEM --trinity_mode \
+--prep_reference --output_dir trinity_outdir
+
+
+## try doing it separately
+/home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --est_method RSEM --aln_method bowtie2 \
+--trinity_mode --prep_reference
+## can't find any programs for some reason
+
+## installed programs
+/home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --est_method RSEM --aln_method bowtie2 \
+--trinity_mode --prep_reference
+## Error, cmd: rsem-prepare-reference  --transcript-to-gene-map /home/craker/diadema/diadema.best.fasta.gene_trans_map /home/craker/diadema/diadema.best.fasta /home/craker/diadema/diadema.best.fasta.RSEM died with ret: 65280 at /home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl line 790.
+
+## try again reference free?
+/home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --est_method salmon \
+--trinity_mode --prep_reference
+## IT WORKED NOW ON TO PART 2
+
+## base from Trinity
+/home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts Trinity.fasta --seqType fq --left reads_1.fq \
+--right reads_2.fq --est_method RSEM --aln_method bowtie --trinity_mode \
+--output_dir rsem_outdir
+
+## modified base from Trinity
+/home/craker/miniconda3/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --seqType fq \
+--single DA-HI-A_S79_L007_R1_001_clean.fq,\
+DA-HI-A_S79_L007_R1_001_clean.fq,\
+DA-HI-B_S80_L007_R1_001_clean.fq,\
+DA-HI-C_S81_L007_R1_001_clean.fq,\
+DA-LOW-A_S72_L007_R1_001_clean.fq,\
+DA-LOW-B_S73_L007_R1_001_clean.fq,\
+DA-LOW-C_S74_L007_R1_001_clean.fq,\
+DA-LOW-D_S75_L007_R1_001_clean.fq,\
+DA-MED-A_S76_L007_R1_001_clean.fq,\
+DA-MED-B_S77_L007_R1_001_clean.fq,\
+DA-MED-D_S78_L007_R1_001_clean.fq,\
+OADA0006_S16_L002_R1_001_clean.fq,\
+OADA0049_S25_L003_R1_001_clean.fq,\
+OADA0058_S19_L002_R1_001_clean.fq,\
+OADA0071_S53_L005_R1_001_clean.fq,\
+OADA0081_S67_L006_R1_001_clean.fq,\
+OADA0085_S24_L002_R1_001_clean.fq,\
+OADA0101_S18_L002_R1_001_clean.fq,\
+OADA0102_S33_L003_R1_001_clean.fq,\
+OADA0116_S26_L003_R1_001_clean.fq,\
+OADA0139_S17_L002_R1_001_clean.fq,\
+OADA0174_S20_L002_R1_001_clean.fq \
+--est_method salmon \
+--trinity_mode --output_dir salmon_outdir
+## says files don't exist, salmon quant invoked improperly
+
+## try again with wildcard
+/home/craker/miniconda3/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --seqType fq \
+--single *_clean.fq, \
+--est_method salmon \
+--trinity_mode --output_dir salmon_outdir
+## is at least failing at a slower rate
+## maybe worked but still got errors
+
+## try with more threads
+/home/craker/miniconda3/bin/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --seqType fq \
+--single *_clean.fq, \
+--est_method salmon --num_threads 20 \
+--trinity_mode --output_dir salmon_outdir
+## nope: thread argument caused error 
+
+## try with different path to Trinity
+## had to move everything into the util directory
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --seqType fq \
+--single *_clean.fq, \
+--est_method salmon \
+--trinity_mode --output_dir salmon_outdir
+## Error, cannot find gene identifier for transcript [TRINITY_DN0_c0_g1_i2.p1.p1]
+
+## with text file
+## example from Trinity
+/home/craker/miniconda3/envs/diadema/bin/align_and_estimate_abundance.pl \
+--transcripts Trinity.fasta --seqType fq --left reads_1.fq \
+--right reads_2.fq --est_method RSEM --aln_method bowtie \
+--trinity_mode --prep_reference --output_dir rsem_outdir
+
+## with my stuff
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --seqType fq \
+--samples_file da_samples.txt --est_method salmon \
+--trinity_mode --prep_reference --output_dir salmon_outdir
+## seems to be working similarly to other method
+## Error, cannot find gene identifier for transcript
+## tried again with new path to script
+## still got the same error
+
+## Build Transcript and Gene Expression Matrices
+## example from Trinity
+TRINITY_HOME/util/abundance_estimates_to_matrix.pl --est_method kallisto \
+--gene_trans_map Trinity.fasta.gene_trans_map \
+--out_prefix kallisto \
+--name_sample_by_basedir \
+sampleA/abundance.tsv \
+sampleB/abundance.tsv
+
+## with my stuff
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl --est_method salmon \
+--gene_trans_map diadema.best.fasta.gene_trans_map \
+--out_prefix salmon \
+--name_sample_by_basedir \
+pH_high_rep1/quant.sf.genes \
+pH_high_rep2/quant.sf.genes
+## Error, no TPM value specified for transcript [TRINITY_DN0_c0_g1_i2] of gene [TRINITY_DN0_c0_g1] for sample pH_high_rep1 at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl line 322.
+
+## totally different method
+ /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+ --transcripts diadema.best.fasta --est_method salmon --aln_method bowtie2 \
+ --prep_reference --trinity_mode --samples_file da_samples.txt --seqType fq
+
+## try with old trinity fasta
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts da.trinity.fasta --est_method salmon --aln_method bowtie2 \
+--prep_reference --trinity_mode --samples_file da_samples.txt --seqType fq
+## index seems to have worked
+## didn't get any error messages
+
+## matrix again
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl \
+--est_method salmon \
+--gene_trans_map da.trinity.fasta.gene_trans_map \
+--out_prefix salmon \
+--name_sample_by_basedir \
+pH_high_rep1/quant.sf \
+pH_high_rep2/quant.sf
+## SAME ERROR MESSAGE
