@@ -33,6 +33,8 @@ Compare *D. antillarum* to two other urchin species (other species being analyze
 
 **Images**: directory containing images used in da_md.md
 
+**troubleshoot_matrix**: text file containing troubleshooting due to error in contructing the gene expression matrix. Error has not currently been resolved (as of 5/28/19). 
+
 ### References
 
 ###### FastQC
