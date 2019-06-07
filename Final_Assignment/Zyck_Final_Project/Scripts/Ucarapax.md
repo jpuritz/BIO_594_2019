@@ -1710,7 +1710,7 @@ ln -s ../FBN_318.R2.fq.gz
 # 2 individuals from each locality chosen randomly
 ```
 ****
-# All command below is my first attempt at Assembly and Filtering. My final assembly and filtering code is in FiddlerCrab_Assembly&Filtering.md 
+# All command below is my first attempt at Assembly and Filtering. My final assembly and filtering code is in [FiddlerCrab_Assembly&Filtering.md](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Zyck_Final_Project/Scripts/FiddlerCrab_Assembly&Filtering.md)
 
 #### Run ```ReferenceOpt.sh```
 ```javascript
