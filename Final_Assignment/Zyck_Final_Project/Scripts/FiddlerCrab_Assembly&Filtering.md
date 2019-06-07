@@ -1003,7 +1003,7 @@ Processed variant: 6786
 All variants processed
 ```
 
-````javascript
+```javascript
 geno <- extract.gt(my_vcf) # Character matrix containing the genotypes
 position <- getPOS(my_vcf) # Positions in bp
 chromosome <- getCHROM(my_vcf) # Chromosome information
