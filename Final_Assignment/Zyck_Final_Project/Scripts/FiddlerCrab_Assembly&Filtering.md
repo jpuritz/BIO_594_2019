@@ -1230,3 +1230,16 @@ cut -f1 all.outliers | sort | uniq | wc -l
 ```javascript
 29
 ```
+
+### Create a VCF file with just neutral loci
+```javascript
+vcftools --vcf SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252Amaf05.recode.vcf --exclude-positions all.outliers --recode-INFO-all --out neutralloci --recode
+```
+```javascript
+After filtering, kept 320 out of 320 Individuals
+Outputting VCF file...
+After filtering, kept 6757 out of a possible 6786 Sites
+Run Time = 7.00 seconds
+```
+
+#### 6757 loci in `neutralloci.recode.vcf`
