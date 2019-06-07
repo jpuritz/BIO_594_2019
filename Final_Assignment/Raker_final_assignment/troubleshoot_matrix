@@ -1,6 +1,6 @@
 ## TROUBLESHOOTING BUILDING A GENE EXPRESSION MATRIX FOR FURTHER GENE EXPRESSION ANALYSIS
 ## Last updated: 6/7/19
-## Has error been resolved as of last update: no.
+## Has error been resolved as of last update: YES
 
 ## where the script should be
 $TRINITY_HOME/util/align_and_estimate_abundance.pl
@@ -297,10 +297,28 @@ pH_high_rep1/quant.sf pH_high_rep2/quant.sf
 ## Error, cmd: R --no-save --no-restore --no-site-file --no-init-file -q < salmon.isoform.TPM.not_cross_norm.runTMM.R 1>&2  died with ret (256)  at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/support_scripts/run_TMM_scale_matrix.pl line 105.
 ## Error, CMD: /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/support_scripts/run_TMM_scale_matrix.pl --matrix salmon.isoform.TPM.not_cross_norm > salmon.isoform.TMM.EXPR.matrix died with ret 6400 at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl line 385.
 
-## install edgeR IN RSTUDIO
-```{r}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+## install R packages to conda environment
+conda install r-essentials bioconductor-deseq2 bioconductor-edger
 
-BiocManager::install("edgeR")
-```
+## try again
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl \
+--est_method salmon --gene_trans_map none --out_prefix salmon --name_sample_by_basedir \
+pH_high_rep1/quant.sf pH_high_rep2/quant.sf
+## seems to have worked
+## created files: salmon.isoform.counts.matrix, salmon.isoform.TMM.EXPR.matrix, salmon.isoform.TPM.not_cross_norm, salmon.isoform.TPM.not_cross_norm.runTMM.R, salmon.isoform.TPM.not_cross_norm.TMM_info.txt
+
+## then deleted these files to create full matrix
+rm salmon*
+
+## build matrix with all samples
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl \
+--est_method salmon --gene_trans_map none --out_prefix salmon --name_sample_by_basedir \
+pH_high_rep1/quant.sf pH_high_rep2/quant.sf pH_high_rep3/quant.sf pH_high_rep4/quant.sf \
+pH_high_rep5/quant.sf pH_high_rep6/quant.sf pH_high_rep7/quant.sf pH_medx_rep1/quant.sf \
+pH_medx_rep2/quant.sf pH_medx_rep3/quant.sf pH_medx_rep4/quant.sf pH_medx_rep5/quant.sf \
+pH_medx_rep6/quant.sf pH_lowx_rep1/quant.sf pH_lowx_rep2/quant.sf pH_lowx_rep3/quant.sf \
+pH_lowx_rep4/quant.sf pH_lowx_rep5/quant.sf pH_lowx_rep6/quant.sf pH_lowx_rep7/quant.sf \
+pH_lowx_rep8/quant.sf
+## worked! NO ERRORS!!!
+## created files: salmon.isoform.counts.matrix, salmon.isoform.TMM.EXPR.matrix, salmon.isoform.TPM.not_cross_norm, salmon.isoform.TPM.not_cross_norm.runTMM.R, salmon.isoform.TPM.not_cross_norm.TMM_info.txt
+## salmon.isoform.counts.matrix will be used for downstream gene expression analysis
