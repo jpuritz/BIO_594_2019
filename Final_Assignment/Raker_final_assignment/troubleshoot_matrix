@@ -235,3 +235,72 @@ pH_high_rep2/quant.sf.genes
 pH_high_rep1/quant.sf \
 pH_high_rep2/quant.sf
 ## SAME ERROR MESSAGE
+
+## Troubleshooting week of 5/27/19: attempt to redo alignment and abundance estimates 
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl
+
+## example from Trinity
+ /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+ --transcripts Trinity.fasta --est_method RSEM \
+ --aln_method bowtie --trinity_mode --prep_reference
+
+## with my stuff
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts diadema.best.fasta --est_method RSEM \
+--aln_method bowtie --trinity_mode --prep_reference
+
+## Sequence TRINITY_DN0_c0_g1_i2.p1.p1 contains an unknown letter (ASCII code 42) at 0-based position 736!
+## Error, cmd: rsem-prepare-reference  --transcript-to-gene-map /home/craker/diadema/diadema.best.fasta.gene_trans_map /home/craker/diadema/diadema.best.fasta /home/craker/diadema/diadema.best.fasta.RSEM died with ret: 65280 at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl line 790.
+
+## seems like there may be a problem with the actual fasta file
+## ASCII code 42 is "*", found a lot of these in diadema.best.fasta
+## deleted all the "*" in diadema.best.fasta and renamed diadema.best.2.fasta
+
+## try again with edited fasta
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts diadema.best.2.fasta --est_method RSEM \
+--aln_method bowtie --trinity_mode --prep_reference
+## Mapping Info is not correct, cannot find TRINITY_DN0_c0_g1_i2.p1.p1's gene_id!
+## Error, cmd: rsem-prepare-reference  --transcript-to-gene-map /home/craker/diadema/diadema.best.2.fasta.gene_trans_map /home/craker/diadema/diadema.best.2.fasta /home/craker/diadema/diadema.best.2.fasta.RSEM died with ret: 65280 at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl line 790.
+
+## try again with text file
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts diadema.best.2.fasta --est_method RSEM --aln_method bowtie2 \
+--prep_reference --trinity_mode --samples_file da_samples.txt --seqType fq
+
+## try with salmon
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts diadema.best.2.fasta --est_method salmon --aln_method bowtie2 \
+--prep_reference --trinity_mode --samples_file da_samples.txt --seqType fq
+## seemed to run for awile, but still can't find gene identifier
+## CMD: /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/support_scripts/salmon_trans_to_gene_results.pl pH_lowx_rep8/quant.sf /home/craker/diadema/diadema.best.2.fasta.gene_trans_map > pH_lowx_rep8/quant.sf.genes
+Error, cannot find gene identifier for transcript [TRINITY_DN0_c0_g1_i2.p1.p1]  at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/support_scripts/salmon_trans_to_gene_results.pl line 66, <$fh> line 2.
+Error detected: Error, cmd: /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/support_scripts/salmon_trans_to_gene_results.pl pH_lowx_rep8/quant.sf /home/craker/diadema/diadema.best.2.fasta.gene_trans_map > pH_lowx_rep8/quant.sf.genes died with ret: 6400 at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl line 790.
+Error, encountered 21 failed salmon jobs. See errors above at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl line 996.
+
+## try again with original fasta
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/align_and_estimate_abundance.pl \
+--transcripts da.trinity.fasta --est_method salmon --aln_method bowtie2 \
+--prep_reference --trinity_mode --samples_file da_samples.txt --seqType fq
+## seems to have worked
+## created folders for each treatment (pH_high_rep1, pH_high_rep2, etc)
+
+## BUILD TRANSCRIPT AND GENE EXPRESSION MATRIX
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl
+
+## attempt 1: test with only two samples (for speed purposes)
+/home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl \
+--est_method salmon --gene_trans_map none --out_prefix salmon --name_sample_by_basedir \
+pH_high_rep1/quant.sf pH_high_rep2/quant.sf
+## Error in library(edgeR) : there is no package called ‘edgeR’
+## Execution halted
+## Error, cmd: R --no-save --no-restore --no-site-file --no-init-file -q < salmon.isoform.TPM.not_cross_norm.runTMM.R 1>&2  died with ret (256)  at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/support_scripts/run_TMM_scale_matrix.pl line 105.
+## Error, CMD: /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/support_scripts/run_TMM_scale_matrix.pl --matrix salmon.isoform.TPM.not_cross_norm > salmon.isoform.TMM.EXPR.matrix died with ret 6400 at /home/craker/diadema/trinityrnaseq-Trinity-v2.8.4/util/abundance_estimates_to_matrix.pl line 385.
+
+## install edgeR IN RSTUDIO
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("edgeR")
+```
