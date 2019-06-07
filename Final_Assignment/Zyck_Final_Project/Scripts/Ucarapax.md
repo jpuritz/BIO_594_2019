@@ -3,7 +3,7 @@
 
 Author: Amy Zyck
 
-Last Updated: May 15, 2019
+Last Updated: June 7, 2019
 
 Data uploaded and analyzed on KITT (made by J. Puritz)
 
@@ -1709,6 +1709,8 @@ ln -s ../FBN_318.R2.fq.gz
 # Repeated this for FBN_329; FBS_40; FBS_62; OBN_023; OBN_2; OBS_241; OBS_258; PCN_209; PCN_220; PCS_347; PCS_364; SPN_378; SPN_399; SPS_86; SPS_93; WC1_408; WC1_419; WC2_282; WC2_302; WC3_469; WC3_485; WC4_437; WC4_460
 # 2 individuals from each locality chosen randomly
 ```
+****
+# All command below is my first attempt at Assembly and Filtering. My final assembly and filtering code is in FiddlerCrab_Assembly&Filtering.md 
 
 #### Run ```ReferenceOpt.sh```
 ```javascript
