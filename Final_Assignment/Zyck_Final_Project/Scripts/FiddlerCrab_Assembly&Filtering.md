@@ -594,8 +594,9 @@ do
 paste <(echo $i) <(mawk -v x=$i '$1 > x' mismatched.loci | wc -l) >> mismatch.txt
 done
 ```
+
 In RStudio
-````javascript
+```javascript
 library(ggplot2)
 mismatch <- read.table("mismatch.txt", header = TRUE)
 df=data.frame(mismatch)
@@ -603,6 +604,7 @@ df=data.frame(mismatch)
 p <- ggplot(df, aes(x=Mismatches, y=Number_of_Loci)) + geom_point() +theme_bw() + scale_x_continuous(minor_breaks = seq(1,20,by=1))
 p
 ```
+
 ![mismatched](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Zyck_Final_Project/Output/mismatched.png)
 
 I decided to filter out loci with mismatched values > 6.
@@ -617,10 +619,6 @@ Outputting VCF file...
 After filtering, kept 43532 out of a possible 43983 Sites
 Run Time = 97.00 seconds
 ```
-
-
-
-
 
 Use the script `rad_haplotyper.pl` written by [Chris Hollenbeck](https://github.com/chollenbeck). This tool takes a VCF file of SNPs and will parse through BAM files looking to link SNPs into haplotypes along paired reads.
 
