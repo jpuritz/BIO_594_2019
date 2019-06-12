@@ -1,7 +1,7 @@
 # _Uca rapax_ Assembly and Filtering
 Author: Amy Zyck
 
-Date: June 7, 2019
+Date: June 12, 2019
 
 ### Assembly
 
@@ -594,7 +594,6 @@ do
 paste <(echo $i) <(mawk -v x=$i '$1 > x' mismatched.loci | wc -l) >> mismatch.txt
 done
 ```
-
 In RStudio
 ```javascript
 library(ggplot2)
@@ -604,7 +603,6 @@ df=data.frame(mismatch)
 p <- ggplot(df, aes(x=Mismatches, y=Number_of_Loci)) + geom_point() +theme_bw() + scale_x_continuous(minor_breaks = seq(1,20,by=1))
 p
 ```
-
 ![mismatched](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Zyck_Final_Project/Output/mismatched.png)
 
 I decided to filter out loci with mismatched values > 6.
@@ -619,6 +617,10 @@ Outputting VCF file...
 After filtering, kept 43532 out of a possible 43983 Sites
 Run Time = 97.00 seconds
 ```
+
+
+
+
 
 Use the script `rad_haplotyper.pl` written by [Chris Hollenbeck](https://github.com/chollenbeck). This tool takes a VCF file of SNPs and will parse through BAM files looking to link SNPs into haplotypes along paired reads.
 
@@ -792,23 +794,27 @@ In RStudio
 #Load pcadapt library
 library(pcadapt)
 
-#load our VCF file into R
-filename <- read.pcadapt("SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252A.recode.vcf", type = "vcf")
+vcf2pcadapt("SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252A.recode.vcf", output = "tmp.pcadapt", allele.sep = c("/", "|"))
 ```
-
 ```javascript
-2835 variant(s) have been discarded as they are not SNPs.
+No variant got discarded.
 Summary:
 
 	- input file:				SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252A.recode.vcf
-	- output file:				/tmp/RtmpuIxa78/file4958500bb46.pcadapt
+	- output file:				tmp.pcadapt
 
 	- number of individuals detected:	320
 	- number of loci detected:		10597
-
-7762 lines detected.
+```
+```javscript
+#Make the pcadapt file "readable"
+filename <- read.pcadapt("tmp.pcadapt", type = "pcadapt")
+```
+```javascript
+10597 lines detected.
 320 columns detected.
 ```
+
 ```javascript
 #Create first PCA
 x <- pcadapt(input = filename, K = 20)
@@ -825,9 +831,9 @@ plot(x, option = "screeplot", K = 10)
 ```
 ![K10](https://github.com/jpuritz/BIO_594_2019/blob/master/Final_Assignment/Zyck_Final_Project/Output/ScreePlotK10.png)
 
-I'm going to pick 2.
+I'm going to pick 3.
 ```javascript
-x <- pcadapt(input = filename, K = 2)
+x <- pcadapt(input = filename, K = 3)
 ```
 
 #### Calculate population designations
@@ -911,9 +917,15 @@ outliers1 <- which(qval1 < alpha)
 outliers1
 ```
 ```javascript
-[1]   44  144  320  321  322  323  324  325  573  804 1390 1482 2074 2738 2938 2983 2984
-[18] 2987 3039 3040 3280 3424 3873 3874 3879 3880 4217 4220 4222 4224 4225 4226 4227 5065
-[35] 5067 5068 5070 5298 5299 5301 5302 5304 6462 6465
+  [1]   51   78  113  164  246  247  553  667  701  933 1481 1850 2194 2256 2540
+ [16] 2683 2737 2858 2859 2860 3665 3783 3785 3786 3854 3855 3856 3857 3909 3910
+ [31] 3912 3913 3914 3916 3917 3918 3919 3920 3921 3923 3924 3925 3926 4274 4275
+ [46] 4277 4699 4700 5348 5401 5406 5407 5409 5411 5413 5414 5415 5416 5417 5418
+ [61] 5774 5861 5862 5863 5865 5866 5867 5868 5869 5870 5871 5872 5873 5874 5875
+ [76] 5876 5877 5878 5880 5881 5882 5884 6009 6010 6076 6077 6078 6079 6080 6081
+ [91] 6082 6083 6084 6085 6086 6087 6088 6089 6092 6093 6873 6875 6878 6991 7744
+[106] 7997 8606 8616 8619 8620 8621 8622 8623 8624 8634 9200 9201 9203 9204 9208
+[121] 9210 9214
 ```
 
 ```javascript
@@ -926,16 +938,16 @@ In terminal
 head outliers1.txt
 ```
 ```javascript
-44
-144
-320
-321
-322
-323
-324
-325
-573
-804
+51
+78
+113
+164
+246
+247
+553
+667
+701
+933
 ```
 
 ```javascript
@@ -947,16 +959,16 @@ cat outliers1.txt | parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outlier.
 head outlier.loci.txt
 ```
 ```javascript
-dDocent_Contig_571      190
-dDocent_Contig_1145     98
-dDocent_Contig_1761     77
-dDocent_Contig_1761     93
-dDocent_Contig_1761     98
-dDocent_Contig_1761     204
-dDocent_Contig_1764     260
-dDocent_Contig_1767     20
-dDocent_Contig_2366     61
-dDocent_Contig_2674     38
+dDocent_Contig_735      23
+dDocent_Contig_820      43
+dDocent_Contig_1033     282
+dDocent_Contig_1242     300
+dDocent_Contig_1597     285
+dDocent_Contig_1597     286
+dDocent_Contig_2344     177
+dDocent_Contig_2522     164
+dDocent_Contig_2565     10
+dDocent_Contig_2813     77
 ```
 
 ### Outflank
@@ -1222,6 +1234,49 @@ head outlier2.loci.txt
 dDocent_Contig_9324     207
 ```
 
+### Bayenv2
+First, convert vcf to BayEnv input
+```javascript
+java -jar /usr/local/bin/PGDSpider2-cli.jar -inputfile SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252Amaf05.recode.vcf -outputfile SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252Amaf05BayEnv.txt -spid SNPBayEnv.spid
+```
+
+```javascript
+bayenv2 -i SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252Amaf05BayEnv.txt -p 12 -k 100000 -r 63479 > matrix.out
+```
+
+This code generates 100,000 iterations. We only need the last one.
+```javascript
+tail -13 matrix.out | head -12 > matrix
+```
+
+With the matrix we will use our environmental factor file:
+```javascript
+cat environ
+```
+```javascript
+
+```
+The environmental file are standardized environmental data with each line representing an environemtal factor with the value for each population tab delimited.
+
+Next, we calculate the Bayes Factor for each SNP for each environmental variable:
+```javascript
+calc_bf.sh SNP.TRSdp5g5mafMIap9g9dMMHWEmaf0252Amaf05BayEnv.txt environ matrix 12 10000 2
+```
+
+Next, we convert the output into something suitable to input into R
+```javascript
+paste <(seq 1 981) <(cut -f2,3 bf_environ.environ ) > bayenv.out
+cat <(echo -e "Locus\tBF1\tBF2") bayenv.out > bayenv.final
+```
+
+In RStudio
+```javascript
+table_bay <- read.table("bayenv.final",header=TRUE)
+plot(table_bay$BF1)
+
+table_bay[which(table_bay$BF1 > 100),]
+```
+
 Combine all outlier loci into one file
 ```javascript
 cat outlier*.loci.txt > all.outliers
@@ -1243,3 +1298,4 @@ Run Time = 7.00 seconds
 ```
 
 #### 6757 loci in `neutralloci.recode.vcf`
+
