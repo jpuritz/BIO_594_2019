@@ -1121,8 +1121,8 @@ Try to run Bayescan again
 This time Bayescan did run without errors
 -----------------------------------------
 
-Copy this script to visualise and analyse
------------------------------------------
+Copy this script to visualise and analyse Bayescan output
+---------------------------------------------------------
 
     cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_compiled/SNP_Filtering/plot_R.r .
 
@@ -1164,7 +1164,7 @@ Density Interval (HPDI) for your parameter of interest (example for the 95% inte
 --------------------------------------------------------------------------------------
 
 &gt; boa.hpd(mydata\[\[parameter\]\],0.05)
-==========================================
+------------------------------------------
 
     #install.packages("boa")
     library(boa)
@@ -1175,7 +1175,7 @@ Density Interval (HPDI) for your parameter of interest (example for the 95% inte
     ##  0.05334956  0.06271723
 
 Since we did not find any outlier loci with Bayescan, we do not need to exclude any loci from this dataset of SNPs
-==================================================================================================================
+------------------------------------------------------------------------------------------------------------------
 
 Outlier detection with PCAdapt on R
 -----------------------------------
@@ -1183,47 +1183,92 @@ Outlier detection with PCAdapt on R
 we need to limit SNPs to only those with two alleles:
 -----------------------------------------------------
 
-    vcftools --vcf SNP.DP3g95p5maf05.HWE.recode.vcf --max-alleles 2 --recode --recode-INFO-all --out SNP.DP3g95p5maf05.HWE_2A
+    vcftools --vcf SNP.DP3g95p5maf05.HWE.recode.vcf --min-alleles 2 --max-alleles 2 --recode --recode-INFO-all --out SNP.DP3g95p5maf05.HWE_2A
 
-    VCFtools - 0.1.17
-    (C) Adam Auton and Anthony Marcketta 2009
-
-    Parameters as interpreted:
-        --vcf SNP.DP3g95p5maf05.HWE.recode.vcf
-        --recode-INFO-all
-        --max-alleles 2
-        --out SNP.DP3g95p5maf05.HWE_2A
-        --recode
-
-    Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Estimated allele frequency in the range (0,1]">
-    Warning: Expected at least 2 parts in INFO entry: ID=PRO,Number=1,Type=Float,Description="Reference allele observation count, with partial observations recorded fractionally">
-    Warning: Expected at least 2 parts in INFO entry: ID=PAO,Number=A,Type=Float,Description="Alternate allele observations, with partial observations recorded fractionally">
-    Warning: Expected at least 2 parts in INFO entry: ID=SRP,Number=1,Type=Float,Description="Strand balance probability for the reference allele: Phred-scaled upper-bounds estimate of the probability of observing the deviation between SRF and SRR given E(SRF/SRR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=SAP,Number=A,Type=Float,Description="Strand balance probability for the alternate allele: Phred-scaled upper-bounds estimate of the probability of observing the deviation between SAF and SAR given E(SAF/SAR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=AB,Number=A,Type=Float,Description="Allele balance at heterozygous sites: a number between 0 and 1 representing the ratio of reads showing the reference allele to all reads, considering only reads from individuals called as heterozygous">
-    Warning: Expected at least 2 parts in INFO entry: ID=ABP,Number=A,Type=Float,Description="Allele balance probability at heterozygous sites: Phred-scaled upper-bounds estimate of the probability of observing the deviation between ABR and ABA given E(ABR/ABA) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=RPP,Number=A,Type=Float,Description="Read Placement Probability: Phred-scaled upper-bounds estimate of the probability of observing the deviation between RPL and RPR given E(RPL/RPR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=RPPR,Number=1,Type=Float,Description="Read Placement Probability for reference observations: Phred-scaled upper-bounds estimate of the probability of observing the deviation between RPL and RPR given E(RPL/RPR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=EPP,Number=A,Type=Float,Description="End Placement Probability: Phred-scaled upper-bounds estimate of the probability of observing the deviation between EL and ER given E(EL/ER) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=EPPR,Number=1,Type=Float,Description="End Placement Probability for reference observations: Phred-scaled upper-bounds estimate of the probability of observing the deviation between EL and ER given E(EL/ER) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=CIGAR,Number=A,Type=String,Description="The extended CIGAR representation of each alternate allele, with the exception that '=' is replaced by 'M' to ease VCF parsing.  Note that INDEL alleles do not have the first matched base (which is provided by default, per the spec) referred to by the CIGAR.">
-    Warning: Expected at least 2 parts in FORMAT entry: ID=GQ,Number=1,Type=Float,Description="Genotype Quality, the Phred-scaled marginal (or unconditional) probability of the called genotype">
-    Warning: Expected at least 2 parts in FORMAT entry: ID=GL,Number=G,Type=Float,Description="Genotype Likelihood, log10-scaled likelihoods of the data given the called genotype for each possible genotype generated from the reference and alternate alleles given the sample ploidy">
-    After filtering, kept 95 out of 95 Individuals
     Outputting VCF file...
     After filtering, kept 5030 out of a possible 5092 Sites
-    Run Time = 2.00 seconds
+    Run Time = 6.00 seconds
 
-We are going to use PCAadapat to detect outlier loci
-----------------------------------------------------
+VCFtools - 0.1.17 (C) Adam Auton and Anthony Marcketta 2009
 
-We first load the library pcadapt on r (<https://cran.r-project.org/web/packages/pcadapt/vignettes/pcadapt.html>)
------------------------------------------------------------------------------------------------------------------
+Parameters as interpreted: --vcf SNP.DP3g95p5maf05.HWE.recode.vcf
+--recode-INFO-all --max-alleles 2 --out SNP.DP3g95p5maf05.HWE\_2A
+--recode
+
+Warning: Expected at least 2 parts in INFO entry:
+ID=AF,Number=A,Type=Float,Description="Estimated allele frequency in the
+range (0,1\]"&gt; Warning: Expected at least 2 parts in INFO entry:
+ID=PRO,Number=1,Type=Float,Description="Reference allele observation
+count, with partial observations recorded fractionally"&gt; Warning:
+Expected at least 2 parts in INFO entry:
+ID=PAO,Number=A,Type=Float,Description="Alternate allele observations,
+with partial observations recorded fractionally"&gt; Warning: Expected
+at least 2 parts in INFO entry:
+ID=SRP,Number=1,Type=Float,Description="Strand balance probability for
+the reference allele: Phred-scaled upper-bounds estimate of the
+probability of observing the deviation between SRF and SRR given
+E(SRF/SRR) ~ 0.5, derived using Hoeffding's inequality"&gt; Warning:
+Expected at least 2 parts in INFO entry:
+ID=SAP,Number=A,Type=Float,Description="Strand balance probability for
+the alternate allele: Phred-scaled upper-bounds estimate of the
+probability of observing the deviation between SAF and SAR given
+E(SAF/SAR) ~ 0.5, derived using Hoeffding's inequality"&gt; Warning:
+Expected at least 2 parts in INFO entry:
+ID=AB,Number=A,Type=Float,Description="Allele balance at heterozygous
+sites: a number between 0 and 1 representing the ratio of reads showing
+the reference allele to all reads, considering only reads from
+individuals called as heterozygous"&gt; Warning: Expected at least 2
+parts in INFO entry: ID=ABP,Number=A,Type=Float,Description="Allele
+balance probability at heterozygous sites: Phred-scaled upper-bounds
+estimate of the probability of observing the deviation between ABR and
+ABA given E(ABR/ABA) ~ 0.5, derived using Hoeffding's inequality"&gt;
+Warning: Expected at least 2 parts in INFO entry:
+ID=RPP,Number=A,Type=Float,Description="Read Placement Probability:
+Phred-scaled upper-bounds estimate of the probability of observing the
+deviation between RPL and RPR given E(RPL/RPR) ~ 0.5, derived using
+Hoeffding's inequality"&gt; Warning: Expected at least 2 parts in INFO
+entry: ID=RPPR,Number=1,Type=Float,Description="Read Placement
+Probability for reference observations: Phred-scaled upper-bounds
+estimate of the probability of observing the deviation between RPL and
+RPR given E(RPL/RPR) ~ 0.5, derived using Hoeffding's inequality"&gt;
+Warning: Expected at least 2 parts in INFO entry:
+ID=EPP,Number=A,Type=Float,Description="End Placement Probability:
+Phred-scaled upper-bounds estimate of the probability of observing the
+deviation between EL and ER given E(EL/ER) ~ 0.5, derived using
+Hoeffding's inequality"&gt; Warning: Expected at least 2 parts in INFO
+entry: ID=EPPR,Number=1,Type=Float,Description="End Placement
+Probability for reference observations: Phred-scaled upper-bounds
+estimate of the probability of observing the deviation between EL and ER
+given E(EL/ER) ~ 0.5, derived using Hoeffding's inequality"&gt; Warning:
+Expected at least 2 parts in INFO entry:
+ID=TYPE,Number=A,Type=String,Description="The type of allele, either
+snp, mnp, ins, del, or complex."&gt; Warning: Expected at least 2 parts
+in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of
+allele, either snp, mnp, ins, del, or complex."&gt; Warning: Expected at
+least 2 parts in INFO entry:
+ID=TYPE,Number=A,Type=String,Description="The type of allele, either
+snp, mnp, ins, del, or complex."&gt; Warning: Expected at least 2 parts
+in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of
+allele, either snp, mnp, ins, del, or complex."&gt; Warning: Expected at
+least 2 parts in INFO entry:
+ID=TYPE,Number=A,Type=String,Description="The type of allele, either
+snp, mnp, ins, del, or complex."&gt; Warning: Expected at least 2 parts
+in INFO entry: ID=CIGAR,Number=A,Type=String,Description="The extended
+CIGAR representation of each alternate allele, with the exception that
+'=' is replaced by 'M' to ease VCF parsing. Note that INDEL alleles do
+not have the first matched base (which is provided by default, per the
+spec) referred to by the CIGAR."&gt; Warning: Expected at least 2 parts
+in FORMAT entry: ID=GQ,Number=1,Type=Float,Description="Genotype
+Quality, the Phred-scaled marginal (or unconditional) probability of the
+called genotype"&gt; Warning: Expected at least 2 parts in FORMAT entry:
+ID=GL,Number=G,Type=Float,Description="Genotype Likelihood, log10-scaled
+likelihoods of the data given the called genotype for each possible
+genotype generated from the reference and alternate alleles given the
+sample ploidy"&gt; After filtering, kept 95 out of 95 Individuals
+Outputting VCF file... After filtering, kept 5030 out of a possible 5092
+Sites Run Time = 2.00 seconds \#\#We are going to use PCAadapat to
+detect outlier loci \#\#We first load the library pcadapt on r
+(<https://cran.r-project.org/web/packages/pcadapt/vignettes/pcadapt.html>)
 
     library(pcadapt)
 
@@ -1236,13 +1281,13 @@ The pcadapt function performs two successive tasks. First, PCA is performed on t
 To choose K, principal component analysis should first be performed with a large enough number of principal components (e.g. K=20).
 -----------------------------------------------------------------------------------------------------------------------------------
 
-    filename <- read.pcadapt("SNP.DP3g95p5maf05.HWE_2A.recode.vcf", type = "vcf")
+    filename <- read.pcadapt("SNP.DP3g95p5maf05.HWE_2A.recode.vcf", type = "vcf",allele.sep =c("/", "|") )
 
     ## 1517 variant(s) have been discarded as they are not SNPs.
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_2A.recode.vcf
-    ##  - output file:              /tmp/RtmpQ9giE2/filee08433e19d29.pcadapt
+    ##  - output file:              /tmp/RtmpS8OLPs/filef336020f632.pcadapt
     ## 
     ##  - number of individuals detected:   95
     ##  - number of loci detected:      5030
@@ -1303,12 +1348,194 @@ There does not seem to be any fixed allele so this is not the cause of the probl
 In the future I will need to find what the problem is and why those variants are being discarded.
 -------------------------------------------------------------------------------------------------
 
+I\`m going to try a different way to convert the file to vcf and the outlier detection
+--------------------------------------------------------------------------------------
+
+SNP.DP3g95p5maf05.HWE\_2A.pcadapt &lt;-
+vcf2pcadapt("SNP.DP3g95p5maf05.HWE\_2A.recode.vcf", output =
+"SNP.DP3g95p5maf05.HWE\_2A.recode.vcf.pcadapt", allele.sep = "\[|/\]")
+
+    library(pcadapt)
+     vcf2pcadapt("SNP.DP3g95p5maf05.HWE_2A.recode.vcf", output = "SNP.DP3g95p5maf05.HWE_2A.recode.vcf.pcadapt", allele.sep = c("/", "|"))
+
+    ## 5 variant(s) have been discarded as they are not SNPs.
+    ## Summary:
+    ## 
+    ##  - input file:               SNP.DP3g95p5maf05.HWE_2A.recode.vcf
+    ##  - output file:              SNP.DP3g95p5maf05.HWE_2A.recode.vcf.pcadapt
+    ## 
+    ##  - number of individuals detected:   95
+    ##  - number of loci detected:      5030
+
+    ##    [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##   [35] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##   [69] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [103] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [137] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [171] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [205] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [239] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [273] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [307] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [341] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [375] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [409] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [443] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [477] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [511] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [545] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [579] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [613] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0
+    ##  [647] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [681] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [715] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [749] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [783] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [817] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [851] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [885] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [919] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [953] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ##  [987] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1021] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1055] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1089] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1123] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1157] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1191] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1225] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1259] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1293] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1327] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1361] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1395] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1429] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1463] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1497] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1531] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1565] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1599] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1633] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1667] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1701] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1735] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1769] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1803] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1837] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1871] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1905] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1939] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [1973] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+    ## [2007] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2041] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2075] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2109] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2143] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2177] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2211] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2245] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2279] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2313] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2347] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2381] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2415] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2449] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2483] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2517] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2551] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2585] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2619] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2653] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2687] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2721] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2755] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2789] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2823] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2857] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+    ## [2891] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2925] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2959] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [2993] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3027] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3061] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3095] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3129] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3163] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3197] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3231] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3265] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3299] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3333] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3367] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3401] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3435] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3469] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3503] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3537] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3571] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3605] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3639] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3673] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3707] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3741] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3775] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3809] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3843] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3877] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3911] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3945] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [3979] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4013] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4047] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4081] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4115] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4149] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4183] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4217] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4251] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4285] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4319] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4353] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4387] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4421] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4455] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4489] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4523] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4557] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4591] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4625] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4659] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4693] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4727] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4761] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4795] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4829] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4863] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4897] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4931] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4965] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ## [4999] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+This time only five variants were discarded. I still need to find out why after all the above filters there are 5 loci not deemed as SNPs.
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Make the pcadapt file "readable"
+--------------------------------
+
+    filename <- read.pcadapt("SNP.DP3g95p5maf05.HWE_2A.recode.vcf.pcadapt", type = "pcadapt")
+
+    ## 5025 lines detected.
+    ## 95 columns detected.
+
+    ## The bed file already exists. Returning..
+
 The ‘scree plot’ displays in decreasing order the percentage of variance explained by each PC. Up to a constant, it corresponds to the eigenvalues in decreasing order. The ideal pattern in a scree plot is a steep curve followed by a bend and a straight line. The eigenvalues that correspond to random variation lie on a straight line whereas the ones that correspond to population structure lie on a steep curve. We recommend to keep PCs that correspond to eigenvalues to the left of the straight line (Cattell’s rule). In the provided example, K = 2 is the optimal choice for K. The plot function displays a scree plot:
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    x <- pcadapt(input = filename, K=20)
     plot(x, option= "screeplot")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-81-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-83-1.png)
 
 Counting individuals in each population
 ---------------------------------------
@@ -1327,89 +1554,63 @@ When population labels are known, individuals of the same populations can be dis
     poplist.names <- c(rep("CU",40), rep("PAN2014",2),rep("PR",53))
     plot(x, option= "scores", pop=poplist.names)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-83-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-85-1.png)
 
     plot(x, option = "scores", i = 3, j = 4, pop = poplist.names)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-84-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-86-1.png)
 
 A Manhattan plot displays −log10 of the p-values.
 -------------------------------------------------
 
     plot(x, option = "manhattan")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-85-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-87-1.png)
 
-    plot(x, option = "qqplot", threshold =0.1)
+    plot(x, option = "qqplot", threshold =0.05)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-86-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-88-1.png)
 
     plot(x, option = "stat.distribution")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-86-2.png)
+    ## Warning: Removed 19 rows containing non-finite values (stat_bin).
+
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-88-2.png)
 
     library(qvalue)
     qval <-qvalue(x$pvalues)$qvalues
-    alpha <- 0.1
+    alpha <- 0.05
     outliers <- which(qval < alpha)
     length(outliers)
 
-    ## [1] 337
+    ## [1] 272
 
     outliers
 
-    ##   [1]   25   37   39   40   43   44   45   46   61   66   67   69   70   71
-    ##  [15]  121  123  149  159  175  176  189  190  191  203  204  205  206  218
-    ##  [29]  220  227  251  269  290  305  324  351  353  366  370  371  393  399
-    ##  [43]  400  413  427  437  438  450  456  457  461  464  473  478  488  490
-    ##  [57]  495  509  514  552  555  591  598  604  606  644  646  666  667  668
-    ##  [71]  670  675  680  681  692  698  699  703  715  741  759  769  770  777
-    ##  [85]  812  813  828  832  837  856  857  863  864  873  881  883  886  887
-    ##  [99]  891  892  893  948  968  972  994  995 1005 1015 1075 1087 1090 1100
-    ## [113] 1106 1107 1115 1122 1124 1125 1128 1139 1146 1149 1151 1170 1171 1172
-    ## [127] 1176 1209 1216 1218 1230 1238 1239 1241 1244 1257 1267 1277 1281 1282
-    ## [141] 1283 1285 1286 1311 1360 1362 1364 1387 1400 1405 1406 1410 1415 1416
-    ## [155] 1424 1425 1442 1443 1444 1446 1452 1454 1483 1514 1516 1517 1532 1558
-    ## [169] 1560 1564 1617 1618 1619 1642 1651 1665 1666 1676 1691 1738 1758 1763
-    ## [183] 1765 1766 1767 1776 1793 1823 1845 1846 1847 1880 1883 1884 1887 1899
-    ## [197] 1910 1945 1946 1968 2015 2017 2022 2031 2036 2039 2092 2097 2120 2144
-    ## [211] 2145 2159 2200 2265 2338 2410 2427 2440 2441 2442 2446 2454 2455 2456
-    ## [225] 2457 2470 2472 2498 2500 2506 2527 2556 2558 2566 2587 2589 2590 2617
-    ## [239] 2619 2635 2641 2643 2647 2649 2650 2651 2714 2754 2755 2756 2764 2765
-    ## [253] 2767 2774 2775 2776 2777 2778 2780 2781 2803 2818 2819 2820 2821 2828
-    ## [267] 2853 2854 2855 2861 2881 2887 2903 2909 2910 2911 2926 2937 2944 2950
-    ## [281] 2958 2978 2979 2985 2994 2996 3036 3038 3046 3058 3061 3068 3071 3073
-    ## [295] 3090 3092 3094 3098 3129 3136 3137 3138 3187 3214 3215 3222 3224 3227
-    ## [309] 3249 3260 3267 3281 3308 3309 3341 3357 3369 3371 3382 3402 3406 3410
-    ## [323] 3411 3412 3413 3414 3415 3417 3422 3429 3432 3435 3442 3492 3494 3496
-    ## [337] 3504
+    ##   [1]   64   66   67   84  102  103  104  120  139  140  162  175  202  217
+    ##  [15]  219  220  251  252  253  258  262  272  275  281  293  294  295  316
+    ##  [29]  359  432  492  512  537  538  539  540  616  617  649  675  676  689
+    ##  [43]  690  720  724  793  794  834  895  949  978  992  993  997 1013 1021
+    ##  [57] 1022 1023 1057 1086 1110 1111 1154 1170 1180 1181 1182 1183 1189 1228
+    ##  [71] 1232 1233 1234 1235 1242 1243 1268 1269 1280 1281 1339 1351 1369 1381
+    ##  [85] 1429 1430 1455 1497 1556 1575 1576 1605 1625 1632 1641 1675 1676 1753
+    ##  [99] 1768 1771 1787 1799 1829 1946 1950 1951 1972 1991 2005 2015 2024 2033
+    ## [113] 2123 2146 2171 2192 2255 2260 2317 2318 2319 2352 2354 2364 2365 2391
+    ## [127] 2428 2430 2442 2443 2444 2445 2485 2486 2522 2527 2529 2530 2531 2532
+    ## [141] 2533 2550 2667 2719 2725 2726 2727 2744 2784 2793 2839 2924 2949 2950
+    ## [155] 2979 3022 3047 3169 3249 3265 3266 3267 3328 3383 3472 3473 3492 3536
+    ## [169] 3537 3539 3576 3577 3578 3650 3651 3664 3680 3696 3708 3713 3740 3741
+    ## [183] 3742 3764 3765 3779 3799 3800 3803 3902 3955 3958 3959 3979 3981 3982
+    ## [197] 3983 3984 3985 3987 4014 4015 4035 4037 4038 4039 4040 4046 4065 4084
+    ## [211] 4087 4098 4125 4140 4141 4142 4143 4144 4171 4216 4220 4233 4234 4235
+    ## [225] 4264 4265 4274 4285 4298 4302 4303 4326 4346 4347 4370 4373 4383 4386
+    ## [239] 4414 4416 4420 4421 4422 4423 4539 4718 4725 4726 4740 4767 4768 4769
+    ## [253] 4770 4815 4836 4872 4880 4881 4882 4883 4884 4885 4886 4908 4916 4985
+    ## [267] 4986 4987 4988 5018 5022 5023
 
     hist(x$pvalues, xlab = "p-values", main = NULL, breaks = 50, col = "orange")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-87-1.png)
-
-Because we do not know what the variants taken out are we cannot really filter the vcf file for the identified oulier loci.
----------------------------------------------------------------------------------------------------------------------------
-
-Right now I\`m going to run PCAdapt with the vcf file that we created before taking out the 2 individuals from PAN population to see if this might be the cause of the problem.
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    filename2 <- read.pcadapt("SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf", type = "vcf")
-
-    ## 1579 variant(s) have been discarded as they are not SNPs.
-    ## Summary:
-    ## 
-    ##  - input file:               SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
-    ##  - output file:              /tmp/RtmpQ9giE2/filee0844c469566.pcadapt
-    ## 
-    ##  - number of individuals detected:   93
-    ##  - number of loci detected:      5092
-    ## 
-    ## 3513 lines detected.
-    ## 93 columns detected.
-
-This is not the problem either. I\`m going to try to filter those outlier loci in the three populations vcf file as an excercise. In the future I will need to solve all these problems encountered so far to have a real vcf file with neutral SNPs only.
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-89-1.png)
 
 First, we write the oulier to a text file
 -----------------------------------------
@@ -1437,43 +1638,12 @@ Now we can continue to remove those outlier loci from the vcf using vcftools
 ----------------------------------------------------------------------------
 
     vcftools --vcf SNP.DP3g95p5maf05.HWE_2A.recode.vcf --exclude-positions PCAadapt_outlier_loci  --recode --recode-INFO-all --out SNP.DP3g95p5maf05.HWE_2A_Neutral_PCA
-
-    VCFtools - 0.1.17
-    (C) Adam Auton and Anthony Marcketta 2009
-
-    Parameters as interpreted:
-        --vcf SNP.DP3g95p5maf05.HWE_2A.recode.vcf
-        --exclude-positions PCAadapt_outlier_loci
-        --recode-INFO-all
-        --out SNP.DP3g95p5maf05.HWE_2A_Neutral_PCA
-        --recode
-
-    Warning: Expected at least 2 parts in INFO entry: ID=AF,Number=A,Type=Float,Description="Estimated allele frequency in the range (0,1]">
-    Warning: Expected at least 2 parts in INFO entry: ID=PRO,Number=1,Type=Float,Description="Reference allele observation count, with partial observations recorded fractionally">
-    Warning: Expected at least 2 parts in INFO entry: ID=PAO,Number=A,Type=Float,Description="Alternate allele observations, with partial observations recorded fractionally">
-    Warning: Expected at least 2 parts in INFO entry: ID=SRP,Number=1,Type=Float,Description="Strand balance probability for the reference allele: Phred-scaled upper-bounds estimate of the probability of observing the deviation between SRF and SRR given E(SRF/SRR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=SAP,Number=A,Type=Float,Description="Strand balance probability for the alternate allele: Phred-scaled upper-bounds estimate of the probability of observing the deviation between SAF and SAR given E(SAF/SAR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=AB,Number=A,Type=Float,Description="Allele balance at heterozygous sites: a number between 0 and 1 representing the ratio of reads showing the reference allele to all reads, considering only reads from individuals called as heterozygous">
-    Warning: Expected at least 2 parts in INFO entry: ID=ABP,Number=A,Type=Float,Description="Allele balance probability at heterozygous sites: Phred-scaled upper-bounds estimate of the probability of observing the deviation between ABR and ABA given E(ABR/ABA) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=RPP,Number=A,Type=Float,Description="Read Placement Probability: Phred-scaled upper-bounds estimate of the probability of observing the deviation between RPL and RPR given E(RPL/RPR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=RPPR,Number=1,Type=Float,Description="Read Placement Probability for reference observations: Phred-scaled upper-bounds estimate of the probability of observing the deviation between RPL and RPR given E(RPL/RPR) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=EPP,Number=A,Type=Float,Description="End Placement Probability: Phred-scaled upper-bounds estimate of the probability of observing the deviation between EL and ER given E(EL/ER) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=EPPR,Number=1,Type=Float,Description="End Placement Probability for reference observations: Phred-scaled upper-bounds estimate of the probability of observing the deviation between EL and ER given E(EL/ER) ~ 0.5, derived using Hoeffding's inequality">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
-    Warning: Expected at least 2 parts in INFO entry: ID=CIGAR,Number=A,Type=String,Description="The extended CIGAR representation of each alternate allele, with the exception that '=' is replaced by 'M' to ease VCF parsing.  Note that INDEL alleles do not have the first matched base (which is provided by default, per the spec) referred to by the CIGAR.">
-    Warning: Expected at least 2 parts in FORMAT entry: ID=GQ,Number=1,Type=Float,Description="Genotype Quality, the Phred-scaled marginal (or unconditional) probability of the called genotype">
-    Warning: Expected at least 2 parts in FORMAT entry: ID=GL,Number=G,Type=Float,Description="Genotype Likelihood, log10-scaled likelihoods of the data given the called genotype for each possible genotype generated from the reference and alternate alleles given the sample ploidy">
-    After filtering, kept 95 out of 95 Individuals
     Outputting VCF file...
-    After filtering, kept 4693 out of a possible 5030 Sites
-    Run Time = 1.00 seconds
+    After filtering, kept 4758 out of a possible 5030 Sites
+    Run Time = 5.00 seconds
 
-We can now run population analysis with a vcf supposedly composed of only neutral loci (detected by PCAdapt).Ideally, I meant to detect loci outlier loci through BayesScan and PCAdapt. Jus bear in mind that multiple approaches to detect those putatively adaptive loci are needed to conduct population genomic analysis.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+We can now run population analysis with a vcf supposedly composed of only neutral loci (detected by PCAdapt).Ideally, I meant to detect loci outlier loci through BayesScan and PCAdapt. Just bear in mind that multiple approaches to detect those putatively adaptive loci are needed to conduct population genomic analysis.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 We start by loading the following R packages
 --------------------------------------------
@@ -1500,24 +1670,24 @@ We load our last vcf to a vcfR object and then to a genind object
     ## File attributes:
     ##   meta lines: 65
     ##   header_line: 66
-    ##   variant count: 4693
+    ##   variant count: 4758
     ##   column count: 104
     ## 
     Meta line 65 read in.
     ## All meta lines processed.
     ## gt matrix initialized.
     ## Character matrix gt created.
-    ##   Character matrix gt rows: 4693
+    ##   Character matrix gt rows: 4758
     ##   Character matrix gt cols: 104
     ##   skip: 0
-    ##   nrows: 4693
+    ##   nrows: 4758
     ##   row_num: 0
     ## 
     Processed variant 1000
     Processed variant 2000
     Processed variant 3000
     Processed variant 4000
-    Processed variant: 4693
+    Processed variant: 4758
     ## All variants processed
 
     my_genind <- vcfR2genind(my_vcf)
@@ -1768,9 +1938,9 @@ We can perform a PCA on our genlight object by using the glPCA function.
     which(toRemove) # position of entirely non-typed loci
 
     ## MZGG01000242.1_291794 MZGG01000242.1_291795 MZGG01000706.1_182800 
-    ##                   576                   577                  1799 
+    ##                   603                   604                  1891 
     ## MZGG01001031.1_765514 MZGG01001031.1_765515 
-    ##                  2618                  2619
+    ##                  2739                  2740
 
     Orbicella_removed<- Orbicella_genlight[, !toRemove]
 
@@ -1780,31 +1950,31 @@ We can perform a PCA on our genlight object by using the glPCA function.
     title(ylab="Proportion of variance explained")
     title(xlab="Eigenvalue")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-96-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-97-1.png)
 
     Orbicella_genlight_pca$eig
 
-    ##  [1] 83.717310 11.700286  8.867320  5.761287  5.168191  4.875553  4.717259
-    ##  [8]  4.625116  4.495824  4.435352  4.346209  4.306021  4.186267  4.176163
-    ## [15]  4.119707  4.065658  4.042284  3.987031  3.966352  3.951732  3.894063
-    ## [22]  3.874515  3.834036  3.809384  3.773907  3.746384  3.704360  3.693043
-    ## [29]  3.659449  3.606331  3.595611  3.566312  3.556927  3.533100  3.506015
-    ## [36]  3.496392  3.472060  3.433021  3.414833  3.371373  3.339277  3.335548
-    ## [43]  3.325635  3.282966  3.229437  3.220070  3.209912  3.169676  3.153268
-    ## [50]  3.149219  3.121546  3.105063  3.088466  3.080279  3.041917  3.016609
-    ## [57]  2.985721  2.973317  2.952848  2.914221  2.884734  2.846877  2.826807
-    ## [64]  2.806664  2.800536  2.773120  2.767537  2.754854  2.724382  2.661912
-    ## [71]  2.642635  2.618971  2.597765  2.583026  2.558818  2.542560  2.519094
-    ## [78]  2.517163  2.492670  2.461730  2.446950  2.423912  2.400478  2.376149
-    ## [85]  2.361180  2.326214  2.312731  2.292767  2.284646  2.225703  2.189655
-    ## [92]  2.149521  2.091249  2.066319
+    ##  [1] 83.827183 11.672083  8.923728  5.805061  4.953858  4.850429  4.760571
+    ##  [8]  4.596583  4.547211  4.493509  4.424089  4.355715  4.309513  4.248716
+    ## [15]  4.124039  4.119655  4.083380  4.054665  4.034561  3.977311  3.957560
+    ## [22]  3.937590  3.899993  3.880180  3.872024  3.777111  3.766872  3.742642
+    ## [29]  3.686649  3.673822  3.647089  3.621577  3.615373  3.603631  3.577638
+    ## [36]  3.537425  3.506709  3.466393  3.454585  3.418698  3.398791  3.379906
+    ## [43]  3.346685  3.324143  3.305335  3.277415  3.255331  3.251797  3.205848
+    ## [50]  3.182227  3.167938  3.155404  3.137988  3.123811  3.064686  3.053294
+    ## [57]  3.026177  3.015045  2.981283  2.943395  2.933401  2.916103  2.873082
+    ## [64]  2.863680  2.855141  2.829091  2.816734  2.790510  2.766366  2.726359
+    ## [71]  2.717607  2.690379  2.665713  2.650429  2.616459  2.579968  2.555902
+    ## [78]  2.544716  2.541851  2.511302  2.494388  2.456384  2.452621  2.438044
+    ## [85]  2.422143  2.380212  2.365991  2.353271  2.296741  2.254812  2.206873
+    ## [92]  2.187584  2.119224  2.105803
 
     summary(Orbicella_genlight_pca)
 
     ##          Length Class  Mode   
     ## eig         94  -none- numeric
     ## scores     285  -none- numeric
-    ## loadings 14064  -none- numeric
+    ## loadings 14259  -none- numeric
     ## call         3  -none- call
 
 To view the results of the PCA we can use the package ggplot2. We need to convert the data frame
@@ -1845,7 +2015,7 @@ of the data for each the population:
 
     ## Warning: Removed 1 rows containing missing values (geom_path).
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-97-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-98-1.png)
 
 We can further explore population assignments using a discriminant analysis of principal components (DAPC).
 -----------------------------------------------------------------------------------------------------------
@@ -1855,19 +2025,19 @@ We can further explore population assignments using a discriminant analysis of p
     scatter(Orbicella_dapc, col = cols, cex = 2, legend = TRUE, clabel = F, posi.leg = "topleft", scree.pca = TRUE,
             posi.pca = "topright", cleg = 0.75)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-98-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-99-1.png)
 
     scatter(Orbicella_dapc, col = cols, cex = 2, legend = TRUE, clabel = F, posi.leg = "topleft", scree.pca = FALSE,
             posi.pca = "topleft", cleg = 0.75)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-98-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-99-2.png)
 
 Structure-like plot
 -------------------
 
     compoplot(Orbicella_dapc,col = cols, posi = 'top')
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-99-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-100-1.png)
 
     Orbicella_dapc_resu<- as.data.frame(Orbicella_dapc$posterior)
     Orbicella_dapc_resu$pop <- pop(Orbicella_removed)
@@ -1886,7 +2056,7 @@ Structure-like plot
     p <- p + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 8))
     p
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-99-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-100-2.png)
 
 We now calculate the genetic differentiation as measured the Fst statistics
 ===========================================================================
@@ -1906,8 +2076,8 @@ We now calculate the genetic differentiation as measured the Fst statistics
     Orbicella_fst
 
     ##            1          2
-    ## 2 0.17600318           
-    ## 3 0.06620745 0.27167320
+    ## 2 0.17246869           
+    ## 3 0.06543374 0.26767624
 
     pop(my_genind)
 
@@ -1941,8 +2111,8 @@ We now calculate the genetic differentiation as measured the Fst statistics
 </tr>
 <tr class="even">
 <td>Puerto Rico</td>
-<td>0.066</td>
-<td>0.272</td>
+<td>0.0654</td>
+<td>0.268</td>
 </tr>
 </tbody>
 </table>
@@ -1985,20 +2155,20 @@ Mantel test: isolation by distance
     ## Monte-Carlo test
     ## Call: mantel.randtest(m1 = Dgen, m2 = Dgeo)
     ## 
-    ## Observation: 0.9819435 
+    ## Observation: 0.9813359 
     ## 
     ## Based on 999 replicates
     ## Simulated p-value: 0.162 
     ## Alternative hypothesis: greater 
     ## 
     ##     Std.Obs Expectation    Variance 
-    ##  1.39970319 -0.01278633  0.50505463
+    ##  1.39884017 -0.01281618  0.50509084
 
     plot (ibd)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-102-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-103-1.png)
 
     plot(Dgeo,Dgen)
     abline(lm(Dgen~Dgeo), col="red", lty=2)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-102-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-103-2.png)
