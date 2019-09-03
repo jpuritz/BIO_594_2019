@@ -724,13 +724,13 @@ Next step is to calculate the mean depth
 Now the the mean plus 3X the square of the mean
 -----------------------------------------------
 
-    python -c "print int(1952+3*(1952**0.5))"
-    2084
+    python -c "print int(4385.9+3*(4385.9**0.5))"
+    4584.68
 
 Next we paste the depth and quality files together and find the loci above the cutoff that do not have quality scores 2 times the depth
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-    paste DP3g95p5maf05.fil5.vcf.loci.qual DP3g95p5maf05.fil5.DEPTH | mawk -v x=2084 '$4 > x' | mawk '$3 < 2 * $4' > DP3g95p5maf05.fil5.lowQDloci
+    paste DP3g95p5maf05.fil5.vcf.loci.qual DP3g95p5maf05.fil5.DEPTH | mawk -v x=4584.68 '$4 > x' | mawk '$3 < 2 * $4' > DP3g95p5maf05.fil5.lowQDloci
 
 Now we can remove those sites and recalculate the depth across loci with VCFtools
 ---------------------------------------------------------------------------------
@@ -920,7 +920,7 @@ We need to make a new file with the populations. We overwrite the last popmap fi
 
     vcf-query -l SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf > SNP.DP3g95p5maf05.HWE_CU_PR.indv
     cut -d "_" -f1 SNP.DP3g95p5maf05.HWE_CU_PR.indv > SNP.DP3g95p5maf05.HWE_CU_PR.pop
-    paste SNP.DP3g95p5maf05.HWE_CU_PR.indv SNP.DP3g95p5maf05.HWE_CU_PR.pop  > popmap
+    paste SNP.DP3g95p5maf05.HWE_CU_PR.indv SNP.DP3g95p5maf05.HWE_CU_PR.pop  > popmap.txt
 
 Now, run PGDspider
 ------------------
@@ -940,16 +940,242 @@ Outlier Detection
 Run BayeScan
 ------------
 
-It did not run either after haveing taken out the two only individuals from PAN2014 population. The same "Segmentation fault"" error popped out.
-------------------------------------------------------------------------------------------------------------------------------------------------
+Here, I will actually need to find the problem to be able to run BayeScan to filter potential loci under selection.
+-------------------------------------------------------------------------------------------------------------------
 
-Here, I will actualy need to find the problem to be able to run BayeScan to filter potential loci under selection.
-------------------------------------------------------------------------------------------------------------------
-
-    BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20 
+    BayeScan2.1_linux64bits -snp SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -o SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output  -threads 20 -nbp 30 -thin 20 
     Using 20 threads (80 cpu detected on this machine)
     Pilot runs...
     /tmp/RtmpDSEh8b/chunk-code-422d42e8149f.txt: line 1: 38824 Segmentation fault      BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20
+
+Mow I am going to try a different way to convert the file to bayescan format
+----------------------------------------------------------------------------
+
+You need to add headers to the table popmap.txt before you uploaded to R: edit the table in R by clicking on the table and add the headers (Sample Pop) space by tab:
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    popmap.txt<-read.table("~/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/popmap.txt", header=TRUE)
+    popmap.txt
+
+    ##    Sample Pop
+    ## 1  CU_101  CU
+    ## 2  CU_102  CU
+    ## 3  CU_103  CU
+    ## 4  CU_104  CU
+    ## 5   CU_13  CU
+    ## 6   CU_15  CU
+    ## 7   CU_16  CU
+    ## 8   CU_17  CU
+    ## 9   CU_23  CU
+    ## 10  CU_25  CU
+    ## 11  CU_26  CU
+    ## 12  CU_27  CU
+    ## 13  CU_30  CU
+    ## 14  CU_33  CU
+    ## 15  CU_37  CU
+    ## 16  CU_38  CU
+    ## 17  CU_39  CU
+    ## 18  CU_41  CU
+    ## 19  CU_43  CU
+    ## 20  CU_44  CU
+    ## 21  CU_47  CU
+    ## 22  CU_48  CU
+    ## 23  CU_51  CU
+    ## 24  CU_53  CU
+    ## 25  CU_54  CU
+    ## 26  CU_57  CU
+    ## 27  CU_59  CU
+    ## 28   CU_5  CU
+    ## 29  CU_60  CU
+    ## 30  CU_64  CU
+    ## 31  CU_68  CU
+    ## 32  CU_75  CU
+    ## 33  CU_79  CU
+    ## 34   CU_7  CU
+    ## 35  CU_86  CU
+    ## 36  CU_87  CU
+    ## 37  CU_90  CU
+    ## 38  CU_93  CU
+    ## 39  CU_98  CU
+    ## 40   CU_9  CU
+    ## 41 PR_101  PR
+    ## 42 PR_103  PR
+    ## 43 PR_105  PR
+    ## 44 PR_106  PR
+    ## 45 PR_107  PR
+    ## 46 PR_108  PR
+    ## 47 PR_109  PR
+    ## 48 PR_110  PR
+    ## 49 PR_112  PR
+    ## 50 PR_114  PR
+    ## 51 PR_126  PR
+    ## 52 PR_130  PR
+    ## 53 PR_131  PR
+    ## 54 PR_132  PR
+    ## 55 PR_133  PR
+    ## 56 PR_134  PR
+    ## 57 PR_137  PR
+    ## 58 PR_138  PR
+    ## 59 PR_142  PR
+    ## 60 PR_146  PR
+    ## 61 PR_147  PR
+    ## 62 PR_149  PR
+    ## 63 PR_151  PR
+    ## 64 PR_154  PR
+    ## 65 PR_156  PR
+    ## 66 PR_157  PR
+    ## 67  PR_64  PR
+    ## 68  PR_65  PR
+    ## 69  PR_66  PR
+    ## 70  PR_67  PR
+    ## 71  PR_71  PR
+    ## 72  PR_72  PR
+    ## 73  PR_73  PR
+    ## 74  PR_74  PR
+    ## 75  PR_75  PR
+    ## 76  PR_76  PR
+    ## 77  PR_77  PR
+    ## 78  PR_78  PR
+    ## 79  PR_79  PR
+    ## 80  PR_80  PR
+    ## 81  PR_81  PR
+    ## 82  PR_82  PR
+    ## 83  PR_83  PR
+    ## 84  PR_85  PR
+    ## 85  PR_86  PR
+    ## 86  PR_87  PR
+    ## 87  PR_88  PR
+    ## 88  PR_89  PR
+    ## 89  PR_90  PR
+    ## 90  PR_91  PR
+    ## 91  PR_94  PR
+    ## 92  PR_95  PR
+    ## 93  PR_97  PR
+
+Load the last vcf file to R using vcfR
+--------------------------------------
+
+    library(vcfR)
+
+    ## 
+    ##    *****       ***   vcfR   ***       *****
+    ##    This is vcfR 1.8.0.9000 
+    ##      browseVignettes('vcfR') # Documentation
+    ##      citation('vcfR') # Citation
+    ##    *****       *****      *****       *****
+
+    SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf<- read.vcfR("SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf")
+
+    ## Scanning file to determine attributes.
+    ## File attributes:
+    ##   meta lines: 65
+    ##   header_line: 66
+    ##   variant count: 5092
+    ##   column count: 102
+    ## 
+    Meta line 65 read in.
+    ## All meta lines processed.
+    ## gt matrix initialized.
+    ## Character matrix gt created.
+    ##   Character matrix gt rows: 5092
+    ##   Character matrix gt cols: 102
+    ##   skip: 0
+    ##   nrows: 5092
+    ##   row_num: 0
+    ## 
+    Processed variant 1000
+    Processed variant 2000
+    Processed variant 3000
+    Processed variant 4000
+    Processed variant 5000
+    Processed variant: 5092
+    ## All variants processed
+
+    SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
+
+    ## ***** Object of Class vcfR *****
+    ## 93 samples
+    ## 525 CHROMs
+    ## 5,092 variants
+    ## Object size: 31.7 Mb
+    ## 0 percent missing data
+    ## *****        *****         *****
+
+    SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind <- vcfR2genind(SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf)
+    pop(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind) <- popmap.txt$Pop
+    indNames(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind)<-popmap.txt$Sample
+    indNames(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind)
+    SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind_ID<-popmap.txt$Sample
+    SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind
+    SNP.DP3g95p5maf05.HWE_CU_PR.recode.hierfstat <- genind2hierfstat(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind)
+    SNP.DP3g95p5maf05.HWE_CU_PR.recode.hierfstat
+
+    write.bayescan( dat = SNP.DP3g95p5maf05.HWE_CU_PR.recode.hierfstat, diploid =  TRUE, fn = "SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan")
+
+Try to run Bayescan again
+-------------------------
+
+    BayeScan2.1_linux64bits -snp SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -o SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output  -threads 20 -nbp 30 -thin 20 
+    Using 20 threads (80 cpu detected on this machine)
+
+This time Bayescan did run without errors
+-----------------------------------------
+
+Copy this script to visualise and analyse
+-----------------------------------------
+
+    cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_compiled/SNP_Filtering/plot_R.r .
+
+    source("plot_R.r")
+    BayeScan_Results<-plot_bayescan("SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output_fst.txt",FDR=0.05)
+
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-73-1.png)
+
+    BayeScan_Results$outliers
+
+    ## integer(0)
+
+    BayeScan_Results$nb_outliers
+
+    ## [1] 0
+
+    BayeScan_Results_sel=read.table("SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output.sel",colClasses="numeric")
+    parameter="Fst1"
+    plot(density(BayeScan_Results_sel[[parameter]]),xlab=parameter,main=paste(parameter,"posterior distribution"))
+
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-74-1.png)
+
+    parameter="logL"
+    plot(density(BayeScan_Results_sel[[parameter]]),xlab=parameter,main=paste(parameter,"posterior distribution"))
+
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-74-2.png)
+
+    BayeScan_Results_Fst=read.table("SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output_fst.txt",colClasses="numeric")
+    parameter="alpha"
+
+    plot(density(BayeScan_Results_Fst[[parameter]]),xlab=parameter,main=paste(parameter,"posterior distribution"))
+
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-74-3.png)
+
+if you have the package "boa" installed, you can very easily obtain Highest Probability
+---------------------------------------------------------------------------------------
+
+Density Interval (HPDI) for your parameter of interest (example for the 95% interval):
+--------------------------------------------------------------------------------------
+
+&gt; boa.hpd(mydata\[\[parameter\]\],0.05)
+==========================================
+
+    #install.packages("boa")
+    library(boa)
+    parameter="Fst1"
+    boa.hpd(BayeScan_Results_sel[[parameter]],0.05)
+
+    ## Lower Bound Upper Bound 
+    ##  0.05334956  0.06271723
+
+Since we did not find any outlier loci with Bayescan, we do not need to exclude any loci from this dataset of SNPs
+==================================================================================================================
 
 Outlier detection with PCAdapt on R
 -----------------------------------
@@ -1016,7 +1242,7 @@ To choose K, principal component analysis should first be performed with a large
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_2A.recode.vcf
-    ##  - output file:              /tmp/Rtmpn1xJif/file5a932e671d4f.pcadapt
+    ##  - output file:              /tmp/RtmpQ9giE2/filee08433e19d29.pcadapt
     ## 
     ##  - number of individuals detected:   95
     ##  - number of loci detected:      5030
@@ -1082,7 +1308,7 @@ The ‘scree plot’ displays in decreasing order the percentage of variance exp
 
     plot(x, option= "screeplot")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-73-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-81-1.png)
 
 Counting individuals in each population
 ---------------------------------------
@@ -1101,26 +1327,26 @@ When population labels are known, individuals of the same populations can be dis
     poplist.names <- c(rep("CU",40), rep("PAN2014",2),rep("PR",53))
     plot(x, option= "scores", pop=poplist.names)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-75-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-83-1.png)
 
     plot(x, option = "scores", i = 3, j = 4, pop = poplist.names)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-76-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-84-1.png)
 
 A Manhattan plot displays −log10 of the p-values.
 -------------------------------------------------
 
     plot(x, option = "manhattan")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-77-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-85-1.png)
 
     plot(x, option = "qqplot", threshold =0.1)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-78-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-86-1.png)
 
     plot(x, option = "stat.distribution")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-78-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-86-2.png)
 
     library(qvalue)
     qval <-qvalue(x$pvalues)$qvalues
@@ -1160,7 +1386,7 @@ A Manhattan plot displays −log10 of the p-values.
 
     hist(x$pvalues, xlab = "p-values", main = NULL, breaks = 50, col = "orange")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-79-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-87-1.png)
 
 Because we do not know what the variants taken out are we cannot really filter the vcf file for the identified oulier loci.
 ---------------------------------------------------------------------------------------------------------------------------
@@ -1174,7 +1400,7 @@ Right now I\`m going to run PCAdapt with the vcf file that we created before tak
     ## Summary:
     ## 
     ##  - input file:               SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
-    ##  - output file:              /tmp/Rtmpn1xJif/file5a933ce33905.pcadapt
+    ##  - output file:              /tmp/RtmpQ9giE2/filee0844c469566.pcadapt
     ## 
     ##  - number of individuals detected:   93
     ##  - number of loci detected:      5092
@@ -1264,13 +1490,6 @@ We start by loading the following R packages
     ##    > bug reports/feature requests: adegenetIssues()
 
     library(vcfR)
-
-    ## 
-    ##    *****       ***   vcfR   ***       *****
-    ##    This is vcfR 1.8.0.9000 
-    ##      browseVignettes('vcfR') # Documentation
-    ##      citation('vcfR') # Citation
-    ##    *****       *****      *****       *****
 
 We load our last vcf to a vcfR object and then to a genind object
 -----------------------------------------------------------------
@@ -1561,7 +1780,7 @@ We can perform a PCA on our genlight object by using the glPCA function.
     title(ylab="Proportion of variance explained")
     title(xlab="Eigenvalue")
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-88-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-96-1.png)
 
     Orbicella_genlight_pca$eig
 
@@ -1626,7 +1845,7 @@ of the data for each the population:
 
     ## Warning: Removed 1 rows containing missing values (geom_path).
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-89-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-97-1.png)
 
 We can further explore population assignments using a discriminant analysis of principal components (DAPC).
 -----------------------------------------------------------------------------------------------------------
@@ -1636,19 +1855,19 @@ We can further explore population assignments using a discriminant analysis of p
     scatter(Orbicella_dapc, col = cols, cex = 2, legend = TRUE, clabel = F, posi.leg = "topleft", scree.pca = TRUE,
             posi.pca = "topright", cleg = 0.75)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-90-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-98-1.png)
 
     scatter(Orbicella_dapc, col = cols, cex = 2, legend = TRUE, clabel = F, posi.leg = "topleft", scree.pca = FALSE,
             posi.pca = "topleft", cleg = 0.75)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-90-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-98-2.png)
 
 Structure-like plot
 -------------------
 
     compoplot(Orbicella_dapc,col = cols, posi = 'top')
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-91-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-99-1.png)
 
     Orbicella_dapc_resu<- as.data.frame(Orbicella_dapc$posterior)
     Orbicella_dapc_resu$pop <- pop(Orbicella_removed)
@@ -1667,7 +1886,7 @@ Structure-like plot
     p <- p + theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 8))
     p
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-91-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-99-2.png)
 
 We now calculate the genetic differentiation as measured the Fst statistics
 ===========================================================================
@@ -1777,9 +1996,9 @@ Mantel test: isolation by distance
 
     plot (ibd)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-94-1.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-102-1.png)
 
     plot(Dgeo,Dgen)
     abline(lm(Dgen~Dgeo), col="red", lty=2)
 
-![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-94-2.png)
+![](Orbicella_Project_files/figure-markdown_strict/unnamed-chunk-102-2.png)

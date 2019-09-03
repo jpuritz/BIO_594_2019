@@ -1010,14 +1010,54 @@ write.bayescan( dat = SNP.DP3g95p5maf05.HWE_CU_PR.recode.hierfstat, diploid =  T
 ```{bash eval = FALSE}
 BayeScan2.1_linux64bits -snp SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -o SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output  -threads 20 -nbp 30 -thin 20 
 Using 20 threads (80 cpu detected on this machine)
-Pilot runs...
-/tmp/RtmpDSEh8b/chunk-code-422d42e8149f.txt: line 1: 38824 Segmentation fault      BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20
+```
+
+
+## This time Bayescan did run without errors
+## Copy this script to visualise and analyse 
+```{bash eva=FALSE}
+cp /RAID_STORAGE2/mgomez/Orbicella_Raw/Libraries_compiled/SNP_Filtering/plot_R.r .
+```
+
+
+```{r}
+source("plot_R.r")
+BayeScan_Results<-plot_bayescan("SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output_fst.txt",FDR=0.05)
+BayeScan_Results$outliers
+BayeScan_Results$nb_outliers
 
 ```
 
 
+```{r}
+BayeScan_Results_sel=read.table("SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output.sel",colClasses="numeric")
+parameter="Fst1"
+plot(density(BayeScan_Results_sel[[parameter]]),xlab=parameter,main=paste(parameter,"posterior distribution"))
+
+parameter="logL"
+plot(density(BayeScan_Results_sel[[parameter]]),xlab=parameter,main=paste(parameter,"posterior distribution"))
+
+BayeScan_Results_Fst=read.table("SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output_fst.txt",colClasses="numeric")
+parameter="alpha"
+
+plot(density(BayeScan_Results_Fst[[parameter]]),xlab=parameter,main=paste(parameter,"posterior distribution"))
+```
 
 
+
+## if you have the package "boa" installed, you can very easily obtain Highest Probability 
+##Density Interval (HPDI) for your parameter of interest (example for the 95% interval):
+# > boa.hpd(mydata[[parameter]],0.05)
+
+```{r}
+#install.packages("boa")
+library(boa)
+parameter="Fst1"
+boa.hpd(BayeScan_Results_sel[[parameter]],0.05)
+```
+
+
+# Since we did not find any outlier loci with Bayescan, we do not need to exclude any loci from this dataset of SNPs 
 
 ##Outlier detection with PCAdapt on R 
 ##we need to limit SNPs to only those with two alleles:
