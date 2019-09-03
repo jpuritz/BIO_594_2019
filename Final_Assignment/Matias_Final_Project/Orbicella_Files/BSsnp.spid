@@ -6,7 +6,7 @@ PARSER_FORMAT=VCF
 # Only output SNPs with a phred-scaled quality of at least:
 VCF_PARSER_QUAL_QUESTION=
 # Select population definition file:
-VCF_PARSER_POP_FILE_QUESTION=./popmap
+VCF_PARSER_POP_FILE_QUESTION=./popmap.txt
 # What is the ploidy of the data?
 VCF_PARSER_PLOIDY_QUESTION=DIPLOID
 # Do you want to include a file with population definitions?

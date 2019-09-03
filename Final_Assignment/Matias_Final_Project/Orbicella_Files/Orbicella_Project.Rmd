@@ -741,13 +741,13 @@ mawk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }' DP3g95p5maf05.fil5.D
 
 ##Now the the mean plus 3X the square of the mean
 ```{bash eval = FALSE}
-python -c "print int(1952+3*(1952**0.5))"
-2084
+python -c "print int(4385.9+3*(4385.9**0.5))"
+4584.68
 ```
 
 ##Next we paste the depth and quality files together and find the loci above the cutoff that do not have quality scores 2 times the depth
 ```{bash eval = FALSE}
-paste DP3g95p5maf05.fil5.vcf.loci.qual DP3g95p5maf05.fil5.DEPTH | mawk -v x=2084 '$4 > x' | mawk '$3 < 2 * $4' > DP3g95p5maf05.fil5.lowQDloci
+paste DP3g95p5maf05.fil5.vcf.loci.qual DP3g95p5maf05.fil5.DEPTH | mawk -v x=4584.68 '$4 > x' | mawk '$3 < 2 * $4' > DP3g95p5maf05.fil5.lowQDloci
 ```
 
 ##Now we can remove those sites and recalculate the depth across loci with VCFtools
@@ -942,8 +942,9 @@ Run Time = 3.00 seconds
 ```{bash eval = FALSE}
 vcf-query -l SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf > SNP.DP3g95p5maf05.HWE_CU_PR.indv
 cut -d "_" -f1 SNP.DP3g95p5maf05.HWE_CU_PR.indv > SNP.DP3g95p5maf05.HWE_CU_PR.pop
-paste SNP.DP3g95p5maf05.HWE_CU_PR.indv SNP.DP3g95p5maf05.HWE_CU_PR.pop  > popmap
+paste SNP.DP3g95p5maf05.HWE_CU_PR.indv SNP.DP3g95p5maf05.HWE_CU_PR.pop  > popmap.txt
 ```
+
 
 ##Now, run PGDspider
 ```{bash eval = FALSE}
@@ -957,17 +958,66 @@ write output file...
 write output file done.
 ```
 
+
 ##Outlier Detection
 ##Run BayeScan
-## It did not run either after haveing taken out the two only individuals from PAN2014 population. The same "Segmentation fault"" error popped out. 
-##Here, I will actualy need to find the problem to be able to run BayeScan to filter potential loci under selection.
+
+
+##Here, I will actually need to find the problem to be able to run BayeScan to filter potential loci under selection.
 ```{bash eval = FALSE}
-BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20 
+BayeScan2.1_linux64bits -snp SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -o SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output  -threads 20 -nbp 30 -thin 20 
 Using 20 threads (80 cpu detected on this machine)
 Pilot runs...
 /tmp/RtmpDSEh8b/chunk-code-422d42e8149f.txt: line 1: 38824 Segmentation fault      BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20
 
 ```
+
+##Mow I am going to try a different way to convert the file to bayescan format
+
+##You need to add headers to the table popmap.txt before you uploaded to R: edit the table in R by clicking on the table and add the headers (Sample  Pop) space by tab:
+
+
+```{r}
+popmap.txt<-read.table("~/repos/BIO_594_2019/Final_Assignment/Matias_Final_Project/Orbicella_Files/popmap.txt", header=TRUE)
+popmap.txt
+```
+
+
+##Load the last vcf file to R using vcfR
+```{r}
+library(vcfR)
+SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf<- read.vcfR("SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf")
+SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf
+```
+
+
+```{r eval=FALSE}
+SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind <- vcfR2genind(SNP.DP3g95p5maf05.HWE_CU_PR.recode.vcf)
+pop(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind) <- popmap.txt$Pop
+indNames(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind)<-popmap.txt$Sample
+indNames(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind)
+SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind_ID<-popmap.txt$Sample
+SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind
+SNP.DP3g95p5maf05.HWE_CU_PR.recode.hierfstat <- genind2hierfstat(SNP.DP3g95p5maf05.HWE_CU_PR.recode.genind)
+SNP.DP3g95p5maf05.HWE_CU_PR.recode.hierfstat
+
+write.bayescan( dat = SNP.DP3g95p5maf05.HWE_CU_PR.recode.hierfstat, diploid =  TRUE, fn = "SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan")
+
+```
+
+
+## Try to run Bayescan again
+```{bash eval = FALSE}
+BayeScan2.1_linux64bits -snp SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -o SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan.Output  -threads 20 -nbp 30 -thin 20 
+Using 20 threads (80 cpu detected on this machine)
+Pilot runs...
+/tmp/RtmpDSEh8b/chunk-code-422d42e8149f.txt: line 1: 38824 Segmentation fault      BayeScan2.1_linux64bits SNP.DP3g95p5maf05.HWE_CU_PR_BayesScan -threads 20 -nbp 30 -thin 20
+
+```
+
+
+
+
 
 ##Outlier detection with PCAdapt on R 
 ##we need to limit SNPs to only those with two alleles:
@@ -1009,6 +1059,7 @@ Outputting VCF file...
 After filtering, kept 5030 out of a possible 5092 Sites
 Run Time = 2.00 seconds
 ```
+
 
 ##We are going to use PCAadapat to detect outlier loci
 ##We first load the library pcadapt on r (https://cran.r-project.org/web/packages/pcadapt/vignettes/pcadapt.html)
