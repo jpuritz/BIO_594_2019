@@ -1,11 +1,11 @@
-# Code from Week8
+# Code from Week9
 
 
 First, remember to create a week8 directory and copy the data
 
 ```bash
-mkdir week8
-cd week8
+mkdir week9
+cd week9
 cp /home/BIO594/DATA/Week8/* .
 ```
 
