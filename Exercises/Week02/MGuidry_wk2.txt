@@ -1,0 +1,33 @@
+Answers to week 2 excercises:
+
+1. Print contents of the file in the dir 'sneaky'.
+# change directory to 'sneaky' and cat file contents -OR- cat 'PATH_TO_FILE'
+$ cat /home/BIO594/Exercises/sneaky/file
+"Oh...verse." poem
+
+2. Print the first 5 lines of the 3rd column of out.indepth. 
+$ head -5 out.idepth | cut -f3 
+MEAN_DEPTH
+19.7475
+19.8769
+20.2284
+19.4391
+
+3. Print only the 19th line of the 2nd column of out.indepth.
+$ cut -f2 out.idepth | head -19 | tail -1
+8428
+
+
+4. Print how many individuals have MEAN_DEPTH greater than 20.1.
+$ awk '$3 > 20.1' out.idepth | wc -l
+11
+
+5. Print how many individuals have a MEAN_DEPTH greater than 20.1 but less than 20.25
+$ awk '$3 > 20.1' out.idepth | awk '$3 < 20.25' | wc -l
+6
+
+6. Print the average MEAN_DEPTH 
+# use awk to average a column; sum and divide by number of samples(wc -l)
+$ awk '{ sum=sum+$3 } END { print sum/NR }' out.idepth
+
+
